@@ -4,6 +4,7 @@
 
 - **Follow curiosity.** No roadmap to obey.
 - **Play, then decide.** Try things before committing to them.
+- **Go atomic.** Make one cause and its effect look and feel good before adding another.
 - **Stay playable from a phone.** Every version.
 - **Simple rules, surprising results.**
 - **Let things connect.** Hint early, reward discovery, and let things return with new meaning.
@@ -15,6 +16,3 @@
 - **Nothing is sacred.** Keep, change, or discard freely.
 - **Write down only what we know.** Let these principles grow as we learn.
 
-## Trying next
-
-- A playable 3D world, experienced through a character.
