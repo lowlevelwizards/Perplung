@@ -173,21 +173,65 @@ const nextMode=speed<.08?'idle':speed<.75?'amble':speed<1.65?'walk':'run';if(nex
 camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;p.blinkAt=p.time+2.1+Math.random()*3.7}p.blink=Math.max(0,p.blink-dt);camTarget=lerp(camTarget,v(p.x,1.1,p.z),ease(4.4,dt));p.prevSpeed=speed;}
 function solveKnee(hip,ankle,face,side){const dir=norm(sub(ankle,hip)),raw=len(sub(ankle,hip)),l1=.43,l2=.43,reach=clamp(raw,.12,l1+l2-.015),along=(l1*l1-l2*l2+reach*reach)/(2*reach),height=Math.sqrt(Math.max(0,l1*l1-along*along));const b=basis(face);let pole=add(mul(b.f,.92),mul(b.r,side*.15));pole=norm(sub(pole,mul(dir,dot(pole,dir))));return add(add(hip,mul(dir,along)),mul(pole,height));}
 // Dynamic articulated 3D rig. Every part is real volumetric geometry; depth buffer resolves overlap.
-function character(){const b=basis(p.facing),root=v(p.x,p.hopY+p.bob-.065*p.runEnergy,p.z),torso=compose(add(root,v(0,1.04-p.impactPulse*.017,0)),v(1+p.impactPulse*.018,1-p.impactPulse*.025,1+p.impactPulse*.018),p.facing,p.lean,p.sway),headCenter=transform(torso,v(0,.70,.055));
-// shadow rendered separately, on ground plane
-for(const f of feet){const hip=add(root,add(v(0,.75,0),mul(b.r,f.side*.18)));const ankle=p.air?add(root,add(mul(b.r,f.side*.24),v(0,.14,-.08))):add(f.foot,v(0,p.hopY*.7,0)),knee=solveKnee(hip,ankle,p.facing,f.side);limb(hip,knee,.085,'#bd8c67');limb(knee,ankle,.080,'#ad7c5b');ellipsoid(add(ankle,v(0,.015,0)),v(.17,.10,.23),'#8b6957',f.yaw);}
-// tail behind body
-ellipsoid(transform(torso,v(0,-.21,-.41)),v(.22,.22,.20),'#ce9b73',p.facing);
-for(const side of [-1,1]){const swing=p.armAngles[side===-1?0:1],sho=transform(torso,v(side*.37,.25,-.015)),elbow=transform(torso,v(side*.46,-.055,swing*.60-.035+p.armLag*.14)),hand=transform(torso,v(side*.44,-.29,swing*1.12+.01+p.armLag*.25));limb(sho,elbow,.10,'#d8a67e');limb(elbow,hand,.095,'#c9936e');ellipsoid(hand,v(.09,.095,.10),'#e0b18a');}
-ellipsoid(transform(torso,v(0,0,0)),v(.48,.53,.42),'#dca97c',p.facing,p.lean,p.sway);
-// Underlying body truly hides portion of bib when viewed from behind.
-ellipsoid(transform(torso,v(0,-.08,.275)),v(.285,.333,.215),'#f7e0b1',p.facing,p.lean,p.sway);
-const headYaw=p.headYaw,hs=basis(headYaw),head=v(headCenter.x,headCenter.y+p.headNod*.055,headCenter.z+p.headNod*.045);
-for(const side of [-1,1]){const base=add(head,add(mul(hs.r,side*.265),v(0,.20,0))),tip=add(head,add(mul(hs.r,side*(.29+p.earLag*.20)),add(v(0,.61+(side===-1?.045:0)-Math.abs(p.earLag)*.10,0),mul(hs.f,p.earLag*.21))));limb(base,tip,.12,'#dca780');ellipsoid(tip,v(.12,.19,.115),'#e9b991',headYaw);ellipsoid(add(tip,mul(hs.f,.073)),v(.065,.13,.038),'#dea5a0',headYaw);}
-ellipsoid(head,v(.46,.455,.455),'#e9bd8d');
-for(const side of [-1,1]){const eye=add(head,add(mul(hs.r,side*.19),add(v(0,.02,0),mul(hs.f,.421))));ellipsoid(eye,v(.032,p.blink>.005?.006:.037,.027),'#3b5044');if(p.blink===0){ellipsoid(add(eye,add(v(-.01,.014,0),mul(hs.f,.02))),v(.010,.011,.008),'#fff8e4');}}
-const nose=add(head,add(v(0,-.14,0),mul(hs.f,.461)));ellipsoid(nose,v(.058,.035,.039),'#ab7470');
-const mouth=add(nose,v(0,-.072,0));ellipsoid(mouth,v(.065,.015,.018),'#ac7b69');
+function character(){
+ const b=basis(p.facing);
+ const root=v(p.x,p.hopY+p.bob-.065*p.runEnergy,p.z);
+ const pelvisRoot=add(root,mul(b.r,p.weightShift));
+ const pelvis=compose(add(pelvisRoot,v(0,.83-p.impactPulse*.010,0)),
+   v(1+p.impactPulse*.012,1-p.impactPulse*.016,1+p.impactPulse*.012),
+   p.facing,p.lean*.22,p.sway*.28);
+ const chest=compose(add(root,add(v(0,1.21-p.impactPulse*.014,0),mul(b.r,p.weightShift*.57))),
+   v(1+p.impactPulse*.015,1-p.impactPulse*.020,1+p.impactPulse*.015),
+   p.facing,p.lean*.82,p.sway*.78);
+ // Independent pelvis, hips, and planted feet: little legs carry the body.
+ for(const f of feet){
+   const hip=add(pelvisRoot,add(v(0,.73,0),mul(b.r,f.side*.17)));
+   const ankle=p.air?add(root,add(mul(b.r,f.side*.21),v(0,.19,-.09)))
+     :add(f.foot,v(0,p.hopY*.7,0));
+   const knee=solveKnee(hip,ankle,p.facing,f.side);
+   limb(hip,knee,.084,'#b88764');limb(knee,ankle,.080,'#b0815e');
+   ellipsoid(add(ankle,v(0,.012,0)),v(.168,.098,.222),'#876958',f.yaw);
+ }
+ // Lower torso and upper chest are separate solids, with a modest waist overlap.
+ ellipsoid(transform(pelvis,v(0,0,0)),v(.375,.30,.33),'#bd8e71',p.facing,p.lean*.22,p.sway*.28);
+ ellipsoid(transform(chest,v(0,-.265,0)),v(.325,.19,.292),'#d6a37e',p.facing,p.lean*.82,p.sway*.78);
+ ellipsoid(transform(chest,v(0,0,0)),v(.437,.416,.37),'#daa985',p.facing,p.lean*.82,p.sway*.78);
+ // A short, narrow neck, tucked between the chest and the oversized head.
+ const neckA=transform(chest,v(0,.34,-.025)),neckB=transform(chest,v(0,.61,-.015));
+ limb(neckA,neckB,.115,'#c99575');
+ // Arms swing against the opposite FOOT'S actual phase, with mild follow-through.
+ for(const side of [-1,1]){
+   const swing=p.armAngles[side===-1?0:1];
+   const sho=transform(chest,v(side*.36,.205,-.018));
+   const elbow=transform(chest,v(side*.432,-.052,swing*.55-.025+p.armLag*.035));
+   const hand=transform(chest,v(side*.424,-.315,swing*.95+.018+p.armLag*.065));
+   limb(sho,elbow,.103,'#d9a887');limb(elbow,hand,.096,'#cf9876');
+   ellipsoid(hand,v(.096,.102,.096),'#e5b38e');
+ }
+ const headYaw=p.headYaw,hs=basis(headYaw);
+ const center=transform(chest,v(0,.805,.033));
+ const head=add(center,v(0,p.headNod*.045,p.headNod*.034));
+ // A rounded, expressive human head, not animal ears or a tail.
+ ellipsoid(head,v(.462,.445,.441),'#e7b88e');
+ const sideEars=[];
+ for(const side of [-1,1]){
+   const outer=add(head,add(mul(hs.r,side*.448),add(v(0,-.079,0),mul(hs.f,-.037))));
+   const inner=add(outer,add(mul(hs.r,side*.056),mul(hs.f,.036)));
+   ellipsoid(outer,v(.095,.133,.082),'#dcaa87',headYaw);
+   ellipsoid(inner,v(.045,.075,.052),'#c98e82',headYaw);
+   sideEars.push(outer);
+ }
+ // Small dark eyes, a tiny nose and mouth keep the proportions readable.
+ for(const side of [-1,1]){
+   const eye=add(head,add(mul(hs.r,side*.186),add(v(0,-.005,0),mul(hs.f,.414))));
+   ellipsoid(eye,v(.030,p.blink>.005?.005:.037,.026),'#3f5147');
+   if(p.blink===0)ellipsoid(add(eye,add(v(-.01,.014,0),mul(hs.f,.018))),
+     v(.009,.009,.008),'#fff9eb');
+ }
+ const nose=add(head,add(v(0,-.14,0),mul(hs.f,.438)));
+ ellipsoid(nose,v(.051,.044,.048),'#ba8b78');
+ const mouth=add(nose,v(0,-.067,.003));
+ ellipsoid(mouth,v(.061,.014,.018),'#9e7369');
 }
 function shadow(){const radius=.54+Math.min(.26,p.hopY*.09);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);ellipsoid(v(p.x,.001,p.z),v(radius,.007,radius*.82),[.36,.49,.36,clamp(.20-p.hopY*.07,.06,.20)]);gl.depthMask(true);gl.disable(gl.BLEND);}
 function footMarks(){gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);for(let m of marks){if(m.age>8)continue;let alpha=clamp((8-m.age)/2,0,1)*.15;ellipsoid(v(m.x,.008,m.z),v(.117,.005,.182),[.45,.60,.44,alpha],m.yaw);}gl.depthMask(true);gl.disable(gl.BLEND);for(let f of feet){ellipsoid(v(f.foot.x,.025,f.foot.z),v(.06,.015,.06),f.swing?'#e3d69b':'#a4c69b');}}
