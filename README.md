@@ -2,32 +2,32 @@
 
 *A little world that discovers what it wants to become.*
 
-**[Play Perplung](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
+**[Play the current experiment](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## The living brook — first 3D experiment
+## Body Study 01 — one little step
 
-Explore a continuous woodland as a small character, rather than moving an all-seeing cursor between scenes. This is a playful 3D experiment, not a commitment to a genre or a particular engine.
+We are going atomic: making one cause and its effect feel good before adding another.
 
-**On a phone:** Use the circle at lower left to walk. Drag the view to turn the camera. Walk toward something and press the large **Explore** button at lower right. Choose an ingredient from the bottom pocket, then press **Use** to try it nearby. Tap an object in the world for a hint, or open **Discoveries** for your observations.
+This is a small, playable **3D character movement experiment**, not the full ecosystem. There is one little creature on one sunny patch of ground. Try walking, stopping, reversing, pivoting, and taking a small hop.
 
-**Keyboard:** WASD or arrow keys to move; E or Space to interact; keys 1–6 select pocket tools.
+- **Touch:** Move with the thumbstick; drag the scenery to orbit the camera; tap **Hop** for a little jump. Tap **Footprints** to see planted contacts.
+- **Keyboard:** WASD or arrow keys to move, Space to hop, R to reset, drag to orbit.
+- **What we're testing:** The body has acceleration and braking. Feet plant in world space, swing to new placements, and use two-bone IK for knees. Body weight, head and ears, arms, and impact recovery react to movement. The gait should stop when movement stops.
+- **What we're not testing:** Quests, creatures, collectibles, ecosystem systems, or the final visual identity.
 
-The brook carries light objects. Stones make eddies. Seeds can grow, leaves can shelter plants or creatures, berries attract a forager, pollinating bees change flowers, and birds may return gifts. Look for interactions, not a single correct recipe.
+The experiment runs from `index.html` with built-in browser Canvas, no external dependencies or build steps. GitHub Pages publishes `main` from the repository root. No app installation or desktop development is needed to play from a phone.
 
-**A little purpose:** Make three living connections—help the brook, a neighbor, and something growing—then revisit the old tree. Its garden opens up more to discover: a flower's gift, a bird's gift, and a return visit. Connections can be found in different ways. The **Discoveries** notebook has gentle clues.
+## Previous playable worlds
 
-**More alive:** The character stops walking when you stop, plants and creatures move and react, the environment has more varied shapes and flowing details, and actions give stronger visual feedback. Tiny sounds play after interaction and can be muted from **Discoveries**. This is still an early visual experiment, not a finished art style.
+The earlier game is **not deleted**. You can still play:
 
-Progress saves in this browser. The 3D experiment uses its own save slot so the earlier 2D world remains intact; changing browser/device or clearing site data can reset progress.
+- [3D Living Brook](./experiments/living-brook-3d.html) — the previous integrated world, goals, and progress
+- [2D Living Brook](./experiments/living-brook-2d.html) — the earlier ecosystem prototype
+- [Sleeping Tree](./experiments/sleeping-tree-v2.html) — the three-place discovery prototype
+- [First Meadow](./experiments/first-meadow.html) — our very first touch experiment
 
-## Older experiments
+The body study does not use or overwrite the Living Brook's save slot.
 
-- [The 2D Living Brook](./experiments/living-brook-2d.html) — continuous environmental interactions in three locations
-- [The Sleeping Tree](./experiments/sleeping-tree-v2.html) — the earlier three-place prototype
-- [First Meadow](./experiments/first-meadow.html) — our first small experiment
+## How we develop
 
-## How it works
-
-The playable site is `index.html`. It uses plain HTML, CSS, and JavaScript, with a small self-contained perspective 3D renderer. There is no package installation, build tool, game-engine dependency, or external script to download. GitHub Pages serves `main` from the repository root.
-
-The game is still an experiment. Let it change when play suggests something better. When adding a new ingredient, look for logical relationships with things already here.
+Follow [the living principles](./PRINCIPLES.md). No fixed roadmap: play, notice, refine one interaction until it feels delightful, and only then decide what grows next.
