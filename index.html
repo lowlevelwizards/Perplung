@@ -176,7 +176,7 @@ function solveKnee(hip,ankle,face,side){const dir=norm(sub(ankle,hip)),raw=len(s
 function character(){
  const b=basis(p.facing);
  const root=v(p.x,p.hopY+p.bob-.065*p.runEnergy,p.z);
- const pelvisRoot=add(root,mul(b.r,p.weightShift));
+ const pelvisRoot=add(root,add(mul(b.r,p.weightShift),mul(b.f,-.09*p.runEnergy)));
  const pelvis=compose(add(pelvisRoot,v(0,.83-p.impactPulse*.010,0)),
    v(1+p.impactPulse*.012,1-p.impactPulse*.016,1+p.impactPulse*.012),
    p.facing,p.lean*.22,p.sway*.28);
