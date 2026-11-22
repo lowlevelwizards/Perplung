@@ -1,41 +1,29 @@
 # Perplung
 
-A little game that will discover what it wants to become.
+*A little world that discovers what it wants to become.*
 
-**Current playable prototype:** [The Sleeping Tree](./index.html)  
-**Earlier builds:** [Sleeping Tree v2](./experiments/sleeping-tree-v2.html) · [First Meadow](./experiments/first-meadow.html)  
-**Living principles:** [Principles](./PRINCIPLES.md)
+**[Play Perplung](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## Play
+## The living brook — first 3D experiment
 
-Open `index.html` in a browser, or publish this repository using GitHub Pages:
+Explore a continuous woodland as a small character, rather than moving an all-seeing cursor between scenes. This is a playful 3D experiment, not a commitment to a genre or a particular engine.
 
-1. Open **Settings → Pages** in this repository.
-2. Under **Build and deployment**, choose **Deploy from a branch**.
-3. Select `main` and `/(root)`, then save.
-4. Once GitHub finishes publishing, open the Pages link displayed in Settings.
+**On a phone:** Use the circle at lower left to walk. Drag the view to turn the camera. Walk toward something and press the large **Explore** button at lower right. Choose an ingredient from the bottom pocket, then press **Use** to try it nearby. Tap an object in the world for a hint, or open **Discoveries** for your observations.
 
-The game uses plain HTML, CSS, and JavaScript—no installation, server, dependencies, or build step.
+**Keyboard:** WASD or arrow keys to move; E or Space to interact; keys 1–6 select pocket tools.
 
-## The Sleeping Tree
+The brook carries light objects. Stones make eddies. Seeds can grow, leaves can shelter plants or creatures, berries attract a forager, pollinating bees change flowers, and birds may return gifts. The old tree responds to changes in the world. Look for interactions, not a single correct recipe.
 
-Explore three connected places (the Brook, Sunmeadow, and Old Grove). Things don't always stay where you leave them: the current carries leaves and seeds, stones make eddies, plants respond to water and shelter, and creatures forage, hop, pollinate, nest, and sometimes leave gifts. Follow the connections and eventually visit the sleeping tree.
+Progress saves in this browser. The 3D experiment uses its own save slot so the earlier 2D world remains intact; changing browser/device or clearing site data can reset progress.
 
-On a phone, tap a place to visit, choose a tool or object, and tap the world to use it. With **Explore** selected, tap a loose object to pick it up or drag it elsewhere. The **Discoveries** panel holds observations, not a required checklist. Changes persist in your browser's local storage and can continue developing while you visit other places. Existing v2 saves are imported when available; clearing site data or switching browser/device can reset progress.
+## Older experiments
 
-## What is Perplung?
+- [The 2D Living Brook](./experiments/living-brook-2d.html) — continuous environmental interactions in three locations
+- [The Sleeping Tree](./experiments/sleeping-tree-v2.html) — the earlier three-place prototype
+- [First Meadow](./experiments/first-meadow.html) — our first small experiment
 
-Nothing is set in stone. We're following curiosity, whimsy, discovery, warmth, tactile interactions, and emergent behavior, with room to introduce goals, surprises, and entirely different ideas as the game grows.
+## How it works
 
-This is an experimental beginning, not a promised genre or roadmap.
+The playable site is `index.html`. It uses plain HTML, CSS, and JavaScript, with a small self-contained perspective 3D renderer. There is no package installation, build tool, game-engine dependency, or external script to download. GitHub Pages serves `main` from the repository root.
 
-## Structure
-
-- `index.html` — Current playable prototype. GitHub Pages entry point.
-- `experiments/sleeping-tree-v2.html` — The original three-place prototype, preserved intact.
-- `experiments/first-meadow.html` — The original tiny meadow interaction experiment.
-- `PRINCIPLES.md` — Our small, changeable development principles.
-
-## Development
-
-Designed to be iterated through ChatGPT from a phone. Keep the site easy to run and play after every change.
+The game is still an experiment. Let it change when play suggests something better. When adding a new ingredient, look for logical relationships with things already here.
