@@ -1,592 +1,214 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#f5ead5"><title>Perplung — The Sleeping Tree</title><style>
-*{box-sizing:border-box}body{margin:0;color:#40523e;background:linear-gradient(160deg,#fbefd5,#e6efda);font-family:ui-rounded,system-ui,-apple-system,Arial,sans-serif;min-height:100vh}main{max-width:870px;margin:auto;padding:12px 12px 28px}.top{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:0 0 9px}.top h1{font-size:clamp(20px,4.5vw,30px);letter-spacing:-1.1px;margin:0;line-height:1.15;color:#3f5c42}.top p{font-size:12px;margin:4px 0 0;color:#718166}.progress{padding:8px 12px;border:1px solid #d5d9bc;border-radius:15px;background:#fff8e6;white-space:nowrap;box-shadow:0 3px 8px #4f61330a;text-align:center}.progress strong{display:block;color:#986d2d;font-size:18px}.progress small{font-size:11px;color:#78826b}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px}button{touch-action:manipulation;cursor:pointer;font:inherit;outline-offset:3px}.nav button,.tools button,.lower button{border:1px solid #cbd2ad;background:#fff9e8;color:#52634b;border-radius:12px;font-weight:700;min-height:39px;padding:8px 5px;font-size:13px}.nav button[aria-pressed=true],.tools button[aria-pressed=true]{background:#587f66;color:#fff;border-color:#587f66;box-shadow:0 3px 10px #41695127}.game{position:relative;overflow:hidden;border:3px solid #fff5de;border-radius:19px;background:#9bbd83;box-shadow:0 8px 24px #47624526}.game canvas{display:block;width:100%;aspect-ratio:720/440;touch-action:none}.scene-label{position:absolute;top:11px;left:12px;color:#466044;background:#fff7e7d9;border:1px solid #fef3d2;border-radius:99px;padding:6px 12px;font-size:12px;font-weight:800;pointer-events:none}.toast{min-height:47px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 12px;margin:8px 0;background:#fff9e9e6;border-radius:13px;color:#54614a;font-size:13px;line-height:1.4;box-shadow:0 2px 12px #5f5b2c0b}.tools{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}.tools button{position:relative;padding:8px 2px 7px;font-size:12px;min-height:54px}.tools .emoji{display:block;font-size:20px;line-height:23px}.tools .num{font-size:10px;display:inline-block;margin-left:3px;opacity:.85}.lower{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:9px}.lower button{font-size:12px;border-radius:99px;padding:8px 13px;min-height:35px}.lower span{font-size:11px;color:#88947b;text-align:right}.notebook{margin-top:10px;padding:13px 16px;border-radius:16px;background:#fff9e9;border:1px solid #dfdfc6;display:none;font-size:13px}.notebook.open{display:block}.notebook h2{margin:0 0 8px;font-size:17px;color:#4a6a50}.notebook p{margin:0 0 9px;line-height:1.5}.notebook ul{padding-left:20px;margin:8px 0 13px;line-height:1.7}.notebook .subtle{color:#7c866d}.notebook button{font-size:12px;background:#f0ead6;border:1px solid #d8d3b9;border-radius:99px;padding:8px 12px;color:#66725a}.win{position:absolute;inset:0;background:#fcf2cfb8;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:18px;pointer-events:none}.win.show{display:flex}.win h2{font-size:clamp(22px,5vw,37px);color:#4b7454;text-shadow:0 2px #fff;margin:0 0 7px}.win p{max-width:400px;font-size:clamp(12px,2.2vw,17px);font-weight:700;color:#587350;margin:0;line-height:1.4}@media(max-width:480px){main{padding:8px 7px 20px}.nav button{font-size:11px;min-height:37px}.tools{gap:4px}.tools button{font-size:10px;min-height:52px}.tools .emoji{font-size:19px}.toast{min-height:52px}.top p{font-size:11px}.progress{padding:6px 8px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
-
-/* The world is a place to revisit, not a one-use puzzle. */
-.scene-label{max-width:86%;white-space:normal}
-.tools button:focus-visible,.nav button:focus-visible,.lower button:focus-visible{outline:3px solid #f1c25f}
-@media(max-width:480px){.top{align-items:flex-start}.progress strong{font-size:15px}.scene-label{font-size:11px}}
-</style></head><body><main id="world"><div class="top"><div><h1>✿ Perplung</h1><p>Little things find their way.</p></div><div class="progress" aria-live="polite"><strong id="glimmer-count">✦ 0 / 3</strong><small>little changes</small></div></div><nav class="nav" aria-label="Places"><button type="button" data-scene="brook" aria-pressed="true">💧 The Brook</button><button type="button" data-scene="meadow" aria-pressed="false">🌼 Sunmeadow</button><button type="button" data-scene="grove" aria-pressed="false">🌳 Old Grove</button></nav><div class="game"><canvas id="canvas" aria-label="Living woodland world. Tap to interact with plants, creatures, and objects; select items below to use them in the world." role="img"></canvas><div id="scene-label" class="scene-label">The Brook · Where water wanders</div><div id="win" class="win"><h2>✧ The tree remembers ✧</h2><p>The grove is awake. The world carries on, full of things to discover.</p></div></div><div id="toast" role="status" class="toast">Something is stirring beneath the leaves.</div><div class="tools" role="group" aria-label="Your hands and your pockets"><button data-tool="hand" aria-pressed="true"><span class="emoji">☝️</span>Explore</button><button data-tool="berry" aria-pressed="false"><span class="emoji">🍓</span>Berry <span class="num" data-count="berry">0</span></button><button data-tool="seed" aria-pressed="false"><span class="emoji">🌱</span>Seed <span class="num" data-count="seed">0</span></button><button data-tool="leaf" aria-pressed="false"><span class="emoji">🍃</span>Leaf <span class="num" data-count="leaf">0</span></button><button data-tool="stone" aria-pressed="false"><span class="emoji">🪨</span>Stone <span class="num" data-count="stone">0</span></button><button data-tool="water" aria-pressed="false"><span class="emoji">💧</span>Water <span class="num" data-count="water">0</span></button></div><div class="lower"><button id="notes-toggle" type="button" aria-expanded="false">📖 Discoveries</button><button id="fullscreen" type="button">⛶ Expand</button><span id="world-mood">☀ The world goes on</span></div><section id="notebook" class="notebook" aria-label="Notebook"><h2>Things you noticed</h2><p>Some discoveries are clues. Others simply mean the world has changed. Nothing here has to be done in order.</p><p id="clues" class="subtle">Sometimes the answer is in what happens when you come back.</p><ul id="discoveries"></ul><button id="restart" type="button">Begin a new little world</button></section></main><script>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#cde3b8"><title>Perplung · A Little Living World</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden}body{font:500 14px/1.35 ui-rounded,system-ui,-apple-system,sans-serif;background:#b9d8aa;color:#334d3e;-webkit-user-select:none;user-select:none;overscroll-behavior:none}button{font:inherit;touch-action:manipulation;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}#stage{position:relative;width:100%;height:100dvh;overflow:hidden;background:#b7d8b1}#view{display:block;width:100%;height:100%;touch-action:none}#shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 44%,#42634a1a 100%)}.top{position:absolute;top:max(10px,env(safe-area-inset-top));left:12px;right:12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;pointer-events:none}.brand{background:#fff8e6e9;border:1px solid #ffffffba;box-shadow:0 3px 15px #52694720;border-radius:16px;padding:9px 12px}.brand strong{display:block;font-size:21px;letter-spacing:-1px;line-height:1.05}.brand small{font-size:10px;color:#77866c}.count{background:#fff9e7e9;padding:8px 12px;border-radius:15px;border:1px solid #fffdf5;font-weight:800;white-space:nowrap;box-shadow:0 3px 15px #52694720}.count b{color:#b18a43}#message{position:absolute;top:83px;left:50%;transform:translateX(-50%);width:min(88%,390px);min-height:36px;text-align:center;border:1px solid #fff8e7c5;background:#fff9e7df;border-radius:16px;padding:9px 14px;font-size:12px;box-shadow:0 3px 20px #667d431f;pointer-events:none;opacity:1;transition:opacity .4s}.near{position:absolute;left:50%;bottom:142px;transform:translateX(-50%);max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;padding:6px 14px;border-radius:40px;background:#fff9e7ca;color:#5c7352;font-size:11px;font-weight:750;pointer-events:none}#stick{position:absolute;bottom:calc(95px + env(safe-area-inset-bottom));left:15px;width:116px;height:116px;border:2px solid #fff8e7b3;border-radius:100%;background:#fff7e75e;touch-action:none;box-shadow:0 2px 18px #2f433225}#stick:before{content:'MOVE';position:absolute;top:10px;left:0;width:100%;text-align:center;color:#4a6049a3;font-size:9px;font-weight:850;letter-spacing:1px}#nub{width:50px;height:50px;position:absolute;left:31px;top:31px;border-radius:100%;background:#fbefc7eb;border:2px solid #fffdf3;box-shadow:0 2px 10px #4b5f4430;pointer-events:none;display:grid;place-items:center;font-size:24px;color:#658b6a}#do{position:absolute;bottom:calc(116px + env(safe-area-inset-bottom));right:17px;width:85px;min-height:75px;border-radius:40px;border:2px solid #fff6d6;background:#638b6ddd;color:#fffaf0;box-shadow:0 5px 20px #2d543b52;font-weight:800;font-size:12px;padding:7px;line-height:1.22}#do small{display:block;font-size:19px;margin-bottom:2px}#do:active{transform:scale(.95)}#pocket{position:absolute;bottom:max(10px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(96%,520px);display:flex;gap:5px;justify-content:space-between;padding:7px;border-radius:21px;border:1px solid #fffaeaca;background:#fff8e9e9;box-shadow:0 4px 24px #2d533436;overflow-x:auto;scrollbar-width:none}#pocket::-webkit-scrollbar{display:none}.item{background:#ffffff70;border:1px solid #d9dfc2;min-width:48px;flex:1;min-height:61px;border-radius:14px;padding:4px 2px;font-size:10px;font-weight:780;position:relative}.item .emoji{display:block;font-size:23px;line-height:26px}.item .qty{position:absolute;top:2px;right:4px;font-size:9px;color:#78866c}.item[aria-pressed=true]{background:#5e906e;color:white;border-color:#426c55}.item[aria-pressed=true] .qty{color:#e9f8df}#book{position:absolute;right:12px;top:69px;border:1px solid #fffaf0;background:#fffae8e6;padding:8px 11px;border-radius:30px;font-weight:750;font-size:11px}#notebook{position:absolute;top:116px;bottom:95px;right:10px;width:min(370px,calc(100vw - 20px));background:#fff9e9f8;border:1px solid #fffdf7;border-radius:19px;padding:16px;box-shadow:0 5px 40px #304d3d47;overflow:auto;display:none;z-index:5;-webkit-user-select:text;user-select:text}#notebook.open{display:block}#notebook h2{margin:0 0 6px;font-size:18px}#notebook h3{font-size:12px;margin:14px 0 4px;color:#55775d}#notebook p,#notebook li{font-size:12px;line-height:1.5}#notebook ul{margin:8px 0;padding-left:19px}#notebook li{margin:0 0 6px}#notebook button{border:1px solid #d5d5b7;background:#f5edd6;border-radius:30px;padding:8px 12px;font-size:11px}#notebook .sub{color:#789071}#instructions{position:absolute;bottom:calc(217px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);max-width:70%;font-size:11px;font-weight:700;text-shadow:0 1px 7px #fff9eb;text-align:center;pointer-events:none;color:#55765a}#fallback{display:none;position:absolute;inset:24%;text-align:center;align-items:center;justify-content:center;background:#fff9e9e8;border-radius:24px;padding:24px}#footer{position:absolute;left:10px;top:68px;padding:6px 9px;border-radius:22px;background:#fff7e7cc;font-size:10px;color:#6c8366;pointer-events:none}@media(max-width:375px){#stick{width:103px;height:103px;bottom:calc(91px + env(safe-area-inset-bottom))}#nub{left:25px;top:25px}#do{right:11px;width:77px;min-height:73px}#pocket{width:98%;gap:3px;padding:5px}.item{min-width:46px;min-height:58px}.item .emoji{font-size:20px}#instructions{display:none}}@media(min-width:800px){#stick{left:calc(50% - 330px)}#do{right:calc(50% - 330px)}}
+</style></head><body><div id="stage"><canvas id="view" aria-label="A three-dimensional little living brook and forest. Walk with the joystick or WASD, and use the action button near things."></canvas><div id="shade"></div><div class="top"><div class="brand"><strong>✿ Perplung</strong><small>A little world that remembers.</small></div><div class="count"><b>✦</b> <span id="glimmers">0</span> glimmers</div></div><button id="book" type="button">📖 Discoveries</button><div id="footer">3D · The living brook</div><div id="message" role="status">Follow your curiosity. Little things have many uses.</div><div class="near" id="near">Walk toward something interesting</div><div id="instructions">Drag the world to turn your view · Try objects together</div><div id="stick" aria-label="Move your character"><div id="nub">✥</div></div><button id="do" type="button"><small>✋</small><span id="do-label">Explore</span></button><div id="pocket" role="group" aria-label="Things in your pockets"><button class="item" data-item="hand" aria-pressed="true"><span class="emoji">✋</span>Explore</button><button class="item" data-item="seed" aria-pressed="false"><span class="qty" data-qty="seed">2</span><span class="emoji">🌱</span>Seed</button><button class="item" data-item="berry" aria-pressed="false"><span class="qty" data-qty="berry">1</span><span class="emoji">🍓</span>Berry</button><button class="item" data-item="leaf" aria-pressed="false"><span class="qty" data-qty="leaf">1</span><span class="emoji">🍃</span>Leaf</button><button class="item" data-item="stone" aria-pressed="false"><span class="qty" data-qty="stone">1</span><span class="emoji">🪨</span>Stone</button><button class="item" data-item="water" aria-pressed="false"><span class="qty" data-qty="water">0</span><span class="emoji">💧</span>Water</button></div><section id="notebook" aria-label="Discovery notebook"><h2>Things you noticed</h2><p class="sub">The world has no recipe book. Notice, try, revisit.</p><h3>A little nudge</h3><p id="nudge">The current carries things. So do creatures.</p><h3>Your observations</h3><ul id="observations"><li>Every little thing may have another purpose.</li></ul><button id="reset" type="button">Begin another little world</button><button id="close" type="button">Close</button></section><div id="fallback">Your browser could not draw the world. Try updating or reloading your browser.</div></div>
+<script>
 (()=>{'use strict';
-const root=document.getElementById('world'),cv=document.getElementById('canvas'),ctx=cv.getContext('2d'),toastEl=document.getElementById('toast'),countEl=document.getElementById('glimmer-count'),labelEl=document.getElementById('scene-label'),notesEl=document.getElementById('notebook'),winEl=document.getElementById('win');const W=720,H=440;const DPR=Math.min(2,window.devicePixelRatio||1);cv.width=W*DPR;cv.height=H*DPR;ctx.scale(DPR,DPR);
-const R=(a,b)=>a+Math.random()*(b-a),C=(x,a,b)=>Math.max(a,Math.min(b,x)),dist=(a,b,c,d)=>Math.hypot(a-c,b-d),mix=(a,b,n)=>a+(b-a)*n;let s,clock=0,frame=0,drag=null,down=null;
-const names={brook:'The Brook · Where water wanders',meadow:'Sunmeadow · Where little things grow',grove:'Old Grove · Where the roots remember'};
-// Perplung's living systems: small rules shared by plants, water, animals and people.
-function initial(){
-  return {
-    scene:'brook', tool:'hand', inv:{berry:0,seed:0,leaf:0,stone:0,water:0},
-    glimmers:[], discoveries:[], won:false, bridge:0, nest:0, feed:0,
-    frog:0, frogTime:0, frogReactions:[], bird:false, birdTime:0,
-    plants:[],
-    loose:[
-      {type:'leaf',scene:'brook',x:335,y:streamY(335),floating:true},
-      {type:'seed',scene:'brook',x:92,y:streamY(92),floating:true}
-    ],
-    streamTrips:0, seenArrival:false, flowTimer:20, worldTime:0,
-    buddy:{x:215,y:270,tx:215,ty:270,joy:0,step:0,rest:0,activity:'wandering'},
-    frogActor:{x:548,y:240,tx:548,ty:240,hopWait:6},
-    bee:{x:435,y:160,scene:'meadow'},
-    ripples:[],effects:[],mushBoing:0,frogHop:0,pet:0,
-    speech:'',speechUntil:0,winUntil:0
-  };
+const $=id=>document.getElementById(id),canvas=$('view'),ctx=canvas.getContext('2d',{alpha:false}),msg=$('message'),nearEl=$('near'),countEl=$('glimmers');
+if(!ctx){$('fallback').style.display='flex';return;}
+const TAU=Math.PI*2,PI=Math.PI,R=(a,b)=>a+Math.random()*(b-a),clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),lerp=(a,b,t)=>a+(b-a)*t,dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z),rnd=(n)=>Math.sin(n*127.1+25.3)*43758.5453%1;
+let sw=360,sh=640,dpr=1,raf=0,last=0,frame=0,now=0,wasHidden=false;
+function resize(){const rect=canvas.getBoundingClientRect();sw=Math.max(240,rect.width);sh=Math.max(300,rect.height);dpr=Math.min(1.55,window.devicePixelRatio||1);canvas.width=Math.round(sw*dpr);canvas.height=Math.round(sh*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);}
+window.addEventListener('resize',resize);resize();
+function brookX(z){return 1.1+1.05*Math.sin(z*.29+.4)}
+function wet(x,z){return Math.abs(x-brookX(z))<2.15}
+function nearBank(x,z){return Math.abs(x-brookX(z))<3.75}
+function ground(x,z){let d=Math.abs(x-brookX(z));return -.28*Math.max(0,1-d/3)+.12*Math.sin(x*.23)*Math.cos(z*.19)}
+const loc={bush:{x:-5.3,z:2.1},leaves:{x:-6.4,z:4.9},stones:{x:-2.5,z:5.2},seedpod:{x:-7.1,z:-5.4},mushroom:{x:5.9,z:2},nest:{x:7.5,z:-7.1},tree:{x:8,z:-4.7}};
+const types=['seed','berry','leaf','stone','water'];
+function initial(){return {version:4,savedAt:Date.now(),t:0,player:{x:-4.4,z:1.6,yaw:0.1},viewYaw:.49,inv:{seed:2,berry:1,leaf:1,stone:1,water:0},held:'hand',plants:[],objects:[{id:1,type:'seed',x:brookX(-7),z:-7,from:'stream'},{id:2,type:'leaf',x:brookX(-2),z:-2,from:'stream'}],rocks:[],notes:[],glimmers:[],treeAwake:false,buddy:{x:-5,z:-3.1,tx:-5,tz:-3.1,rest:0},frog:{x:2.8,z:4.4,tx:2.8,tz:4.4,rest:0},birdNest:0,buddyFed:0,frogLeaf:false,mushroomWet:false,pollinations:0,flowSeed:false,seedClock:17,beeTimer:0,birdTimer:11,weather:0,seen:false,nextId:3};}
+const KEY='perplung-living-3d-v1';let s=initial(),stateDirty=false,lastSaved=0;
+function load(){try{const a=JSON.parse(localStorage.getItem(KEY)||'null');if(a&&a.version===4&&a.player&&a.inv&&Array.isArray(a.plants)){s={...initial(),...a};s.player={...initial().player,...a.player};s.inv={...initial().inv,...a.inv};s.buddy={...initial().buddy,...a.buddy};s.frog={...initial().frog,...a.frog};s.t=Math.max(0,Number(s.t)||0);s.viewYaw=clamp(Number(s.viewYaw)||.49,-5,5);for(const type of types)s.inv[type]=clamp(Number(s.inv[type])||0,0,12);s.held='hand';s.savedAt=Date.now();}}catch(e){console.warn('Could not load save',e);}}
+function save(){try{const data={...s,version:4,savedAt:Date.now()};localStorage.setItem(KEY,JSON.stringify(data));lastSaved=now;stateDirty=false;}catch(e){} }
+load();
+let currentMessage='',messageUntil=0,glitter=[],rain=[],lastPaint=0,joystick={x:0,y:0,id:null},dragCam=null,keys=new Set(),camera={x:0,y:0,z:0,yaw:0,pitch:.61,distance:12};
+function say(text,seconds=5){currentMessage=text;msg.textContent=text;messageUntil=now+seconds;}
+function note(text){if(!s.notes.includes(text)){s.notes.push(text);stateDirty=true;renderNotes();}}
+function sparkle(x,z,n=12,color='#ffef9c'){for(let k=0;k<n;k++)glitter.push({x:x+R(-.5,.5),z:z+R(-.5,.5),y:R(.3,1.9),vx:R(-.5,.5),vy:R(.8,1.5),vz:R(-.5,.5),age:R(.4,1.6),color});}
+function glimmer(id,description,x,z){if(s.glimmers.includes(id))return;s.glimmers.push(id);note('✦ '+description);sparkle(x,z,22,'#ffe59c');say('✦ '+description);stateDirty=true;syncUI();}
+function renderNotes(){const o=$('observations');o.replaceChildren();const arr=s.notes.length?s.notes:['The water moves. The plants grow. The creatures notice.'];for(const item of arr){const li=document.createElement('li');li.textContent=item;o.append(li);}const tip=s.treeAwake?'The tree is awake. The world is still finding new ways to grow.':s.glimmers.length>=3?'The ancient tree is listening. Visit it.':s.plants.some(p=>p.stage>=2)?'Something is interested in the new flowers.':'Try leaving something in the stream. Watch where it goes.';$('nudge').textContent=tip;}
+function syncUI(){for(const b of document.querySelectorAll('[data-item]')){b.setAttribute('aria-pressed',String(s.held===b.dataset.item));}for(const t of types){const e=document.querySelector(`[data-qty="${t}"]`);e.textContent=String(s.inv[t]);}countEl.textContent=s.glimmers.length;renderNotes();}
+syncUI();
+function give(type,n=1){s.inv[type]=clamp(s.inv[type]+n,0,12);stateDirty=true;syncUI();}
+function consume(type){if(s.inv[type]<=0){say('You have no '+type+'s. Look around for more.');return false;}s.inv[type]--;stateDirty=true;syncUI();return true;}
+function newObj(type,x,z,origin='placed'){if(s.objects.length>55)s.objects.shift();const o={id:s.nextId++,type,x,z,from:origin,rest:0};s.objects.push(o);stateDirty=true;return o;}
+function plant(x,z,extra={}){if(s.plants.length>=30)return null;if(s.plants.some(p=>Math.hypot(p.x-x,p.z-z)<.9))return null;const p={id:s.nextId++,x,z,growth:0,wet:nearBank(x,z)?.63:.22,mulch:false,stage:0,fruit:0,pollinated:false,color:Math.floor(R(0,3)),...extra};s.plants.push(p);stateDirty=true;note('Seeds are alive. Wet soil helps them along.');return p;}
+function nearest(){const p=s.player,all=[];for(const o of s.objects)all.push({kind:'object',thing:o,x:o.x,z:o.z,range:1.45,name:o.type});for(const o of s.plants)all.push({kind:'plant',thing:o,x:o.x,z:o.z,range:1.45,name:o.stage>=2?'flower':'sprout'});for(const k in loc)all.push({kind:'source',key:k,x:loc[k].x,z:loc[k].z,range:k==='tree'?2.2:1.7,name:({bush:'berry bush',leaves:'fallen leaves',stones:'stone pile',seedpod:'seedpod',mushroom:'mushroom',nest:'bird nest',tree:'old tree'})[k]});all.push({kind:'buddy',x:s.buddy.x,z:s.buddy.z,range:1.65,name:'little forager'});all.push({kind:'frog',x:s.frog.x,z:s.frog.z,range:1.6,name:'frog'});if(wet(p.x,p.z))all.push({kind:'water',x:p.x,z:p.z,range:1.9,name:'brook water'});all.sort((a,b)=>(dist(a,p)+(a.kind==='water'?1.5:0))-(dist(b,p)+(b.kind==='water'?1.5:0)));return all.find(o=>dist(o,p)<o.range)||null;}
+function actionText(n){if(s.held!=='hand')return 'Use '+s.held;return !n?'Explore':n.kind==='object'?'Pick '+n.name:n.kind==='water'?'Scoop water':n.kind==='plant'?(n.thing.fruit?'Harvest':'Observe'):n.kind==='source'?('Visit '+n.name):n.kind==='buddy'?'Greet':n.kind==='frog'?'Say hello':'Explore';}
+function actionPoint(){const p=s.player,a=p.yaw;return{x:p.x+Math.sin(a)*1.05,z:p.z+Math.cos(a)*1.05};}
+function interact(){const n=nearest(),p=s.player,q=actionPoint(),item=s.held;
+if(item==='hand'){
+ if(!n){say('The woods go on. Try wandering closer to something.');return;}
+ if(n.kind==='object'){give(n.thing.type,1);s.objects=s.objects.filter(v=>v!==n.thing);say('You picked up a '+n.thing.type+'.');stateDirty=true;return;}
+ if(n.kind==='plant'){const v=n.thing;if(v.fruit>0){v.fruit--;give(v.color===1?'berry':'seed');say('The flower left you a little gift.');}else say(v.stage>=2?(v.pollinated?'The blossom is making something new.':'Something with wings might be interested.'):'The little plant is growing.');return;}
+ if(n.kind==='water'){give('water',1);say('You cupped some cool brook water.');return;}
+ if(n.kind==='source'){
+  if(n.key==='bush'){give('berry',2);say('Two warm berries. A forager may enjoy these.');}
+  if(n.key==='seedpod'){give('seed',2);say('A few seeds. Where will they take root?');}
+  if(n.key==='leaves'){give('leaf',2);say('Soft leaves, dry and papery.');}
+  if(n.key==='stones'){give('stone',2);say('A couple of smooth little stones.');}
+  if(n.key==='mushroom'){say(s.mushroomWet?'The mushroom smells like rain. Something glows beneath it.':'A mushroom under the ferns. It looks thirsty.');}
+  if(n.key==='nest'){say(s.birdNest?'The bird has been busy here.':'A woven nest. It looks like it could use something soft.');}
+  if(n.key==='tree'){if(s.treeAwake){say('The old tree hums with a thousand little connections.');}else if(s.glimmers.length>=3){s.treeAwake=true;glimmer('tree','The old tree woke to the life around it.',n.x,n.z);say('The grove wakes. But the world carries on.',8);}else{say('The bark is warm. The tree seems to be waiting for little changes.',6);} }
+  return;
+ }
+ if(n.kind==='buddy'){say(s.buddyFed?'Your friend gives a happy little wiggle.':'The forager sniffs around, hoping to find something.');s.buddy.rest=2;return;}
+ if(n.kind==='frog'){say(s.frogLeaf?'The frog has found a favorite new resting spot.':'The frog watches the current. Perhaps it wants somewhere to rest.');return;}
+ return;
 }
-const SAVE_KEY='perplung-living-v3';
-const SAVE_FIELDS=['scene','inv','glimmers','discoveries','won','bridge','nest','feed','frog','frogTime','frogReactions','bird','birdTime','plants','loose','streamTrips','seenArrival','flowTimer','worldTime','buddy','frogActor','bee'];
-let lastStore=0;
-function store(){
-  try {
-    const data={version:3,savedAt:Date.now()};
-    for(const k of SAVE_FIELDS)data[k]=s[k];
-    localStorage.setItem(SAVE_KEY,JSON.stringify(data));
-    lastStore=clock;
-  }catch(e){}
+if(!consume(item))return;
+const at=(n&&n.kind==='source'&&n.key==='tree')?n:q;
+if(item==='berry'){
+ if((n&&n.kind==='buddy')||dist(p,s.buddy)<2.7){s.buddyFed++;s.buddy.rest=1;s.buddy.tx=q.x;s.buddy.tz=q.z;sparkle(s.buddy.x,s.buddy.z,8);say('The little forager eats and buries the seed.');plant(s.buddy.x+.5,s.buddy.z+.7,{wet:.55});glimmer('forager','A fed friend planted a surprise.',s.buddy.x,s.buddy.z);}
+ else if(n&&n.kind==='source'&&n.key==='nest'){s.birdNest++;say('A bird has noticed the berry by its nest.');note('Birds are interested in offerings left near home.');}
+ else{newObj('berry',wet(q.x,q.z)?brookX(q.z):q.x,q.z);say('The berry waits. Someone may find it.');}
 }
-function load(){
-  s=initial();
-  let data=null,migrated=false;
-  try{
-    data=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');
-    if(!data){data=JSON.parse(localStorage.getItem('littleplace-v2')||'null');migrated=!!data;}
-  }catch(e){}
-  if(data&&data.inv&&Array.isArray(data.glimmers)){
-    for(const k of SAVE_FIELDS){if(Object.prototype.hasOwnProperty.call(data,k))s[k]=data[k];}
-    // Older saves never tracked currents or the larger living world.
-    if(migrated){s.flowTimer=12;s.frogReactions=[];s.worldTime=0;}
-    const d=Math.min(180,Math.max(0,(Date.now()-(Number(data.savedAt)||Date.now()))/1000));
-    s.worldTime=Math.max(0,Number(s.worldTime)||0);
-    for(const p of s.plants){
-      p.growth=Number(p.growth)|| (p.bloom?8:Math.max(0,Number(p.age)||0)*.23);
-      p.moisture=p.moisture===undefined?(p.water?0.65:0.32):p.moisture;
-      p.fruit=Number(p.fruit)||0;
-      p.mulch=!!p.mulch;
-      p.pollinated=!!p.pollinated;
-      p.bloom=!!p.bloom;
-      p.growth+=d*(.05+.13*p.moisture);
+if(item==='seed'){
+ if(wet(q.x,q.z)){newObj('seed',brookX(q.z),q.z,'stream');say('The seed rides the brook. What might stop it?');note('Seeds can travel with the current.');}
+ else{const v=plant(q.x,q.z);if(v){say(nearBank(q.x,q.z)?'A seed settles into damp earth.':'A seed is tucked into the soil. It could use water.');}else{give('seed',1);say('There is already something growing there.');}}
+}
+if(item==='leaf'){
+ if(n&&n.kind==='plant'){n.thing.mulch=true;n.thing.wet=clamp(n.thing.wet+.25,0,1);say('A soft blanket for the roots. The soil keeps its moisture.');note('Fallen leaves shelter the soil.');}
+ else if((n&&n.kind==='frog')||dist(q,s.frog)<2.3){s.frogLeaf=true;s.frog.rest=2;glimmer('frog','A leaf became a resting place for a frog.',s.frog.x,s.frog.z);}
+ else if(n&&n.kind==='source'&&n.key==='nest'){s.birdNest++;say('The nest looks softer already.');note('An old leaf can make a new home.');}
+ else{newObj('leaf',wet(q.x,q.z)?brookX(q.z):q.x,q.z);say('The leaf settles, or perhaps floats away.');}
+}
+if(item==='stone'){
+ if(wet(q.x,q.z)||nearBank(q.x,q.z)){const x=brookX(q.z)+clamp(q.x-brookX(q.z),-1.5,1.5);s.rocks.push({x,z:q.z});say('Water curls around the stone. Perhaps something will catch there.');note('Stones make little eddies in flowing water.');sparkle(x,q.z,8,'#b3e2de');if(s.rocks.length>=3)glimmer('stepping','A little crossing took shape in the brook.',x,q.z);}
+ else if(n&&n.kind==='source'&&n.key==='nest'){s.birdNest++;say('The bird might enjoy a shiny stone in its nest.');}
+ else{newObj('stone',q.x,q.z);say('A smooth stone rests in the grass.');}
+}
+if(item==='water'){
+ if(n&&n.kind==='plant'){n.thing.wet=1;n.thing.growth+=.6;say('The roots drink. A little growth happens before your eyes.');note('Watering a plant changes what grows nearby.');}
+ else if(n&&n.kind==='source'&&n.key==='mushroom'){s.mushroomWet=true;glimmer('mushroom','Rain woke the sleepy mushroom.',n.x,n.z);say('The mushroom trembles and releases a glittering puff.');}
+ else if(n&&n.kind==='source'&&n.key==='tree'){note('The old tree drinks, but it needs the world around it too.');say('The tree drinks slowly through the ground.');}
+ else{sparkle(q.x,q.z,9,'#a9e1eb');say('A little splash. The earth is a shade darker.');const v=s.plants.find(v=>Math.hypot(v.x-q.x,v.z-q.z)<1.4);if(v){v.wet=1;v.growth+=.4;}}
+}
+stateDirty=true;syncUI();}
+// Worlds evolve by shared rules rather than one-off recipes.
+function tick(dt){s.t+=dt;const rainCycle=(s.t%125>95&&s.t%125<115);s.weather=rainCycle?1:0;
+ for(const o of [...s.objects]){
+  if(o.rest>0)o.rest=Math.max(0,o.rest-dt);
+  if(o.type==='seed'||o.type==='leaf'||o.type==='berry'){
+   if(wet(o.x,o.z)){
+    let rock=s.rocks.find(a=>Math.hypot(a.x-o.x,a.z-o.z)<.84);
+    if(rock&&o.type==='seed'){
+      s.objects=s.objects.filter(a=>a!==o);
+      const side=o.x>=brookX(o.z)?1:-1;
+      plant(brookX(o.z)+side*2.65,o.z,{wet:.85,growth:.45});
+      if(!s.flowSeed){s.flowSeed=true;glimmer('drift','An eddy carried a seed to a sheltered bank.',rock.x,rock.z);}
+      note('A stone in the current can change where something grows.');
+      continue;
     }
-    if(!migrated){s.worldTime+=d;s.flowTimer-=d;}
+    if(rock){o.x+=dt*(o.x>=rock.x?.38:-.38);o.z+=dt*.22;}
+    else{o.z+=dt*.55;o.x=lerp(o.x,brookX(o.z)+Math.sin(s.t*2+o.id)*.22,clamp(dt*.65,0,1));}
+    if(o.z>13){o.z=-12.4;o.x=brookX(o.z);o.from='stream';}
+   }
   }
-  if(!s.buddy||!Number.isFinite(s.buddy.x))s.buddy=initial().buddy;
-  if(!s.frogActor||!Number.isFinite(s.frogActor.x))s.frogActor=initial().frogActor;
-  if(!s.bee||!Number.isFinite(s.bee.x))s.bee=initial().bee;
-  if(!Array.isArray(s.frogReactions))s.frogReactions=[];
-  if(!Array.isArray(s.plants))s.plants=[];
-  if(!Array.isArray(s.loose))s.loose=[];
-  if(!Array.isArray(s.discoveries))s.discoveries=[];
-  for(const k of ['berry','seed','leaf','stone','water'])s.inv[k]=C(Number(s.inv[k])||0,0,12);
-  s.scene=names[s.scene]?s.scene:'brook';s.tool='hand';
-  s.ripples=[];s.effects=[];s.mushBoing=0;s.frogHop=0;s.pet=0;
-  s.winUntil=0;s.speechUntil=0;
+ }
+ s.seedClock-=dt;if(s.seedClock<=0){s.seedClock=R(25,38);newObj(Math.random()<.75?'seed':'leaf',brookX(-12),-12,'stream');}
+ for(const p of s.plants){p.wet=clamp(p.wet+(nearBank(p.x,p.z)?.055:-.035)*dt+(rainCycle?.06*dt:0)-(p.mulch?0:.012*dt),.08,1);p.growth+=dt*(.025+.071*p.wet+(p.mulch?.035:0));const stage=p.growth>5.5?2:p.growth>2?1:0;
+  if(stage>p.stage){p.stage=stage;if(stage===2){glimmer('bloom','A little seed became a flower.',p.x,p.z);say('Something bloomed nearby. The air feels busy.');}stateDirty=true;}
+ }
+ // The forager follows berries, even when you leave them on the ground.
+ s.buddy.rest=Math.max(0,s.buddy.rest-dt);let bait=s.objects.filter(o=>o.type==='berry'&&Math.hypot(s.buddy.x-o.x,s.buddy.z-o.z)<9).sort((a,b)=>Math.hypot(a.x-s.buddy.x,a.z-s.buddy.z)-Math.hypot(b.x-s.buddy.x,b.z-s.buddy.z))[0];
+ if(bait){s.buddy.tx=bait.x;s.buddy.tz=bait.z;if(Math.hypot(s.buddy.x-bait.x,s.buddy.z-bait.z)<.68){s.objects=s.objects.filter(o=>o!==bait);s.buddyFed++;s.buddy.rest=2.1;plant(s.buddy.x+.7,s.buddy.z-.5,{growth:.2,wet:.57});glimmer('forager','A fed friend planted a surprise.',s.buddy.x,s.buddy.z);}}
+ else if(Math.hypot(s.buddy.x-s.buddy.tx,s.buddy.z-s.buddy.tz)<.4){s.buddy.tx=clamp(s.buddy.x+R(-3,3),-10,-2);s.buddy.tz=clamp(s.buddy.z+R(-3,3),-9,7);s.buddy.rest=R(.5,3);}
+ if(s.buddy.rest<=0){const d=Math.hypot(s.buddy.tx-s.buddy.x,s.buddy.tz-s.buddy.z);if(d>.2){s.buddy.x+=(s.buddy.tx-s.buddy.x)/d*dt*(bait?1.15:.38);s.buddy.z+=(s.buddy.tz-s.buddy.z)/d*dt*(bait?1.15:.38);}}
+ s.frog.rest=Math.max(0,s.frog.rest-dt);if(!s.frogLeaf&&s.frog.rest===0){s.frog.tx=R(1,3.8);s.frog.tz=R(2.6,5.6);s.frog.rest=R(6,12);}const frogDist=Math.hypot(s.frog.x-s.frog.tx,s.frog.z-s.frog.tz);if(frogDist>.18){s.frog.x+=(s.frog.tx-s.frog.x)*dt*.22;s.frog.z+=(s.frog.tz-s.frog.z)*dt*.22;}
+ // Bees share pollen among blooms; fruit becomes an ingredient again.
+ s.beeTimer+=dt;if(s.beeTimer>5){s.beeTimer=0;const flowers=s.plants.filter(p=>p.stage===2&&!p.pollinated);if(flowers.length){const v=flowers[Math.floor(R(0,flowers.length))];v.pollinated=true;s.pollinations++;glimmer('bee','A bee helped a flower make another gift.',v.x,v.z);note('A flower may give berries or seeds after a visitor arrives.');} }
+ for(const p of s.plants)if(p.pollinated&&p.fruit<2&&Math.random()<dt*.025)p.fruit++;
+ s.birdTimer-=dt;if(s.birdTimer<=0){s.birdTimer=R(12,21);if(s.birdNest>0){newObj('seed',loc.nest.x+R(-1,1),loc.nest.z+R(-1,1),'bird');glimmer('bird','The bird returned a small gift to its nest.',loc.nest.x,loc.nest.z);}}
+ for(const v of glitter){v.age-=dt;v.x+=v.vx*dt;v.y+=v.vy*dt;v.z+=v.vz*dt;}glitter=glitter.filter(v=>v.age>0).slice(-90);
+ if(now-lastSaved>8&&stateDirty)save();
 }
-function ui(){
-  for(const b of root.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b.dataset.scene===s.scene));
-  for(const b of root.querySelectorAll('[data-tool]'))b.setAttribute('aria-pressed',String(b.dataset.tool===s.tool));
-  for(const k in s.inv){const el=root.querySelector('[data-count="'+k+'"]');if(el)el.textContent=s.inv[k];}
-  countEl.textContent='✦ '+s.glimmers.length+' glimmer'+(s.glimmers.length===1?'':'s');
-  labelEl.textContent=names[s.scene];
-  const entries=s.discoveries.map(t=>'<li>'+String(t).replaceAll('&','&amp;').replaceAll('<','&lt;')+'</li>');
-  document.getElementById('discoveries').innerHTML=entries.length?entries.join(''):'<li class="subtle">Little observations will collect here.</li>';
-  document.getElementById('clues').textContent=s.won?'The old tree is awake. The little world is still changing.':
-    s.glimmers.length>=3?'The grove feels different now. Perhaps visit the old tree.':
-    s.seenArrival?'Something from the brook found its way into the meadow. Where else do things travel?':
-    s.bridge?'The water moves differently around your stones. Watch what comes downstream.':
-    'Watch where things travel, what creatures seek, and what changes when you return.';
-  winEl.classList.toggle('show',s.won&&clock<s.winUntil);
-  const day=document.getElementById('world-mood');
-  if(day)day.textContent=(s.worldTime%110>81&&s.worldTime%110<98?'☁ A passing shower':'☀ The world goes on');
+// A tiny, self-contained software 3D renderer. True perspective and 3D geometry,
+// without an external engine, shader download, or dependency on WebGL support.
+const palette={grass:'#a8c77b',lightGrass:'#c1d58a',darkGrass:'#83ac75',soil:'#8eae78',water:'#73bebf',waterLight:'#b8e4d0',bank:'#bfd09c',trunk:'#ab8060',wood:'#987554',woodLight:'#c9986c',fern:'#59945f',fernLight:'#81b769',flower0:'#f9dc9b',flower1:'#f8b8ad',flower2:'#ded2fa'};
+const colorCache={};function rgb(hex){if(!colorCache[hex]){let s=hex[0]==='#'?hex.slice(1):hex;colorCache[hex]=[parseInt(s.slice(0,2),16),parseInt(s.slice(2,4),16),parseInt(s.slice(4,6),16)];}return colorCache[hex];}
+const worldStatic=[];let dynamic=[];let bucket=worldStatic,drawingKind='prop';
+function v(x,y,z){return {x,y,z};}
+function tri(a,b,c,color,alpha=1,shade=1){const ux=b.x-a.x,uy=b.y-a.y,uz=b.z-a.z,vx=c.x-a.x,vy=c.y-a.y,vz=c.z-a.z;const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;const mag=Math.hypot(nx,ny,nz)||1;const light=clamp(.89+.28*(nx*.3+Math.abs(ny)*.85+nz*.2)/mag,.7,1.25)*shade;bucket.push({a,b,c,color:rgb(color),alpha,light,kind:drawingKind});}
+function quad(a,b,c,d,color,alpha=1,shade=1){tri(a,b,c,color,alpha,shade);tri(a,c,d,color,alpha,shade)}
+function flat(x,y,z,r,color,alpha=.18){const n=9,center=v(x,y,z);for(let j=0;j<n;j++){const a=j*TAU/n,b=(j+1)*TAU/n;tri(center,v(x+Math.cos(a)*r,y,z+Math.sin(a)*r*.67),v(x+Math.cos(b)*r,y,z+Math.sin(b)*r*.67),color,alpha,1.3);}}
+function rotatePoint(x,z,yaw){const c=Math.cos(yaw),si=Math.sin(yaw);return [x*c+z*si,z*c-x*si];}
+function box(x,y,z,wx,wy,wz,color,yaw=0,alpha=1){const corners=[];for(const h of [-1,1])for(const yy of [-1,1])for(const zz of [-1,1]){let [a,b]=rotatePoint(h*wx/2,zz*wz/2,yaw);corners.push(v(x+a,y+yy*wy/2,z+b));}
+ // Each face uses its own direction. The faceted shading gives a tactile feel.
+ const idx=[[0,2,3,1],[4,5,7,6],[0,4,6,2],[1,3,7,5],[0,1,5,4],[2,6,7,3]];
+ idx.forEach((f,i)=>quad(corners[f[0]],corners[f[1]],corners[f[2]],corners[f[3]],color,alpha,[.89,.99,.93,1,.94,1.07][i]));}
+function orb(x,y,z,rx,ry,rz,color,n=7,alpha=1){const rings=3;for(let i=0;i<rings;i++){const la0=-PI/2+i*PI/rings,la1=-PI/2+(i+1)*PI/rings;for(let j=0;j<n;j++){const a=j*TAU/n,b=(j+1)*TAU/n;let p=(la,lo)=>v(x+rx*Math.cos(la)*Math.cos(lo),y+ry*Math.sin(la),z+rz*Math.cos(la)*Math.sin(lo));const p0=p(la0,a),p1=p(la0,b),p2=p(la1,b),p3=p(la1,a);tri(p0,p1,p2,color,alpha);tri(p0,p2,p3,color,alpha);}}}
+function cone(x,y,z,r,h,color,n=7){const base=v(x,y,z),top=v(x,y+h,z);for(let i=0;i<n;i++){const a=i*TAU/n,b=(i+1)*TAU/n;const p=v(x+Math.cos(a)*r,y,z+Math.sin(a)*r),q=v(x+Math.cos(b)*r,y,z+Math.sin(b)*r);tri(p,q,top,color);tri(base,p,q,color);}}
+function cylinder(x,y,z,r,h,color,n=7){const center=v(x,y,z),top=v(x,y+h,z);for(let i=0;i<n;i++){const a=i*TAU/n,b=(i+1)*TAU/n,p=v(x+Math.cos(a)*r,y,z+Math.sin(a)*r),q=v(x+Math.cos(b)*r,y,z+Math.sin(b)*r),u=v(p.x,y+h,p.z),w=v(q.x,y+h,q.z);quad(p,q,w,u,color);tri(center,q,p,color);tri(top,u,w,color);}}
+function blade(x,y,z,h,color,angle=0){const dx=Math.cos(angle)*h*.25,dz=Math.sin(angle)*h*.25;quad(v(x-.07,y,z),v(x+.07,y,z),v(x+dx,y+h,z+dz),v(x+dx,y+h,z+dz),color,.97);}
+function flower(x,z,size,color,age=0){const y=ground(x,z);cylinder(x,y,z,.033,size*.75,'#619c62',5);const yy=y+size*.8;for(let k=0;k<5;k++){let a=k*TAU/5+age;orb(x+Math.cos(a)*size*.19,yy+Math.sin(a)*size*.13,z+Math.sin(a)*size*.17,size*.21,size*.12,size*.13,color,5);}orb(x,yy,z,size*.12,size*.12,size*.12,'#efbb6e',6);}
+function tree(x,z,r=1,seed=0,big=false){const base=ground(x,z);flat(x,base+.015,z,r*.86,'#426d50',.22);cylinder(x,base,z,r*.15,big?4.6:r*2.15,big?'#9c7960':'#a47f59',7);const top=base+(big?4.25:r*2.1);const colors=big?(s.treeAwake?['#82b784','#98c37e','#bbd889']:['#8caa82','#9bb88b','#b1bd91']):['#6d9d6b','#82af75','#9fc284'];for(let j=0;j<5;j++){const a=seed*.6+j*TAU/5;orb(x+Math.cos(a)*r*.42,top+(j%3)*r*.25,z+Math.sin(a)*r*.36,r*.82,r*.63,r*.78,colors[j%3],7);}orb(x,top+r*.24,z,r*.95,r*.66,r*.95,colors[seed%3],7);}
+function stone(x,z,r=.42){const y=ground(x,z);flat(x,y+.02,z,r*1.1,'#45604b',.16);orb(x,y+r*.24,z,r,r*.55,r*.8,'#aaa99b',7);orb(x-r*.2,y+r*.49,z-r*.14,r*.23,r*.055,r*.12,'#d4cbb0',5);}
+function leaf(x,y,z,size=.35,rot=0,color='#a6bf77'){const dx=Math.cos(rot)*size,dz=Math.sin(rot)*size;quad(v(x-dx,y,z-dz),v(x,y+size*.2,z),v(x+dx,y,z+dz),v(x,y-size*.12,z),color,.98);}
+function bush(x,z){const y=ground(x,z);flat(x,y+.015,z,1.3,'#5b8d5a',.14);for(let i=0;i<6;i++){let a=i*TAU/6;orb(x+Math.cos(a)*.54,y+.52+(i%2)*.22,z+Math.sin(a)*.5,.64,.58,.66,i%2?'#6eae68':'#519f68',6);}for(let i=0;i<7;i++){const a=i*2.4;orb(x+Math.cos(a)*.7,y+.64,z+Math.sin(a)*.6,.13,.13,.13,'#ce6d78',6);}}
+function fern(x,z,scale=1){const y=ground(x,z);for(let i=0;i<5;i++){const a=i*TAU/5;blade(x,y,z,.32*scale,'#599962',a);leaf(x+Math.cos(a)*.24*scale,y+.18*scale,z+Math.sin(a)*.24*scale,.28*scale,a,'#82b878');}}
+function mushroom(x,z,r=.55,glow=false){const y=ground(x,z);flat(x,y+.01,z,r*1.2,'#47674d',.18);cylinder(x,y,z,r*.23,r*.86,'#f2dbbd',7);orb(x,y+r*.86,z,r,r*.43,r,glow?'#e4b6eb':'#b76b72',8);for(let k=0;k<5;k++){let a=k*TAU/5;orb(x+Math.cos(a)*r*.65,y+r*.99,z+Math.sin(a)*r*.65,r*.12,r*.08,r*.12,'#ffdfca',5);}if(glow)orb(x,y+r*1.22,z,r*.39,r*.1,r*.39,'#ffefd2',7,.65);}
+function drawSource(k){const p=loc[k],x=p.x,z=p.z,y=ground(x,z);if(k==='bush')bush(x,z);if(k==='leaves'){flat(x,y+.03,z,1.2,'#b39951',.28);for(let j=0;j<9;j++)leaf(x+Math.cos(j*2.2)*R(.1,.6),y+.08+(j%3)*.03,z+Math.sin(j*2.2)*R(.1,.5),.3,j*.5,j%2?'#e4b873':'#aac16c');}if(k==='stones'){for(let j=0;j<7;j++)stone(x+Math.cos(j*2)*.55,z+Math.sin(j*2)*.53,R(.19,.38));}if(k==='seedpod'){fern(x,z,1.7);for(let j=0;j<4;j++){orb(x+Math.cos(j*1.6)*.45,y+.8+j*.08,z+Math.sin(j*1.6)*.3,.14,.23,.14,'#caad77',6);}}if(k==='mushroom')mushroom(x,z,.72,s.mushroomWet);if(k==='nest'){flat(x,y+.06,z,.88,'#6f554b',.23);orb(x,y+.35,z,.83,.2,.73,'#a77f5b',7);orb(x,y+.47,z,.6,.13,.49,'#76583e',7);for(let j=0;j<5;j++)box(x+Math.cos(j*2)*.44,y+.48,z+Math.sin(j*2)*.37,.45,.08,.12,j%2?'#bd9569':'#967149',j*2);if(s.birdNest){orb(x+.17,y+.61,z,.23,.26,.22,'#e7ca9f',7);}}if(k==='tree')tree(x,z,1.65,2,true);}
+function buildStatic(){bucket=worldStatic;drawingKind='ground';for(let x=-14;x<14;x+=1.55){for(let z=-14;z<14;z+=1.55){const y=ground(x,z),p1=v(x,y,z),p2=v(x+1.55,ground(x+1.55,z),z),p3=v(x+1.55,ground(x+1.55,z+1.55),z+1.55),p4=v(x,ground(x,z+1.55),z+1.55);const moist=nearBank(x+.7,z+.7),color=moist?'#b5d59b':Math.sin(x*16+z*11)>.4?'#c1d68d':'#b0d18e';quad(p1,p2,p3,p4,color);}}
+ // Water is a winding surface in the same 3D world.
+ drawingKind='water';for(let z=-14;z<14;z+=.65){const x=brookX(z),xx=brookX(z+.65),w=1.93;let a=v(x-w,-.068,z),b=v(x+w,-.068,z),c=v(xx+w,-.068,z+.65),d=v(xx-w,-.068,z+.65);quad(a,b,c,d,Math.sin(z*2)>.5?'#8cd3cf':'#80c7c5',1,1.04);}
+ // The whole place is continuous: meadow, stream, and the old grove.
+ drawingKind='prop';const trees=[[-11,-10,1.9],[-8,-10,1.5],[-12,-3,2],[-10,7,1.5],[-9,11,1.7],[-4,-11,1.55],[-1,-12,1.3],[4,-12,1.8],[10,-11,1.65],[12,-5,1.8],[13,2,2],[10,9,1.6],[6,12,1.4],[-6,11,1.7],[-12,11,1.7],[8,1,1.35]];
+ trees.forEach((a,i)=>tree(a[0],a[1],a[2],i));for(const k in loc)if(k!=='tree'&&k!=='mushroom'&&k!=='nest')drawSource(k);
+ for(let i=0;i<65;i++){const x=R(-12.4,12.4),z=R(-12.4,12.4);if(!wet(x,z)&&Object.values(loc).every(p=>Math.hypot(p.x-x,p.z-z)>1.4)){fern(x,z,R(.3,.7));}}
+ for(let i=0;i<27;i++){const x=R(-11,11),z=R(-11,11);if(!wet(x,z)&&Object.values(loc).every(p=>Math.hypot(p.x-x,p.z-z)>1.5))flower(x,z,R(.18,.31),['#f8e2a5','#f3cab9','#d7c9e8'][i%3],i);}
+ bucket=dynamic;}
+buildStatic();
+// All living things use the same geometry, space, and scale as the player.
+function actor(x,z,kind){const y=ground(x,z);flat(x,y+.02,z,kind==='player'?.66:.5,'#395c48',.21);if(kind==='player'){const angle=s.player.yaw,walk=Math.sin(s.t*11)*.07;box(x,y+.46,z,.45,.65,.47,'#bd7e62',angle);orb(x,y+1.12,z,.46,.48,.43,'#f0c998',7);const forward={x:Math.sin(angle),z:Math.cos(angle)},right={x:Math.cos(angle),z:-Math.sin(angle)};for(const sign of [-1,1]){let ex=x+right.x*.19*sign,ez=z+right.z*.19*sign;orb(ex,y+1.5,ez,.17,.3,.18,'#deb08a',6);let fx=x+right.x*.23*sign+forward.x*.39,fz=z+right.z*.23*sign+forward.z*.39;orb(fx,y+1.18,fz,.052,.072,.049,'#41473d',5);orb(x+right.x*.23*sign,y+.15+sign*walk,z+right.z*.23*sign,.19,.13,.27,'#806654',6);}orb(x-forward.x*.27,y+.69,z-forward.z*.27,.25,.34,.25,'#8aadb0',6);orb(x,y+.72,z,.37,.27,.39,'#d99a79',7);}
+ if(kind==='buddy'){orb(x,y+.36,z,.52,.44,.49,'#d69b70',7);orb(x+.24,y+.47,z+.19,.28,.28,.25,'#f3ca95',6);orb(x-.22,y+.91,z+.09,.12,.39,.14,'#d7a27e',6);orb(x+.16,y+.94,z+.04,.13,.4,.14,'#d7a27e',6);orb(x+.4,y+.56,z+.29,.05,.05,.05,'#4d4a43',5);orb(x-.35,y+.3,z-.34,.2,.2,.2,'#f1d5b8',6);}
+ if(kind==='frog'){orb(x,y+.25,z,.47,.28,.46,'#81ab65',8);for(const side of [-1,1]){orb(x+side*.23,y+.51,z+.18,.16,.18,.14,'#a7c87b',6);orb(x+side*.24,y+.54,z+.29,.065,.07,.06,'#3b4f42',5);}orb(x,y+.22,z+.39,.2,.1,.1,'#9cca70',6);if(s.frogLeaf){leaf(x,y+.06,z,.66,s.t*.11,'#b1c980');}}
 }
-function say(t){toastEl.textContent=t;s.speech=t;s.speechUntil=clock+7;}
-function note(t){if(!s.discoveries.includes(t)){s.discoveries.push(t);store();ui();}}
-function sparkle(x,y,color='#ffe8a0',n=17){for(let i=0;i<n;i++)s.effects.push({x,y,vx:R(-64,64),vy:R(-88,-20),life:R(.5,1.4),max:1.4,c:color,r:R(2,4)});}
-function glimmer(key,msg,x,y,scene=s.scene){
-  if(s.glimmers.includes(key))return;
-  s.glimmers.push(key);
-  if(scene===s.scene)sparkle(x,y,'#fff0a7',28);
-  note('✦ '+msg);
-  if(scene===s.scene)say('✦ '+msg+(s.glimmers.length>=3?' The grove seems to stir.':''));
-  store();ui();
+function drawPlant(p){const y=ground(p.x,p.z);const k=clamp(p.growth/6,0,1),color=['#f2db9c','#f1b4b2','#dad1fa'][p.color];flat(p.x,y+.018,p.z,.3+k*.2,'#54794f',.15);cylinder(p.x,y,p.z,.04,.2+k*.72,'#6b9d64',5);leaf(p.x-.14,y+.19+k*.3,p.z,.22+k*.14,-.2,'#86b56f');leaf(p.x+.12,y+.28+k*.25,p.z,.23+k*.17,.3,'#8eba71');if(p.mulch)for(let j=0;j<3;j++)leaf(p.x+Math.cos(j*2.1)*.35,y+.045,p.z+Math.sin(j*2.1)*.3,.23,j*2,'#d1b97e');if(p.stage>=2){flower(p.x,p.z,.57,color,s.t*.05);}if(p.fruit>0){for(let i=0;i<p.fruit;i++)orb(p.x+(i?-.24:.25),y+.7,p.z+.12,.115,.12,.115,p.color===1?'#c66569':'#b9ab75',6);}}
+function drawObject(o){const y=wet(o.x,o.z)?-.05:ground(o.x,o.z),bob=wet(o.x,o.z)?Math.sin(s.t*2+o.id)*.05:0;flat(o.x,y+.012,o.z,.26,'#466558',.12);if(o.type==='seed')orb(o.x,y+.13+bob,o.z,.18,.2,.15,'#c4a16e',6);if(o.type==='stone')stone(o.x,o.z,.27);if(o.type==='leaf')leaf(o.x,y+.1+bob,o.z,.3,o.id*2,'#a8bf79');if(o.type==='berry'){orb(o.x,y+.18+bob,o.z,.2,.21,.2,'#ca6874',7);leaf(o.x,y+.38+bob,o.z,.12,.4,'#689e60');}}
+function drawDynamic(){dynamic=[];bucket=dynamic;drawingKind='prop';for(const p of s.plants)drawPlant(p);for(const o of s.objects)drawObject(o);for(const r of s.rocks)stone(r.x,r.z,.47);drawSource('tree');drawSource('mushroom');drawSource('nest');actor(s.player.x,s.player.z,'player');actor(s.buddy.x,s.buddy.z,'buddy');actor(s.frog.x,s.frog.z,'frog');
+ // The brook's bright, moving ribbons follow the actual current.
+ drawingKind='waterhighlight';for(let z=-13;z<13;z+=1.35){let x=brookX(z)+Math.sin(s.t*1.4+z)*.56;let z2=z+.65;quad(v(x-.08,-.037,z),v(x+.09,-.037,z),v(brookX(z2)+.08,-.037,z2),v(brookX(z2)-.08,-.037,z2),'#cce9d4',.4);}
+ // Pollinators and a visiting bird give hints about relationships.
+ drawingKind='prop';const flowers=s.plants.filter(p=>p.stage>=2);for(let i=0;i<Math.min(3,flowers.length);i++){const a=flowers[(Math.floor(s.t*.18)+i)%flowers.length];orb(a.x+Math.sin(s.t*4+i*3)*.6,ground(a.x,a.z)+1.3+Math.cos(s.t*3+i)*.23,a.z+Math.cos(s.t*4+i)*.6,.09,.09,.1,'#f5ce79',5);}
+ if(s.birdNest>0||s.t%45>30){const t=s.t*.47;orb(loc.nest.x+Math.cos(t)*1.4,ground(loc.nest.x,loc.nest.z)+1.45+Math.sin(t*2)*.35,loc.nest.z+Math.sin(t)*1.4,.24,.22,.32,'#a6a9c7',7);}
+ for(const sp of glitter){if(sp.age>0)orb(sp.x,sp.y,sp.z,.055,.055,.055,sp.color,5,clamp(sp.age,0,.9));}
+ bucket=worldStatic;}
+function basis(){const focus={x:s.player.x,y:ground(s.player.x,s.player.z)+.92,z:s.player.z},distance=sw<sh?14.6:12.1,pitch=sw<sh?.57:.56;camera.yaw=s.viewYaw;camera.pitch=pitch;camera.distance=distance;camera.x=focus.x+Math.sin(camera.yaw)*Math.cos(pitch)*distance;camera.y=focus.y+Math.sin(pitch)*distance;camera.z=focus.z+Math.cos(camera.yaw)*Math.cos(pitch)*distance;const fx=focus.x-camera.x,fy=focus.y-camera.y,fz=focus.z-camera.z,L=Math.hypot(fx,fy,fz);const f=[fx/L,fy/L,fz/L],right=[-f[2],0,f[0]],up=[right[1]*f[2]-right[2]*f[1],right[2]*f[0]-right[0]*f[2],right[0]*f[1]-right[1]*f[0]];return {f,right,up,eye:camera};}
+function project(p,b,zoom){const dx=p.x-b.eye.x,dy=p.y-b.eye.y,dz=p.z-b.eye.z;const Z=dx*b.f[0]+dy*b.f[1]+dz*b.f[2];if(Z<.45)return null;return {x:sw*.5+(dx*b.right[0]+dy*b.right[1]+dz*b.right[2])*zoom/Z,y:sh*.47-(dx*b.up[0]+dy*b.up[1]+dz*b.up[2])*zoom/Z,z:Z};}
+let lastBasis=null,lastZoom=0;
+function paint(){const start=performance.now();const bg=ctx.createLinearGradient(0,0,0,sh);bg.addColorStop(0,'#dceab8');bg.addColorStop(.35,'#c2d9af');bg.addColorStop(1,'#8eae83');ctx.fillStyle=bg;ctx.fillRect(0,0,sw,sh);
+ const b=basis(),zoom=Math.min(sw*.95,sh*.87)*1.58;lastBasis=b;lastZoom=zoom;
+ drawDynamic();const rendered=[];
+ for(const poly of worldStatic.concat(dynamic)){
+ const pa=project(poly.a,b,zoom),pb=project(poly.b,b,zoom),pc=project(poly.c,b,zoom);
+ if(!pa||!pb||!pc)continue;
+ if((pa.x< -100&&pb.x< -100&&pc.x< -100)||(pa.x>sw+100&&pb.x>sw+100&&pc.x>sw+100)||(pa.y< -100&&pb.y< -100&&pc.y< -100)||(pa.y>sh+100&&pb.y>sh+100&&pc.y>sh+100))continue;
+ const depth=(pa.z+pb.z+pc.z)/3;if(depth>38)continue;
+ const fog=clamp((depth-12)/45,0,.4),light=poly.light,base=poly.color;const c0=Math.round(lerp(clamp(base[0]*light,0,255),192,fog)),c1=Math.round(lerp(clamp(base[1]*light,0,255),214,fog)),c2=Math.round(lerp(clamp(base[2]*light,0,255),171,fog));const style=`rgba(${c0},${c1},${c2},${poly.alpha})`;
+ rendered.push({pa,pb,pc,depth,style,kind:poly.kind});
+ }
+ rendered.sort((a,b)=>b.depth-a.depth);
+ // Draw surfaces before objects so the near riverbank never appears through water.
+ for(const group of ['ground','water','waterhighlight','prop'])for(const p of rendered){if(p.kind!==group)continue;ctx.beginPath();ctx.moveTo(p.pa.x,p.pa.y);ctx.lineTo(p.pb.x,p.pb.y);ctx.lineTo(p.pc.x,p.pc.y);ctx.closePath();ctx.fillStyle=p.style;ctx.fill();if(group==='ground'||group==='water'){ctx.strokeStyle=p.style;ctx.lineWidth=.65;ctx.stroke();}}
+ // Sunbeams are a visual clue that the woodland is alive, not an objective marker.
+ const sun=ctx.createRadialGradient(sw*.17,sh*.08,20,sw*.2,sh*.11,sh*.8);sun.addColorStop(0,'#fff8d165');sun.addColorStop(.48,'#fff5cd1a');sun.addColorStop(1,'#fff5ce00');ctx.fillStyle=sun;ctx.fillRect(0,0,sw,sh);
+ frame++;if(frame%90===0){const ms=performance.now()-start;if(ms>42)console.info('Perplung rendering frame',ms.toFixed(1),'ms',rendered.length,'faces');}
 }
-function add(type,n=1){s.inv[type]=C(s.inv[type]+n,0,12);ui();store();}
-function use(type){
-  if(s.inv[type]<=0){
-    say(({berry:'Berry bushes grow near the trees.',stone:'Smooth stones wait by the brook.',leaf:'There are fallen leaves under the trees.',water:'Try cupping some water in your hands.',seed:'Look closely at the current, flowers, and the little forager.'})[type]);
-    return false;
-  }
-  s.inv[type]--;ui();store();return true;
-}
-function setScene(v){
-  s.scene=v;s.tool='hand';s.ripples=[];s.effects=[];
-  const newBloom=s.plants.find(p=>p.scene===v&&p.unseenBloom);
-  if(newBloom){
-    newBloom.unseenBloom=false;
-    glimmer('flower','A seed became a flower in a place you cared for.',newBloom.x,newBloom.y,v);
-    say('You return to find a flower where a seed once slept.');
-  }else if(v==='meadow'&&s.loose.some(o=>o.scene==='meadow'&&o.arrivedFrom==='brook')&&!s.seenArrival){
-    say('A little something by the pond looks oddly familiar...');
-  }else say(({brook:'The brook never quite holds still.',meadow:'Small lives are unfolding here, even when nobody watches.',grove:'The roots seem to be listening.'})[v]);
-  store();ui();
-}
-const streamY=x=>260+24*Math.sin(x*.010+.5)+6*Math.sin(x*.023);
-const brookWater=(x,y)=>Math.abs(y-streamY(x))<56;
-const meadowPond=(x,y)=>((x-610)/107)**2+((y-344)/59)**2<1;
-function waterAt(x,y){return s.scene==='brook'?brookWater(x,y):s.scene==='meadow'?meadowPond(x,y):false;}
-function nearWetSoil(scene,x,y){
-  return scene==='brook'?Math.abs(y-streamY(x))<106:
-    scene==='meadow'?Math.sqrt(((x-610)/139)**2+((y-344)/86)**2)<1:false;
-}
-function targetAt(x,y){
-  const sc=s.scene;
-  if(sc==='brook'){
-    if(dist(x,y,137,135)<63)return'bush';
-    if(dist(x,y,164,334)<65)return'stones';
-    if(dist(x,y,577,110)<60)return'leaves';
-    if(dist(x,y,s.frogActor.x,s.frogActor.y)<45)return'frog';
-    if(dist(x,y,358,144)<44)return'mushroom';
-    if(waterAt(x,y))return'water';
-  }
-  if(sc==='meadow'){
-    if(dist(x,y,115,185)<65)return'bush';
-    if(dist(x,y,600,123)<62)return'leaves';
-    if(dist(x,y,s.buddy.x,s.buddy.y)<45)return'buddy';
-    if(dist(x,y,319,350)<42)return'mushroom';
-    if(waterAt(x,y))return'water';
-  }
-  if(sc==='grove'){
-    if(dist(x,y,141,307)<70)return'leaves';
-    if(dist(x,y,231,258)<70)return'nest';
-    if(dist(x,y,534,231)<119)return'tree';
-    if(dist(x,y,427,363)<45)return'mushroom';
-  }
-  return null;
-}
-function plantAt(x,y){return s.plants.find(p=>p.scene===s.scene&&dist(x,y,p.x,p.y)<29);}
-function createPlant(x,y,scene=s.scene){
-  if(s.plants.filter(p=>p.scene===scene).length>=16){say('The ground is already full of growing things.');return false;}
-  const p={x,y,scene,age:0,growth:0,water:0,moisture:nearWetSoil(scene,x,y)?.7:.25,
-    bloom:false,pollinated:false,fruit:0,mulch:false,color:Math.floor(R(0,3))};
-  s.plants.push(p);if(scene===s.scene)sparkle(x,y,'#bce58f',9);
-  note('Seeds take root in the earth. The damp places grow differently.');
-  store();return true;
-}
-function spawnLoose(type,x,y,scene=s.scene,extras={}){
-  if(s.loose.length>85)s.loose.splice(0,s.loose.length-85);
-  const o={type,x,y,scene,created:s.worldTime,floating:scene==='brook'&&brookWater(x,y),...extras};
-  s.loose.push(o);store();return o;
-}
-function plantSeed(x,y){
-  if(s.scene==='brook'&&brookWater(x,y)){
-    if(!use('seed'))return;
-    spawnLoose('seed',x,y,'brook',{floating:true});
-    note('Seeds can travel by water.');say('The seed bobs away. The current seems to have a destination.');return;
-  }
-  if(waterAt(x,y)){say('The seed floats on the surface. Try the banks or the brook.');return;}
-  if(s.plants.some(p=>p.scene===s.scene&&dist(x,y,p.x,p.y)<31)){say('There is already something growing here.');return;}
-  if(s.plants.filter(p=>p.scene===s.scene).length>=16){say('This place is already quite lush.');return;}
-  if(use('seed')){createPlant(x,y);say(nearWetSoil(s.scene,x,y)?'The soft bank drinks around the seed.':'A little seed in the earth. The soil seems thirsty.');}
-}
-function waterPlant(p){
-  if(!use('water'))return;
-  p.moisture=1;p.water=(p.water||0)+1;p.growth+=.6;
-  s.ripples.push({x:p.x,y:p.y,age:0});sparkle(p.x,p.y,'#b1e5da',9);
-  note('Water gives a seed time and strength to grow.');
-  say(p.bloom?'Its petals gleam. Something in the air has noticed.':'The little leaves seem to stretch toward your hands.');store();
-}
-function touchPlant(p){
-  if(p.fruit>0){
-    const item=p.color===1?'berry':'seed';p.fruit--;add(item,1);
-    if(s.bee.scene===s.scene)sparkle(p.x,p.y-25,'#ffeb9a',11);
-    note('A flower visited by a bee can give something back.');
-    say(item==='seed'?'A seedpod! Where might this one take root?':'A ripe berry, grown from a flower you know.');
-    store();return;
-  }
-  if(p.bloom){say(p.pollinated?'The blossom is already working on a little gift.':'A fragrant flower is waiting for a visitor with wings.');return;}
-  say(p.moisture<.21?'The little leaves have drooped. Perhaps a drink, or some shelter?':'A tiny growing thing. It seems more awake than yesterday.');
-}
-function feedBuddy(fromPocket=true){
-  if(fromPocket&&!use('berry'))return;
-  s.feed++;s.buddy.joy=3;s.buddy.rest=2;s.buddy.tx=s.buddy.x;s.buddy.ty=s.buddy.y;
-  add('seed',1);sparkle(s.buddy.x,s.buddy.y,'#ffbf97',11);
-  note('The forager leaves seeds after eating berries.');
-  if(s.feed>=3)glimmer('friend','The forager learned to trust your kindness.',s.buddy.x,s.buddy.y,'meadow');
-  else say('Munch! A seed tumbles from its little paws.');store();
-}
-function giveNestLeaf(){
-  s.nest++;sparkle(230,255,'#dbd69d',9);
-  note('Soft leaves make a nest worth returning to.');
-  if(s.nest>=3){s.bird=true;glimmer('nest','A bird returned to the little nest.',230,235,'grove');}
-  else say('The nest is warmer. Something may be watching from above.');
-  store();
-}
-function placeLeafInNest(){if(use('leaf'))giveNestLeaf();}
-function frogReact(kind){
-  const a=s.frogActor;
-  s.frog=(s.frog||0)+1;s.frogTime=s.worldTime;s.frogHop=1;
-  s.ripples.push({x:a.x,y:a.y+10,age:0});
-  if(!s.frogReactions.includes(kind))s.frogReactions.push(kind);
-  const different=s.frogReactions.length;
-  if(different>=3){glimmer('frogsong','The brook answered the frog in three different ways.',a.x,a.y-15,'brook');}
-  else say(kind==='hand'?'A questioning ribbit. It seems to listen to everything.':
-    kind==='leaf'?'The frog hops onto the drifting leaf and gives a delighted croak.':
-    kind==='stone'?'The frog tries out the new stone like a stage.':'A splash! The frog replies with a different note.');
-  note('The frog has different calls for different happenings.');store();
-}
-function putStoneInBrook(x,y,fromPocket=true){
-  if(fromPocket&&!use('stone'))return;
-  s.bridge++;
-  spawnLoose('stone',x,y,'brook',{fixed:true,floating:false});
-  s.ripples.push({x,y,age:0});sparkle(x,y,'#dbedd4',8);
-  note('The stones make slow pockets in the current.');
-  if(dist(x,y,s.frogActor.x,s.frogActor.y)<83)frogReact('stone');
-  if(s.bridge>=3)glimmer('bridge','A stepping-stone crossing changed the brook.',x,y,'brook');
-  else say('Plop. The current curls around the stone instead of going straight.');
-  store();
-}
-function dropObject(type,x,y){
-  if(!use(type))return;
-  spawnLoose(type,x,y,s.scene);
-  if(type==='berry')say('A berry waits where it fell. Someone may come looking.');
-  if(type==='leaf')say(waterAt(x,y)?'The leaf catches the current.':'The leaf settles with a rustle.');
-  if(type==='stone')say('A satisfying little clack.');
-  if(type==='seed')say('A seed has landed in an interesting place.');
-}
-function handInteract(target,x,y){
-  if(target==='bush'){add('berry',1);sparkle(x,y,'#f6a6a1',6);note('Berry bushes give little gifts.');say('A plump berry, still warm from the sun.');}
-  else if(target==='stones'){add('stone',1);say('A pebble worn smooth by the water.');}
-  else if(target==='leaves'){add('leaf',1);say('A velvety leaf that rustles like paper.');}
-  else if(target==='water'){add('water',1);s.ripples.push({x,y,age:0});say('Cold, clear water in your cupped hands.');}
-  else if(target==='frog')frogReact('hand');
-  else if(target==='buddy'){s.pet=2;s.buddy.joy=2;sparkle(s.buddy.x,s.buddy.y-15,'#fce8bd',6);say('The little forager leans into your hand.');}
-  else if(target==='nest')say(s.bird?'A tiny bird watches the world from its soft nest.':'An empty nest. A feather clings to one of its twigs.');
-  else if(target==='tree'){
-    if(s.glimmers.length>=3){
-      s.won=true;s.winUntil=clock+7;sparkle(525,158,'#ffefad',90);
-      note('The old tree awoke. Everything nearby seemed to answer.');
-      say('The old tree remembers. And the world is not finished changing.');
-    }else say('The tree stirs when the world changes. Its roots seem to hear things from far away.');
-    store();ui();
-  }
-  else if(target==='mushroom'){
-    s.mushBoing=1.2;sparkle(x,y,'#f9e2b6',13);
-    note('The mushrooms release dancing spores when disturbed.');
-    say('BOI-OI-OING! A cloud of spores spins into the sun.');
-  }else{
-    if(Math.random()<.22){sparkle(x,y,'#eeeca0',5);say('A dandelion puff goes floating past.');}
-    else say('Grass whispers in the breeze. The little world carries on.');
-  }
-}
-function toolInteract(x,y){
-  const q=s.tool,p=plantAt(x,y),target=targetAt(x,y);
-  if(q==='hand'){if(p)touchPlant(p);else handInteract(target,x,y);return;}
-  if(s.inv[q]===0){use(q);return;}
-  if(q==='water'){
-    if(p){waterPlant(p);return;}
-    if(target==='frog'){if(use('water'))frogReact('water');return;}
-    if(target==='mushroom'){
-      if(use('water')){s.mushBoing=1.5;sparkle(x,y,'#bbf0e2',17);note('A splash wakes the mushroom spores.');say('A great sneeze of spores! Some land in the grass.');}
-      return;
-    }
-    if(target==='buddy'){if(use('water')){s.buddy.joy=1;sparkle(x,y,'#a4e3e1',12);say('Brrr! The forager shakes like a tiny dog.');}return;}
-    if(use('water')){s.ripples.push({x,y,age:0});say('The soil takes the little drink.');}
-    return;
-  }
-  if(q==='berry'&&target==='buddy'){feedBuddy();return;}
-  if(q==='leaf'&&target==='nest'){placeLeafInNest();return;}
-  if(q==='leaf'&&p){if(use('leaf')){p.mulch=true;p.moisture=C(p.moisture+.27,0,1);note('Leaves shelter the soil and help it stay damp.');say('A soft blanket for roots. The earth stays cool beneath it.');store();}return;}
-  if(q==='leaf'&&target==='frog'){if(use('leaf')){spawnLoose('leaf',s.frogActor.x+18,s.frogActor.y,'brook',{floating:true});frogReact('leaf');}return;}
-  if(q==='stone'&&s.scene==='brook'&&waterAt(x,y)){putStoneInBrook(x,y);return;}
-  if(q==='seed'){if(p){say('Another seed could grow somewhere else.');return;}plantSeed(x,y);return;}
-  if(q==='berry'&&target==='frog'){say('The frog peers at the berry. It seems more interested in ripples.');return;}
-  dropObject(q,x,y);
-}
-function pickLoose(o){
-  if(o.fixed){say('The stone has settled deep into the streambed.');return;}
-  const i=s.loose.indexOf(o);if(i<0)return;
-  s.loose.splice(i,1);add(o.type,1);
-  if(o.arrivedFrom==='brook'&&!s.seenArrival){
-    s.seenArrival=true;
-    glimmer('return','Something from the brook found you in Sunmeadow.',o.x,o.y,'meadow');
-    note('Things drift between places, even while you are away.');
-  }else say(({seed:'A damp little seed, carried a surprising distance.',leaf:'A leaf with a story in its veins.',berry:'A bright little berry.',stone:'A smooth stone fits your palm.'})[o.type]||'You picked something up.');
-  store();
-}
-function tryDrop(o){
-  const target=targetAt(o.x,o.y),p=plantAt(o.x,o.y);
-  if(o.type==='berry'&&target==='buddy'&&s.scene==='meadow'){
-    s.loose.splice(s.loose.indexOf(o),1);feedBuddy(false);return;
-  }
-  if(o.type==='leaf'&&target==='nest'&&s.scene==='grove'){
-    s.loose.splice(s.loose.indexOf(o),1);giveNestLeaf();return;
-  }
-  if(o.type==='leaf'&&p){s.loose.splice(s.loose.indexOf(o),1);p.mulch=true;p.moisture=C(p.moisture+.27,0,1);note('Leaves shelter the soil and keep it damp.');say('A blanket for the little roots.');store();return;}
-  if(o.type==='stone'&&s.scene==='brook'&&brookWater(o.x,o.y)){
-    s.loose.splice(s.loose.indexOf(o),1);putStoneInBrook(o.x,o.y,false);return;
-  }
-  if(o.type==='seed'&&!waterAt(o.x,o.y)){
-    if(!s.plants.some(p=>p.scene===s.scene&&dist(p.x,p.y,o.x,o.y)<31)&&s.plants.filter(p=>p.scene===s.scene).length<16){
-      s.loose.splice(s.loose.indexOf(o),1);createPlant(o.x,o.y);say('The wandering seed finally found some earth.');return;
-    }
-  }
-  if(o.type==='leaf'&&target==='frog'&&s.scene==='brook')frogReact('leaf');
-  o.floating=s.scene==='brook'&&brookWater(o.x,o.y);
-  o.eddy=false;store();
-}
-function pos(e){const b=cv.getBoundingClientRect();return{x:C((e.clientX-b.left)/b.width*W,0,W),y:C((e.clientY-b.top)/b.height*H,0,H)};}
-cv.addEventListener('pointerdown',e=>{
-  e.preventDefault();const p=pos(e);down=p;drag=null;
-  if(s.tool==='hand'){
-    for(let i=s.loose.length-1;i>=0;i--){const o=s.loose[i];
-      if(o.scene===s.scene&&!o.fixed&&dist(o.x,o.y,p.x,p.y)<Math.max(27,o.type==='seed'?32:28)){
-        drag={o,start:p,moved:false};cv.setPointerCapture(e.pointerId);break;
-      }
-    }
-  }
-});
-cv.addEventListener('pointermove',e=>{
-  if(!drag)return;e.preventDefault();const p=pos(e);
-  if(dist(p.x,p.y,drag.start.x,drag.start.y)>9)drag.moved=true;
-  if(drag.moved){drag.o.x=p.x;drag.o.y=p.y;drag.o.floating=false;}
-});
-cv.addEventListener('pointerup',e=>{
-  e.preventDefault();const p=pos(e);
-  if(drag){if(drag.moved)tryDrop(drag.o);else pickLoose(drag.o);drag=null;store();}
-  else toolInteract(p.x,p.y);
-  down=null;ui();
-});
-cv.addEventListener('pointercancel',()=>{drag=null;down=null;});
-for(const b of root.querySelectorAll('[data-tool]'))b.addEventListener('click',()=>{s.tool=b.dataset.tool;ui();});
-for(const b of root.querySelectorAll('[data-scene]'))b.addEventListener('click',()=>setScene(b.dataset.scene));
-document.getElementById('notes-toggle').addEventListener('click',e=>{
-  const open=!notesEl.classList.contains('open');notesEl.classList.toggle('open',open);e.currentTarget.setAttribute('aria-expanded',String(open));
-});
-document.getElementById('fullscreen').addEventListener('click',()=>{
-  if(document.fullscreenElement){document.exitFullscreen?.();}
-  else root.requestFullscreen?.().catch(()=>say('Try turning your phone sideways to see more.'));
-});
-document.getElementById('restart').addEventListener('click',()=>{
-  if(!window.confirm('Begin a new little world? This will clear your discoveries and changes.'))return;
-  try{localStorage.removeItem(SAVE_KEY);localStorage.removeItem('littleplace-v2');}catch(e){}
-  s=initial();say('Another little beginning. The world is full of possibilities.');ui();store();
-});
-window.addEventListener('pagehide',store);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)store();});
-
-// Drawing: cozy illustrative shapes, light, water, animated foliage.
-function ellipse(x,y,rx,ry,color,rot=0){ctx.fillStyle=color;ctx.beginPath();ctx.ellipse(x,y,Math.max(.1,rx),Math.max(.1,ry),rot,0,6.28318);ctx.fill();}
-function line(points,color,w=2){ctx.beginPath();ctx.moveTo(points[0],points[1]);for(let i=2;i<points.length;i+=2)ctx.lineTo(points[i],points[i+1]);ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();}
-function flower(x,y,color='#ffe6b0',size=1){for(let i=0;i<6;i++){let a=i*Math.PI/3;ellipse(x+Math.cos(a)*7*size,y+Math.sin(a)*7*size,5.5*size,5.3*size,color,a);}ellipse(x,y,4*size,4*size,'#e6a956');}
-function grassSeed(scene){let i=scene==='brook'?0:scene==='meadow'?1:2;return (i*347+0x9e3779b9)>>>0;}
-function randomLayout(scene){let seed=grassSeed(scene);function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;}const list=[];for(let i=0;i<240;i++){let x=rand()*720,y=rand()*440;let skip=scene==='brook'?brookWater(x,y):scene==='meadow'?meadowPond(x,y):false;if(!skip)list.push({x,y,h:3+rand()*8,p:rand()*6,c:Math.floor(rand()*4)});}return list;}
-const bgGrass={brook:randomLayout('brook'),meadow:randomLayout('meadow'),grove:randomLayout('grove')};
-function backdrop(scene){let g=ctx.createLinearGradient(0,0,720,440);if(scene==='brook'){g.addColorStop(0,'#e4e0a7');g.addColorStop(.5,'#b2cd8d');g.addColorStop(1,'#84b48d');}else if(scene==='meadow'){g.addColorStop(0,'#f4dc9e');g.addColorStop(.55,'#acd18f');g.addColorStop(1,'#8ebd86');}else{g.addColorStop(0,'#d6d7a0');g.addColorStop(.4,'#9fc092');g.addColorStop(1,'#719e7d');}ctx.fillStyle=g;ctx.fillRect(0,0,720,440);
-for(let i=0;i<8;i++)ellipse((i*129+47)%730,(i*97+24)%440,85,34,'#f8edb516');ctx.fillStyle='#fffbd020';for(let i=0;i<4;i++){let x=25+i*215+Math.sin(clock*.17+i)*13;ctx.beginPath();ctx.moveTo(x,-25);ctx.lineTo(x+63,-25);ctx.lineTo(x+195,465);ctx.lineTo(x+124,465);ctx.closePath();ctx.fill();}
-for(const q of bgGrass[scene]){let sway=Math.sin(clock*1.5+q.p)*2;line([q.x,q.y,q.x+sway+1,q.y-q.h],['#7ca366','#a2b976','#b9c78e','#668d5d'][q.c],1.2);}for(let i=0;i<36;i++){let x=(i*163+23)%700+10,y=(i*109+47)%405+18;if(scene==='brook'&&brookWater(x,y))continue;if(scene==='meadow'&&meadowPond(x,y))continue;let c=['#f2ddaa','#eab7a5','#dcd9b3','#e0c3df'][i%4];flower(x,y,c,.35+(i%3)*.11);}
-}
-function waterShape(){ctx.beginPath();for(let x=-15;x<=735;x+=10){let y=streamY(x)-62;x===-15?ctx.moveTo(x,y):ctx.lineTo(x,y);}for(let x=735;x>=-15;x-=10)ctx.lineTo(x,streamY(x)+62);ctx.closePath();ctx.fillStyle='#bfbf83';ctx.fill();ctx.beginPath();for(let x=-15;x<=735;x+=10){let y=streamY(x)-54;x===-15?ctx.moveTo(x,y):ctx.lineTo(x,y);}for(let x=735;x>=-15;x-=10)ctx.lineTo(x,streamY(x)+54);ctx.closePath();let g=ctx.createLinearGradient(0,190,0,355);g.addColorStop(0,'#89c5b5');g.addColorStop(.5,'#58b5ae');g.addColorStop(1,'#5ba5a9');ctx.fillStyle=g;ctx.fill();ctx.save();ctx.clip();for(let i=0;i<39;i++){let x=(i*47+clock*(12+i%3*6))%800-30,y=streamY(x)+(i%7-3)*13;ctx.strokeStyle=i%3?'#ecf9d96e':'#d2f1deaa';ctx.lineWidth=i%4===0?2.3:1.3;ctx.beginPath();ctx.ellipse(x,y,17+i%4*4,2.7,0,.1,2.7);ctx.stroke();}ctx.restore();}
-function pebble(x,y,r=13){ellipse(x+2,y+5,r+3,6,'#546c5444');let g=ctx.createLinearGradient(x-r,y-r,x+r,y+r);g.addColorStop(0,'#d9d4b7');g.addColorStop(.52,'#aeb7a6');g.addColorStop(1,'#788f87');ellipse(x,y,r,r*.73,g,-.14);ellipse(x-3,y-4,r*.38,2,'#f4e9cf7f');}
-function berry(x,y){ellipse(x,y+5,11,4,'#394c3527');ellipse(x,y,9.5,9.5,'#b74e61');ellipse(x-3,y-4,3,2,'#e9a1a1');line([x,y-8,x+2,y-13],'#648044',2);}
-function leaf(x,y,a=0){ctx.save();ctx.translate(x,y);ctx.rotate(a+Math.sin(clock*1.4+x*.03)*.13);ellipse(0,0,14,8,'#9eb16a');ellipse(-4,-2,6,2.5,'#d4d38a');line([-11,1,12,-1],'#728e54',1.3);ctx.restore();}
-function leafPile(x,y,n=8){for(let i=0;i<n;i++)leaf(x+Math.sin(i*2.3)*26,y+(i%3)*5-5,i*.64);}
-function bush(x,y,fruit=true){ellipse(x,y+29,42,14,'#455c4033');line([x,y+25,x,y-25],'#63834e',5);for(let i=0;i<8;i++){let a=i*2.399;ellipse(x+Math.cos(a)*22,y+Math.sin(a)*17-10,23,17,['#669f68','#82ac67','#9abb73'][i%3],a*.13);}if(fruit)for(const [dx,dy] of [[-24,-13],[18,-19],[-8,6],[26,5]]){ellipse(x+dx,y+dy,5.5,5.5,'#c95262');ellipse(x+dx-2,y+dy-2,1.7,1.5,'#f4c5b0');}}
-function mushroom(x,y){let boing=1+s.mushBoing*.3*Math.sin(clock*25);ctx.save();ctx.translate(x,y);ctx.scale(1,boing);ellipse(0,14,22,6,'#6b784738');ellipse(0,5,8,19,'#ead6b1');ellipse(0,-8,25,13,'#ba8563');ellipse(-7,-12,7,3,'#e2ae86');ellipse(11,-7,4.5,2.5,'#e2ae86');ctx.restore();}
-function frog(x,y){let h=s.frogHop?Math.sin(clock*20)*6*s.frogHop:Math.sin(clock*2)*1.4;ellipse(x,y+15,30,7,'#587c643d');ellipse(x,y+h,24,17,'#83b77a');ellipse(x-15,y-13+h,10,10,'#a2c88d');ellipse(x+15,y-13+h,10,10,'#a2c88d');ellipse(x-14,y-16+h,3,3,'#3d5745');ellipse(x+14,y-16+h,3,3,'#3d5745');ellipse(x,y+2+h,12,3,'#bad49b');line([x-5,y+5+h,x,y+7+h,x+5,y+5+h],'#648c60',1.5);}
-function buddy(){let b=s.buddy,bo=Math.sin(clock*5+b.step)*2;ellipse(b.x,b.y+21,27,7,'#53674738');ellipse(b.x,b.y,27,21,'#d79c6e');ellipse(b.x-15,b.y-17,10,14,'#b77e61');ellipse(b.x+14,b.y-18,10,14,'#b77e61');ellipse(b.x-15,b.y-18,5,7,'#e6b58e');ellipse(b.x+14,b.y-18,5,7,'#e6b58e');ellipse(b.x-5,b.y+5,20,13,'#f1c89b');ellipse(b.x-17,b.y+bo*.2+19,8,4,'#aa755d');ellipse(b.x+16,b.y+bo*.2+19,8,4,'#aa755d');ellipse(b.x-9,b.y-3,3,3,'#413f34');ellipse(b.x+10,b.y-3,3,3,'#413f34');ellipse(b.x,b.y+4,3,2,'#9e716a');if(b.joy>0){ctx.font='23px serif';ctx.fillStyle='#ffeadb';ctx.fillText('♡',b.x+24,b.y-23+Math.sin(clock*6)*3);}}
-function bigTree(){let awake=s.won;ellipse(522,374,167,27,'#43654926');ctx.strokeStyle='#7a7450';ctx.lineCap='round';ctx.lineWidth=51;ctx.beginPath();ctx.moveTo(533,362);ctx.quadraticCurveTo(552,255,528,148);ctx.stroke();ctx.strokeStyle='#967f54';ctx.lineWidth=36;ctx.beginPath();ctx.moveTo(532,288);ctx.lineTo(463,224);ctx.moveTo(531,267);ctx.lineTo(602,192);ctx.stroke();for(let i=0;i<23;i++){let x=530+Math.sin(i*2.399)*((i%5)*19+36),y=139+Math.cos(i*1.82)*((i%4)*19+12);ellipse(x+Math.sin(clock*.7+i)*3,y,60-(i%4)*3,43,['#669b70','#80ad74','#9fbd77','#629677','#b3c981'][i%5]);}if(awake){for(let i=0;i<22;i++){let x=530+Math.sin(i*2.4)*((i%5)*19+30),y=139+Math.cos(i*1.82)*((i%4)*20+14);flower(x,y-3,'#f3dfa5',.75);}ellipse(511,285,7,3,'#5d5b49');ellipse(554,285,7,3,'#5d5b49');ellipse(533,299,11,7,'#e8d1aa');}else{line([501,284,515,286,524,284],'#655d49',3);line([544,284,556,286,564,284],'#655d49',3);ellipse(534,300,8,4,'#a78b70');}}
-function nest(){ellipse(230,273,65,24,'#5f75484a');for(let i=0;i<18;i++){let a=i*2.399,r=23+(i%4)*7;line([230+Math.cos(a)*r,270+Math.sin(a)*r*.4,230+Math.cos(a+.8)*r,269+Math.sin(a+.8)*r*.5],['#aa9160','#c7a66e','#866c4b'][i%3],3);}ellipse(230,264,37,12,'#715d454c');for(let i=0;i<Math.min(s.nest,3)*5;i++)leaf(208+i*4.5,260+(i%3)*4,i*.4);if(s.bird){ellipse(231,240,15,15,'#e5bc77');ellipse(224,236,3,3,'#574e3b');ellipse(239,236,3,3,'#574e3b');ctx.fillStyle='#d88955';ctx.beginPath();ctx.moveTo(227,242);ctx.lineTo(235,242);ctx.lineTo(231,247);ctx.fill();ellipse(218,247,8,4,'#bc9b6e');}}
-function drawScene(){backdrop(s.scene);if(s.scene==='brook'){waterShape();bush(137,135);leafPile(577,116);for(let i=0;i<8;i++)pebble(137+(i%4)*19,347+Math.floor(i/4)*10,10+i%3*2);mushroom(357,150);frog(s.frogActor.x,s.frogActor.y);for(let i=0;i<6;i++)ellipse(440+i*10,354+Math.sin(i)*12,17,7,'#b6c28266');}
-else if(s.scene==='meadow'){for(let i=0;i<8;i++){let x=85+i*81,y=90+Math.sin(i*.8)*26;ellipse(x,y,65,25,'#c7d99945');}ellipse(610,344,110,61,'#c6d092');ellipse(610,344,101,55,'#70b9ae');ellipse(609,348,83,42,'#8bcbbdb3');for(let i=0;i<12;i++){let x=534+(i*37)%153,y=308+(i%5)*14;line([x,y,x+14,y],'#e7f3d877',1.5);}bush(115,185);leafPile(600,129,9);mushroom(319,354);buddy();}
-else{bigTree();nest();leafPile(141,318,12);mushroom(427,368);for(let i=0;i<16;i++){let x=37+i*39,y=385+Math.sin(i*.7)*17;ellipse(x,y,21,8,'#8cb77a8c');}}
-for(const p of s.plants)if(p.scene===s.scene){
-  const growth=C((p.growth||0)/5.8,0,1), a=Math.max(.13,growth);
-  ellipse(p.x,p.y+7,14,4,'#5e74443b');
-  if(p.mulch){for(let i=0;i<4;i++)leaf(p.x+(i-1.5)*9,p.y+5+(i%2)*3,i*.8);}
-  line([p.x,p.y+5,p.x,p.y-20*a],'#668b55',3);
-  ellipse(p.x-7*a,p.y-7*a,8*a,4*a,'#87b66c',-.35);
-  ellipse(p.x+7*a,p.y-12*a,8*a,4*a,'#a2be74',.3);
-  if(p.bloom){flower(p.x,p.y-22,['#f9e1a3','#f2bfb6','#d9c9e6'][p.color],1.06);}
-  if(p.fruit>0){for(let i=0;i<p.fruit;i++)ellipse(p.x-9+i*18,p.y-33,4.5,5,p.color===1?'#bf5964':'#d6bb71');}
-  if(p.moisture<.21&&!p.bloom){ellipse(p.x+7,p.y+5,4,2,'#a59c5b');}
-}
-for(const o of s.loose)if(o.scene===s.scene){
-  if(o.type==='stone')pebble(o.x,o.y,14);
-  if(o.type==='berry')berry(o.x,o.y);
-  if(o.type==='leaf')leaf(o.x,o.y,(o.x%17)*.2);
-  if(o.type==='seed'){
-    ellipse(o.x,o.y+2,8,5,'#6d815e44');
-    ellipse(o.x,o.y-1,7.5,5.5,'#c8a775');
-    ellipse(o.x-2,o.y-2,2.7,1.6,'#eed7ab');
-    line([o.x+1,o.y-3,o.x+5,o.y-7],'#879c65',1.4);
-  }
-  if(o.arrivedFrom==='brook'){
-    ellipse(o.x,o.y+11,11,2.7,'#e5f8d7aa');
-  }
-  if(o.eddy){
-    ctx.strokeStyle='#edf8d3a9';ctx.lineWidth=1.7;ctx.beginPath();ctx.ellipse(o.x,o.y,18,11,0,0,Math.PI*1.4);ctx.stroke();
-  }
-}
-for(const r of s.ripples){ctx.strokeStyle='rgba(241,255,228,'+(1-r.age/1.5)*.85+')';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(r.x,r.y,5+r.age*38,3+r.age*19,0,0,Math.PI*2);ctx.stroke();}
-if(s.bee.scene===s.scene){const b=s.bee;ellipse(b.x,b.y,7,5,'#d6a64b');ellipse(b.x-2,b.y-5,6,4,'#fff7d4b0');ellipse(b.x+5,b.y-5,6,4,'#fff7d4b0');line([b.x-1,b.y-3,b.x-1,b.y+3],'#6e6544',2);}
-for(const p of s.effects){ctx.globalAlpha=C(p.life/p.max,0,1);ellipse(p.x,p.y,p.r,p.r,p.c);}ctx.globalAlpha=1;
-let shade=ctx.createRadialGradient(350,210,160,350,210,490);shade.addColorStop(0,'#fff7cc00');shade.addColorStop(1,'#425f3427');ctx.fillStyle=shade;ctx.fillRect(0,0,720,440);
-if(s.worldTime%110>81&&s.worldTime%110<98){
-  ctx.strokeStyle='#d9f6e37c';ctx.lineWidth=1.2;
-  for(let i=0;i<58;i++){
-    const xx=(i*173+s.worldTime*82)%760-20,yy=(i*113+s.worldTime*121)%480-20;
-    ctx.beginPath();ctx.moveTo(xx,yy);ctx.lineTo(xx-4,yy+9);ctx.stroke();
-  }
-}
-
-}
-
-function updateWorld(dt){
-  s.worldTime+=dt;
-  const raining=s.worldTime%110>81&&s.worldTime%110<98;
-  // Growth is always simulated, even when a place is off-screen.
-  for(const p of s.plants){
-    if(p.growth===undefined)p.growth=p.bloom?8:Math.max(0,p.age||0)*.23;
-    if(p.moisture===undefined)p.moisture=p.water?.65:.3;
-    p.age=(p.age||0)+dt;
-    const damp=nearWetSoil(p.scene,p.x,p.y);
-    p.moisture=C(p.moisture-dt*(damp?.0009:p.mulch?.0017:.004)+ (raining?dt*.027:0),0,1);
-    if(!p.bloom&&p.moisture>.14){
-      p.growth+=dt*(.13+.18*p.moisture);
-      if(p.growth>=5.8){
-        p.bloom=true;p.growth=5.8;
-        if(p.scene===s.scene){
-          glimmer('flower','A seed became a flower in a place you cared for.',p.x,p.y,p.scene);
-          say('A flower opens. A tiny visitor might notice.');
-        }else p.unseenBloom=true;
-      }
-    }
-  }
-  // Moving water carries small things between the brook and meadow.
-  s.flowTimer-=dt;
-  if(s.flowTimer<=0){
-    const floating=s.loose.filter(o=>o.scene==='brook'&&o.floating).length;
-    if(floating<4)spawnLoose(Math.random()<.42?'seed':'leaf',20,streamY(20)+R(-9,9),'brook',{floating:true,wild:true});
-    s.flowTimer=R(23,35);
-  }
-  for(const o of s.loose){
-    if(o.scene!=='brook'||o.fixed)continue;
-    if(!o.floating&&!brookWater(o.x,o.y))continue;
-    if(!brookWater(o.x,o.y)){o.floating=false;continue;}
-    o.floating=true;
-    const stone=s.loose.find(q=>q!==o&&q.scene==='brook'&&q.type==='stone'&&q.fixed&&Math.abs(o.x-q.x)<33&&Math.abs(o.y-q.y)<33);
-    if(stone){
-      if(!o.eddy){o.eddy=true;o.eddyX=stone.x-22;o.eddyY=stone.y-13;}
-      o.x+=(o.eddyX-o.x)*Math.min(1,dt*.8);
-      o.y+=(o.eddyY-o.y)*Math.min(1,dt*.8);
-    }else{
-      o.eddy=false;
-      o.x+=dt*(20+(o.type==='leaf'?5:0));
-      const center=streamY(o.x)+Math.sin(s.worldTime*1.3+o.x*.05)*4;
-      o.y+=(center-o.y)*Math.min(1,dt*.8);
-    }
-    if(o.x>723){
-      o.scene='meadow';o.x=R(565,654);o.y=R(334,362);
-      o.floating=false;o.eddy=false;o.arrivedFrom='brook';s.streamTrips++;
-      if(s.scene==='meadow')say('Something familiar floats into the meadow pool.');
-      store();
-    }
-  }
-  // Frogs move to reeds and stones, not just when tapped.
-  const f=s.frogActor;
-  f.hopWait=(f.hopWait||0)-dt;
-  if(f.hopWait<=0){
-    const stones=s.loose.filter(o=>o.scene==='brook'&&o.fixed&&o.type==='stone');
-    const perch=stones.length&&Math.random()<.54?stones[Math.floor(R(0,stones.length))]:null;
-    f.tx=perch?C(perch.x+R(-12,12),466,653):R(480,626);
-    f.ty=perch?perch.y-9:streamY(f.tx)+R(-18,12);
-    f.hopWait=R(6,12);
-    if(s.scene==='brook')s.frogHop=1;
-  }
-  const fd=dist(f.x,f.y,f.tx,f.ty);
-  if(fd>2){const n=Math.min(fd,40*dt);f.x+=(f.tx-f.x)/fd*n;f.y+=(f.ty-f.y)/fd*n;}
-  if(s.scene==='brook'){
-    for(const o of s.loose){if(o.scene==='brook'&&o.type==='leaf'&&o.floating&&!o.frogSeen&&dist(o.x,o.y,f.x,f.y)<28){o.frogSeen=true;frogReact('leaf');}}
-  }
-  // Bees choose actual flowers. Their visits make future seeds and berries.
-  const b=s.bee;
-  if(!b.scene)b.scene='meadow';
-  const candidates=s.plants.filter(p=>p.bloom&&!p.pollinated&&p.scene!=='grove');
-  if(candidates.length){
-    const p=candidates.sort((a,c)=>dist(a.x,a.y,b.x,b.y)-dist(c.x,c.y,b.x,b.y))[0];
-    if(b.scene!==p.scene){b.travel=(b.travel||0)+dt;if(b.travel>3){b.scene=p.scene;b.x=p.scene==='brook'?32:715;b.y=R(50,130);b.travel=0;}}
-    else{
-      b.x+=(p.x-b.x)*Math.min(1,dt*.78);
-      b.y+=(p.y-28-b.y)*Math.min(1,dt*.78);
-      if(dist(b.x,b.y,p.x,p.y-28)<15){
-        p.pollinated=true;p.fruit=2;
-        if(s.scene===p.scene){sparkle(p.x,p.y-18,'#f6d68f',13);say('A busy little bee leaves the flower carrying something new.');}
-        note('Bees make flowers fruitful. Flowers bring bees across places.');store();
-      }
-    }
-  }else{
-    b.x+=Math.sin(s.worldTime*.75)*dt*5;b.y+=Math.cos(s.worldTime*.92)*dt*4;
-    b.x=C(b.x,30,680);b.y=C(b.y,45,390);
-  }
-  // The forager follows scents, takes breaks and sometimes plants its own seeds.
-  const buddy=s.buddy;
-  buddy.joy=Math.max(0,(buddy.joy||0)-dt);
-  buddy.rest=Math.max(0,(buddy.rest||0)-dt);
-  const food=s.loose.filter(o=>o.scene==='meadow'&&o.type==='berry');
-  const flower=s.plants.find(p=>p.scene==='meadow'&&p.bloom&&p.pollinated&&!p.foragerVisited&&s.worldTime>(buddy.nextFlowerVisit||0));
-  if(food.length){
-    const closest=food.reduce((a,c)=>dist(c.x,c.y,buddy.x,buddy.y)<dist(a.x,a.y,buddy.x,buddy.y)?c:a);
-    buddy.tx=closest.x;buddy.ty=closest.y;buddy.activity='sniffing';
-    if(dist(buddy.x,buddy.y,closest.x,closest.y)<20){
-      s.loose.splice(s.loose.indexOf(closest),1);
-      if(closest.arrivedFrom==='brook'&&!s.seenArrival){
-        s.seenArrival=true;
-        glimmer('return','Something from the brook nourished a life in Sunmeadow.',closest.x,closest.y,'meadow');
-        note('The brook carried food to the meadow forager.');
-      }
-      feedBuddy(false);
-    }
-  }else if(flower&&buddy.rest<=0){
-    buddy.tx=flower.x;buddy.ty=flower.y+15;buddy.activity='investigating';
-    if(dist(buddy.x,buddy.y,buddy.tx,buddy.ty)<24){
-      flower.foragerVisited=true;buddy.nextFlowerVisit=s.worldTime+25;
-      buddy.rest=2.5;buddy.joy=2;
-      // A natural behavior with a persistent result, not a quest trigger.
-      const nx=C(flower.x+48,40,650),ny=C(flower.y+24,45,393);
-      if(!meadowPond(nx,ny)&&!s.plants.some(p=>p.scene==='meadow'&&dist(nx,ny,p.x,p.y)<32)&&s.plants.filter(p=>p.scene==='meadow').length<16){
-        s.plants.push({x:nx,y:ny,scene:'meadow',age:0,growth:0,water:0,moisture:.45,bloom:false,pollinated:false,fruit:0,mulch:false,color:(flower.color+1)%3});
-        note('The little forager sometimes plants seeds of its own.');
-        if(s.scene==='meadow')say('The forager noses a seed into the earth beside the flower.');
-        store();
-      }
-    }
-  }else if(s.worldTime>(buddy.nextWander||0)&&buddy.rest<=0){
-    buddy.tx=R(62,570);buddy.ty=R(150,363);
-    buddy.nextWander=s.worldTime+R(6,12);buddy.activity='wandering';
-    if(Math.random()<.25)buddy.rest=R(1,3);
-  }
-  const bd=dist(buddy.x,buddy.y,buddy.tx,buddy.ty);
-  if(bd>3&&buddy.rest<=0){const step=Math.min(37*dt,bd);buddy.x+=(buddy.tx-buddy.x)/bd*step;buddy.y+=(buddy.ty-buddy.y)/bd*step;buddy.step+=dt;}
-  // The returning bird becomes an inhabitant, and occasionally drops a gift.
-  if(s.bird&&s.worldTime-(s.birdTime||0)>37){
-    s.birdTime=s.worldTime;
-    if(s.loose.filter(o=>o.scene==='grove'&&o.type==='seed').length<3){
-      spawnLoose('seed',R(230,285),R(290,315),'grove',{fromBird:true});
-      note('The bird sometimes leaves seeds beneath its nest.');
-      if(s.scene==='grove')say('Something tiny tumbles from the nest.');
-    }
-  }
-}
-function tick(dt){
-  clock+=dt;frame++;
-  s.ripples=s.ripples.filter(r=>(r.age+=dt)<1.5);
-  s.effects=s.effects.filter(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=35*dt;p.life-=dt;return p.life>0;});
-  s.mushBoing=Math.max(0,s.mushBoing-dt*.9);
-  s.frogHop=Math.max(0,s.frogHop-dt);
-  s.pet=Math.max(0,s.pet-dt);
-  updateWorld(dt);
-  if(s.won&&clock>s.winUntil)winEl.classList.remove('show');
-  if(clock-lastStore>9){store();ui();}
-}
-let old=performance.now();
-function loop(now){const dt=Math.min(.045,Math.max(0,(now-old)/1000));old=now;tick(dt);drawScene();requestAnimationFrame(loop);}
-load();ui();say('The old tree is quiet. There may be a reason the brook never stops moving.');
-if(new URLSearchParams(location.search).has('test'))window.__perplung={get state(){return s;},tick,updateWorld,store,scene:setScene,plant:createPlant};
-requestAnimationFrame(loop);
-
+function updateMovement(dt){let mx=joystick.x,my=joystick.y;if(keys.has('arrowleft')||keys.has('a'))mx-=1;if(keys.has('arrowright')||keys.has('d'))mx+=1;if(keys.has('arrowup')||keys.has('w'))my-=1;if(keys.has('arrowdown')||keys.has('s'))my+=1;let len=Math.hypot(mx,my);if(len>.08){mx/=Math.max(1,len);my/=Math.max(1,len);const yaw=s.viewYaw,dx=Math.cos(yaw)*mx+Math.sin(yaw)*my,dz=-Math.sin(yaw)*mx+Math.cos(yaw)*my;const speed=(wet(s.player.x,s.player.z)?1.6:2.75)*(keys.has('shift')?1.35:1);s.player.x=clamp(s.player.x+dx*speed*dt,-12.25,12.25);s.player.z=clamp(s.player.z+dz*speed*dt,-12.25,12.25);s.player.yaw=Math.atan2(dx,dz);stateDirty=true;}}
+function updateNear(){const n=nearest(),label=actionText(n);$('do-label').textContent=label;nearEl.textContent=n?'Nearby: '+n.name+(s.held==='hand'?'':' · try '+s.held):s.held==='hand'?'Walk toward something interesting':'Try your '+s.held+' here';}
+function animate(time){const dt=Math.min(.065,Math.max(0,(time-(last||time))/1000));last=time;now=time/1000;if(document.hidden){raf=requestAnimationFrame(animate);return;}updateMovement(dt);tick(dt);if(frame%6===0)updateNear();if(now>messageUntil&&msg.textContent!=='The world keeps changing, even when you are still.')msg.textContent='The world keeps changing, even when you are still.';if(time-lastPaint>=32){paint();lastPaint=time;}raf=requestAnimationFrame(animate);}
+const stick=$('stick'),nub=$('nub');function adjustStick(e){const r=stick.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy,len=Math.hypot(dx,dy),reach=(r.width-50)/2;if(len>reach){dx*=reach/len;dy*=reach/len;}joystick.x=clamp(dx/reach,-1,1);joystick.y=clamp(dy/reach,-1,1);nub.style.transform=`translate(${dx}px,${dy}px)`;}
+stick.addEventListener('pointerdown',e=>{e.preventDefault();joystick.id=e.pointerId;stick.setPointerCapture(e.pointerId);adjustStick(e)});stick.addEventListener('pointermove',e=>{if(e.pointerId===joystick.id)adjustStick(e)});function stopStick(e){if(e.pointerId!==joystick.id)return;joystick={x:0,y:0,id:null};nub.style.transform='translate(0px,0px)'}stick.addEventListener('pointerup',stopStick);stick.addEventListener('pointercancel',stopStick);
+$('do').addEventListener('click',()=>interact());for(const e of document.querySelectorAll('[data-item]'))e.addEventListener('click',()=>{s.held=s.held===e.dataset.item?'hand':e.dataset.item;syncUI();updateNear()});
+canvas.addEventListener('pointerdown',e=>{dragCam={id:e.pointerId,x:e.clientX,y:e.clientY,moved:0};canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{if(!dragCam||dragCam.id!==e.pointerId)return;const dx=e.clientX-dragCam.x,dy=e.clientY-dragCam.y;dragCam.x=e.clientX;dragCam.y=e.clientY;dragCam.moved+=Math.abs(dx)+Math.abs(dy);if(Math.abs(dx)>1){s.viewYaw-=dx*.008;stateDirty=true;}});
+canvas.addEventListener('pointerup',e=>{if(!dragCam||dragCam.id!==e.pointerId)return;const small=dragCam.moved<13;dragCam=null;if(!small)return;const b=lastBasis,zoom=lastZoom;if(!b)return;let matches=[];for(const n of ['bush','leaves','stones','seedpod','mushroom','nest','tree']){const p=loc[n],sp=project(v(p.x,ground(p.x,p.z)+.7,p.z),b,zoom);if(sp)matches.push({p:sp,name:n,point:p});}for(const o of [...s.objects,...s.plants]){let sp=project(v(o.x,ground(o.x,o.z)+.3,o.z),b,zoom);if(sp)matches.push({p:sp,name:o.type||'plant',point:o});}const r=canvas.getBoundingClientRect();const px=(e.clientX-r.left)/r.width*sw,py=(e.clientY-r.top)/r.height*sh;const m=matches.filter(m=>Math.hypot(m.p.x-px,m.p.y-py)<45).sort((a,b)=>Math.hypot(a.p.x-px,a.p.y-py)-Math.hypot(b.p.x-px,b.p.y-py))[0];if(m){if(dist(s.player,m.point)<2.2)interact();else say('A '+m.name+'! Walk closer to find out what it does.');}});
+window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();keys.add(k);if(k==='e'||k===' ')interact();const i=['1','2','3','4','5','6'].indexOf(k);if(i>=0){s.held=['hand',...types][i];syncUI();}});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();joystick={x:0,y:0,id:null};nub.style.transform='translate(0px,0px)';});
+$('book').onclick=()=>{$('notebook').classList.toggle('open');renderNotes()};$('close').onclick=()=>$('notebook').classList.remove('open');$('reset').onclick=()=>{if(!confirm('Begin a new little world? Your current 3D discoveries will be replaced.'))return;s=initial();glitter=[];save();syncUI();$('notebook').classList.remove('open');say('A new morning. The brook is waiting.');};
+window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){save();keys.clear();joystick.x=joystick.y=0;}else last=performance.now()});
+window.__perplung={getState:()=>JSON.parse(JSON.stringify(s)),give,interact,moveTo:(x,z)=>{s.player.x=x;s.player.z=z;stateDirty=true},advance:(seconds)=>{for(let a=0;a<seconds;a+=.1)tick(.1);syncUI()},newObj,plant,reset:()=>{s=initial();save();syncUI()},render:paint};
+updateNear();say('A warm brook. A curious world. What might happen if...?',7);requestAnimationFrame(animate);
 })();
 </script></body></html>
