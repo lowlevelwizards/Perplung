@@ -3,7 +3,7 @@
 A little game that will discover what it wants to become.
 
 **Current playable prototype:** [The Sleeping Tree](./index.html)  
-**Original experiment:** [First Meadow](./experiments/first-meadow.html)  
+**Earlier builds:** [Sleeping Tree v2](./experiments/sleeping-tree-v2.html) · [First Meadow](./experiments/first-meadow.html)  
 **Living principles:** [Principles](./PRINCIPLES.md)
 
 ## Play
@@ -19,9 +19,9 @@ The game uses plain HTML, CSS, and JavaScript—no installation, server, depende
 
 ## The Sleeping Tree
 
-Explore three little places (The Brook, Sunmeadow, and Old Grove). Collect and use berries, seeds, leaves, stones, and water. Notice how the creatures and environment react. Find **any three little glimmers** to wake the old tree.
+Explore three connected places (the Brook, Sunmeadow, and Old Grove). Things don't always stay where you leave them: the current carries leaves and seeds, stones make eddies, plants respond to water and shelter, and creatures forage, hop, pollinate, nest, and sometimes leave gifts. Follow the connections and eventually visit the sleeping tree.
 
-On a phone, tap the location tabs to travel, use the tool buttons to select something, then tap or drag within the world. The **Discoveries** panel records progress. The game attempts to save your progress in the browser's local storage; clearing site data or changing browser/device can reset it.
+On a phone, tap a place to visit, choose a tool or object, and tap the world to use it. With **Explore** selected, tap a loose object to pick it up or drag it elsewhere. The **Discoveries** panel holds observations, not a required checklist. Changes persist in your browser's local storage and can continue developing while you visit other places. Existing v2 saves are imported when available; clearing site data or switching browser/device can reset progress.
 
 ## What is Perplung?
 
@@ -32,7 +32,9 @@ This is an experimental beginning, not a promised genre or roadmap.
 ## Structure
 
 - `index.html` — Current playable prototype. GitHub Pages entry point.
+- `experiments/sleeping-tree-v2.html` — The original three-place prototype, preserved intact.
 - `experiments/first-meadow.html` — The original tiny meadow interaction experiment.
+- `PRINCIPLES.md` — Our small, changeable development principles.
 
 ## Development
 
