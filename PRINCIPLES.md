@@ -11,6 +11,7 @@
 - **Everything is an ingredient.** When adding something, consider how it relates to everything already here. Not every pairing needs a use.
 - **A world to observe and change.**
 - **Be in the world.** Explore and interact as a character, not an all-seeing observer.
+- **Feel the body.** Feet plant, weight shifts, limbs follow, and little stumbles have charm.
 - **Wonder, whimsy, warmth, and tactility.**
 - **Give curiosity something to do.** Discoveries, interactions, and goals.
 - **Nothing is sacred.** Keep, change, or discard freely.
