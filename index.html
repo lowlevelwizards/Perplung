@@ -190,7 +190,7 @@ if(!p.air){
 }
 p.headYaw=p.facing+clamp(angleDelta(p.headYaw,p.facing),-.30,.30);p.headYaw+=angleDelta(p.facing,p.headYaw)*ease(12,dt);
 const nextMode=speed<.08?'idle':speed<.75?'amble':speed<1.65?'walk':'run';if(nextMode!==p.speedMode)p.speedMode=nextMode;
-camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;p.blinkAt=p.time+2.1+Math.random()*3.7}p.blink=Math.max(0,p.blink-dt);camTarget=lerp(camTarget,v(p.x,1.1,p.z),ease(4.4,dt));p.prevSpeed=speed;}
+camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;p.blinkAt=p.time+2.1+Math.random()*3.7}p.blink=Math.max(0,p.blink-dt);camTarget=lerp(camTarget,v(p.x,1.22,p.z),ease(4.4,dt));p.prevSpeed=speed;}
 function solveKnee(hip,ankle,face,side){const dir=norm(sub(ankle,hip)),raw=len(sub(ankle,hip)),l1=.43,l2=.43,reach=clamp(raw,.12,l1+l2-.015),along=(l1*l1-l2*l2+reach*reach)/(2*reach),height=Math.sqrt(Math.max(0,l1*l1-along*along));const b=basis(face);let pole=add(mul(b.f,.92),mul(b.r,side*.15));pole=norm(sub(pole,mul(dir,dot(pole,dir))));return add(add(hip,mul(dir,along)),mul(pole,height));}
 // Dynamic articulated 3D rig. Every part is real volumetric geometry; depth buffer resolves overlap.
 function character(){
