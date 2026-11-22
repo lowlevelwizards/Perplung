@@ -94,7 +94,7 @@ for(let j=0;j<48;j++){let a=rand()*TAU,r=1.7+rand()*22,x=Math.cos(a)*r,z=Math.si
 for(let j=0;j<16;j++){let a=rand()*TAU,r=2.4+rand()*19,x=Math.cos(a)*r,z=Math.sin(a)*r;append(smallSphere,compose(v(x,.07,z),v(.12+rand()*.09,.07+rand()*.03,.13+rand()*.09)),['#a9afa0','#c4c3ae','#9fa899'][j%3]);}
 return upload(out,out.colors)}
 const scenery=buildStatic();
-const p={x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,armAngles:[0,0],armAngleVels:[0,0],weightShift:0,weightVel:0,inputStrength:0,targetSpeed:0,speedMode:'idle',earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,blink:0,blinkAt:2,time:0,prevSpeed:0,stepCount:0,lastFoot:1,frames:0};
+const p={x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,armAngles:[0,0],armAngleVels:[0,0],weightShift:0,weightVel:0,inputStrength:0,targetSpeed:0,speedMode:'idle',earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,torsoTwist:0,torsoTwistVel:0,gaitRoll:0,gaitRollVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,blink:0,blinkAt:2,time:0,prevSpeed:0,stepCount:0,lastFoot:1,frames:0};
 const feet=[-1,1].map(side=>({side,foot:v(side*.235,.09,.035),from:v(side*.235,.09,.035),to:v(side*.235,.09,.035),start:0,duration:.28,swing:false,phase:0,impact:0,steps:0,yaw:0,fromYaw:0,toYaw:0}));const marks=[];
 let joy={x:0,y:0},joyId=null,camYaw=.25,camElev=.49,camDist=5.3,targetCamDist=5.3,camTarget=v(0,1.13,0),orbitId=null,ox=0,oy=0,showFeet=true,last=performance.now(),dpr=1,w=0,h=0,drawCount=0;const keys=new Set();
 const stick=document.getElementById('stick'),knob=document.getElementById('knob');
@@ -117,7 +117,7 @@ addEventListener('keydown',e=>{if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowD
 function say(_msg){}
 function hop(){if(p.air)return;p.hopVel=3.55+Math.min(.22,Math.hypot(p.vx,p.vz)*.07);p.air=true;p.impactTarget=Math.max(p.impactTarget,.2);for(const f of feet){f.swing=false;f.phase=0;}say('Boing!')};const hopBtn=document.getElementById('hop');hopBtn.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){e.preventDefault();hop();}});hopBtn.addEventListener('click',hop);
 
-function reset(){Object.assign(p,{x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,stepCount:0});p.armAngles=[0,0];p.armAngleVels=[0,0];p.weightShift=p.weightVel=0;p.inputStrength=0;p.targetSpeed=0;p.speedMode='idle';targetCamDist=camDist=5.3;feet.forEach(f=>Object.assign(f,{foot:v(f.side*.235,.09,.035),from:v(f.side*.235,.09,.035),to:v(f.side*.235,.09,.035),yaw:0,fromYaw:0,toYaw:0,swing:false,impact:0,steps:0}));marks.length=0;say('Back to the middle.');}
+function reset(){Object.assign(p,{x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,torsoTwist:0,torsoTwistVel:0,gaitRoll:0,gaitRollVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,stepCount:0});p.armAngles=[0,0];p.armAngleVels=[0,0];p.weightShift=p.weightVel=0;p.inputStrength=0;p.targetSpeed=0;p.speedMode='idle';targetCamDist=camDist=5.3;feet.forEach(f=>Object.assign(f,{foot:v(f.side*.235,.09,.035),from:v(f.side*.235,.09,.035),to:v(f.side*.235,.09,.035),yaw:0,fromYaw:0,toYaw:0,swing:false,impact:0,steps:0}));marks.length=0;say('Back to the middle.');}
 function spring(dt,value,vel,target,k=30,damp=8){vel+=(target-value)*k*dt;vel*=Math.exp(-damp*dt);value+=vel*dt;return[value,vel]}
 function home(f,lead=0){
  const b=basis(p.facing),speed=Math.hypot(p.vx,p.vz);
@@ -151,7 +151,7 @@ if(!p.air){
    if(foot.swing)continue;
    const b=basis(p.facing),hx=p.x+b.r.x*foot.side*.18,hz=p.z+b.r.z*foot.side*.18;
    const dx=hx-foot.foot.x,dz=hz-foot.foot.z,d=Math.hypot(dx,dz);
-   const hipRise=.66-.065*p.runEnergy,contactLimit=Math.sqrt(Math.max(0,.84*.84-hipRise*hipRise));
+   const hipRise=.64+p.bob-.065*p.runEnergy,contactLimit=Math.sqrt(Math.max(0,.84*.84-hipRise*hipRise));
    if(d>contactLimit){
      const slip=d-contactLimit,shift=slip/d;
      foot.foot.x+=dx*shift;foot.foot.z+=dz*shift;
@@ -166,6 +166,14 @@ p.runEnergy=mix(p.runEnergy,runWant,ease(7,dt));
 const physicalLean=clamp(speed*.072+p.runEnergy*.19+acc*.014,-.18,.45);
 [p.lean,p.leanVel]=spring(dt,p.lean,p.leanVel,physicalLean,35,7.6);
 [p.sway,p.swayVel]=spring(dt,p.sway,p.swayVel,clamp(-turnRate*(.045+p.runEnergy*.018),-.29,.29),34,7.5);
+// Independent pelvis/chest motion derives from actual stride and support load.
+const strideSeparation=dot(sub(feet[0].foot,feet[1].foot),b.f);
+const twistGoal=clamp(strideSeparation*(.10+.18*p.runEnergy)-turnRate*.015,-.18,.18);
+[p.torsoTwist,p.torsoTwistVel]=spring(dt,p.torsoTwist,p.torsoTwistVel,twistGoal,95,17);
+const lateralSupport=feet.find(f=>!f.swing);
+const sideLoad=(lateralSupport?lateralSupport.side:0)*clamp(speed/.78,0,1);
+const rollGoal=clamp(-sideLoad*(.06+.038*p.runEnergy)+turnRate*.008,-.15,.15);
+[p.gaitRoll,p.gaitRollVel]=spring(dt,p.gaitRoll,p.gaitRollVel,rollGoal,125,21);
 [p.earLag,p.earVel]=spring(dt,p.earLag,p.earVel,clamp(-acc*.028+turnRate*.044+p.hopVel*.016,-.34,.34),28,5.9);
 [p.armLag,p.armVel]=spring(dt,p.armLag,p.armVel,clamp(-acc*.023-turnRate*.05,-.34,.34),30,6.1);
 [p.headNod,p.headNodVel]=spring(dt,p.headNod,p.headNodVel,clamp(-acc*.016+p.hopVel*.017,-.18,.18),35,7.1);
@@ -173,9 +181,13 @@ const physicalLean=clamp(speed*.072+p.runEnergy*.19+acc*.014,-.18,.45);
 const swingLift=Math.max(...feet.map(f=>f.swing?Math.sin(PI*f.phase):0));
 p.impactTarget*=Math.exp(-6.8*dt);
 [p.impactPulse,p.impactVel]=spring(dt,p.impactPulse,p.impactVel,p.impactTarget,39,11.8);
-const lift=active&&!p.air?(.010+p.runEnergy*.030)*swingLift:0;
-const supportCompression=p.impactPulse*.014;
-[p.bob,p.bobVel]=spring(dt,p.bob,p.bobVel,lift-supportCompression,39,11.8);
+// Damped center of mass follows foot unloading, stance extension and weight.
+const supporting=feet.find(f=>!f.swing);
+const stanceDepth=supporting?Math.abs(dot(sub(supporting.foot,v(p.x,0,p.z)),b.f)):0;
+const stanceCompression=active?clamp(stanceDepth/.47,0,1)*(.007+.009*p.runEnergy):0;
+const lift=active&&!p.air?(.026+p.runEnergy*.095)*swingLift:0;
+const supportCompression=p.impactPulse*.008;
+[p.bob,p.bobVel]=spring(dt,p.bob,p.bobVel,lift-stanceCompression-supportCompression,150,20);
 if(p.air){p.hopVel-=20*dt;p.hopY+=p.hopVel*dt;if(p.hopY<=0){p.hopY=p.hopVel=0;p.air=false;p.impactTarget=Math.max(p.impactTarget,.9);feet.forEach(f=>{const h=home(f);f.foot=v(h.x,.09,h.z);f.from={...f.foot};f.to={...f.foot};f.swing=false;f.yaw=p.facing;f.impact=1;});}}
 if(!p.air){let swinging=feet.some(f=>f.swing);let options=feet.filter(f=>!f.swing).map(f=>{const at=home(f,active?clamp(.10+speed*.03,.10,.19):0);return{f,at,dist:Math.hypot(at.x-f.foot.x,at.z-f.foot.z),turn:Math.abs(angleDelta(p.facing,f.yaw))}}).sort((a,b)=>b.dist-a.dist);
 for(const q of options){const slowBlend=smooth(clamp((p.inputStrength-.31)/.43,0,1)),threshold=active?mix(.49,clamp(.23-speed*.04,.115,.24),slowBlend):.24;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
@@ -204,7 +216,7 @@ const supportShift=p.air?0:(supportFoot?supportFoot.side*.047*clamp(speed/.8,0,1
 // Touchdown is solved against the VISUAL pelvis after weight has transferred.
 // This final check avoids a single overextended frame when a swing foot lands.
 if(!p.air){
- const b=basis(p.facing),hh=.64-.065*p.runEnergy,limit=Math.sqrt(Math.max(0,.84*.84-hh*hh));
+ const b=basis(p.facing),hh=.64+p.bob-.065*p.runEnergy,limit=Math.sqrt(Math.max(0,.84*.84-hh*hh));
  for(const f of feet){
    if(f.swing)continue;
    const hx=p.x+b.r.x*(f.side*.17+p.weightShift)-b.f.x*.09*p.runEnergy,
@@ -223,15 +235,15 @@ camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;
 function solveKnee(hip,ankle,face,side){const dir=norm(sub(ankle,hip)),raw=len(sub(ankle,hip)),l1=.43,l2=.43,reach=clamp(raw,.12,l1+l2-.015),along=(l1*l1-l2*l2+reach*reach)/(2*reach),height=Math.sqrt(Math.max(0,l1*l1-along*along));const b=basis(face);let pole=add(mul(b.f,.92),mul(b.r,side*.15));pole=norm(sub(pole,mul(dir,dot(pole,dir))));return add(add(hip,mul(dir,along)),mul(pole,height));}
 // Dynamic articulated 3D rig. Every part is real volumetric geometry; depth buffer resolves overlap.
 function character(){
- const b=basis(p.facing);
+ const b=basis(p.facing),pelvisYaw=p.facing-p.torsoTwist*.32,chestYaw=p.facing+p.torsoTwist;
  const root=v(p.x,p.hopY+p.bob-.065*p.runEnergy,p.z);
  const pelvisRoot=add(root,add(mul(b.r,p.weightShift),mul(b.f,-.09*p.runEnergy)));
  const pelvis=compose(add(pelvisRoot,v(0,.83-p.impactPulse*.010,0)),
    v(1+p.impactPulse*.012,1-p.impactPulse*.016,1+p.impactPulse*.012),
-   p.facing,p.lean*.22,p.sway*.28);
+   pelvisYaw,p.lean*.22,p.sway*.28-p.gaitRoll*.34);
  const chest=compose(add(root,add(v(0,1.21-p.impactPulse*.014,0),mul(b.r,p.weightShift*.57))),
    v(1+p.impactPulse*.015,1-p.impactPulse*.020,1+p.impactPulse*.015),
-   p.facing,p.lean*.82,p.sway*.78);
+   chestYaw,p.lean*.82,p.sway*.78+p.gaitRoll);
  // Independent pelvis, hips, and planted feet: little legs carry the body.
  for(const f of feet){
    const hip=add(pelvisRoot,add(v(0,.73,0),mul(b.r,f.side*.17)));
@@ -242,8 +254,8 @@ function character(){
    ellipsoid(add(ankle,v(0,.012,0)),v(.161,.099,.214),'#876958',f.yaw);
  }
  // Lower torso and upper chest are separate solids, with a modest waist overlap.
- ellipsoid(transform(pelvis,v(0,0,0)),v(.355,.275,.318),'#bd8e71',p.facing,p.lean*.22,p.sway*.28);
- ellipsoid(transform(chest,v(0,-.25,0)),v(.312,.16,.283),'#d6a37e',p.facing,p.lean*.82,p.sway*.78);
+ ellipsoid(transform(pelvis,v(0,0,0)),v(.355,.275,.318),'#bd8e71',pelvisYaw,p.lean*.22,p.sway*.28-p.gaitRoll*.34);
+ ellipsoid(transform(chest,v(0,-.25,0)),v(.312,.16,.283),'#d6a37e',chestYaw,p.lean*.82,p.sway*.78+p.gaitRoll);
  drawMesh(mesh.barrel,multiply(chest,scale(v(.426,.350,.353))),'#daa985');
  // A short, narrow neck, tucked between the chest and the oversized head.
  const neckA=transform(chest,v(0,.34,-.025)),neckB=transform(chest,v(0,.61,-.015));
