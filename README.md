@@ -12,7 +12,11 @@ Explore a continuous woodland as a small character, rather than moving an all-se
 
 **Keyboard:** WASD or arrow keys to move; E or Space to interact; keys 1–6 select pocket tools.
 
-The brook carries light objects. Stones make eddies. Seeds can grow, leaves can shelter plants or creatures, berries attract a forager, pollinating bees change flowers, and birds may return gifts. The old tree responds to changes in the world. Look for interactions, not a single correct recipe.
+The brook carries light objects. Stones make eddies. Seeds can grow, leaves can shelter plants or creatures, berries attract a forager, pollinating bees change flowers, and birds may return gifts. Look for interactions, not a single correct recipe.
+
+**A little purpose:** Make three living connections—help the brook, a neighbor, and something growing—then revisit the old tree. Its garden opens up more to discover: a flower's gift, a bird's gift, and a return visit. Connections can be found in different ways. The **Discoveries** notebook has gentle clues.
+
+**More alive:** The character stops walking when you stop, plants and creatures move and react, the environment has more varied shapes and flowing details, and actions give stronger visual feedback. Tiny sounds play after interaction and can be muted from **Discoveries**. This is still an early visual experiment, not a finished art style.
 
 Progress saves in this browser. The 3D experiment uses its own save slot so the earlier 2D world remains intact; changing browser/device or clearing site data can reset progress.
 
