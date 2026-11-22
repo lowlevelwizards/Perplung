@@ -168,12 +168,12 @@ const physicalLean=clamp(speed*.072+p.runEnergy*.19+acc*.014,-.18,.45);
 [p.sway,p.swayVel]=spring(dt,p.sway,p.swayVel,clamp(-turnRate*(.045+p.runEnergy*.018),-.29,.29),34,7.5);
 // Independent pelvis/chest motion derives from actual stride and support load.
 const strideSeparation=dot(sub(feet[0].foot,feet[1].foot),b.f);
-const twistGoal=clamp(strideSeparation*(.10+.18*p.runEnergy)-turnRate*.015,-.18,.18);
-[p.torsoTwist,p.torsoTwistVel]=spring(dt,p.torsoTwist,p.torsoTwistVel,twistGoal,95,17);
+const twistGoal=clamp(strideSeparation*(.13+.48*p.runEnergy)-turnRate*.015,-.18,.18);
+[p.torsoTwist,p.torsoTwistVel]=spring(dt,p.torsoTwist,p.torsoTwistVel,twistGoal,175,20);
 const lateralSupport=feet.find(f=>!f.swing);
 const sideLoad=(lateralSupport?lateralSupport.side:0)*clamp(speed/.78,0,1);
-const rollGoal=clamp(-sideLoad*(.06+.038*p.runEnergy)+turnRate*.008,-.15,.15);
-[p.gaitRoll,p.gaitRollVel]=spring(dt,p.gaitRoll,p.gaitRollVel,rollGoal,125,21);
+const rollGoal=clamp(-sideLoad*(.06+.065*p.runEnergy)+turnRate*.008,-.15,.15);
+[p.gaitRoll,p.gaitRollVel]=spring(dt,p.gaitRoll,p.gaitRollVel,rollGoal,150,20);
 [p.earLag,p.earVel]=spring(dt,p.earLag,p.earVel,clamp(-acc*.028+turnRate*.044+p.hopVel*.016,-.34,.34),28,5.9);
 [p.armLag,p.armVel]=spring(dt,p.armLag,p.armVel,clamp(-acc*.023-turnRate*.05,-.34,.34),30,6.1);
 [p.headNod,p.headNodVel]=spring(dt,p.headNod,p.headNodVel,clamp(-acc*.016+p.hopVel*.017,-.18,.18),35,7.1);
