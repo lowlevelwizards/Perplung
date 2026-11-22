@@ -4,15 +4,15 @@
 
 **[Play the current experiment](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## Body Study 02 — the body is really 3D
+## Body Study 03 — finding a gait that feels good
 
 We are going atomic: making one cause and its effect feel good before adding another.
 
-This is a small playable **GPU-rendered 3D character movement experiment**, not the full ecosystem. There is one little creature on one sunny patch of ground. Try walking, stopping, reversing, pivoting, and taking a small hop.
+This is a small playable **GPU-rendered 3D character movement experiment**, not the full ecosystem. There is one little creature in a sunny clearing. Try barely nudging the thumbstick, walking, running, turning sharply, stopping, and hopping while moving.
 
-- **Touch:** Move with the thumbstick; drag the scenery to orbit the camera; tap **Hop** for a little jump. Tap **Footprints** to see planted contacts.
-- **Keyboard:** WASD or arrow keys to move, Space to hop, R to reset, drag to orbit.
-- **What we're testing:** The body has acceleration and braking. Only one foot swings at a time; the other remains planted in world space. Planted feet retain their orientation until they replant, and the body cannot pull a supporting foot past the leg's physical reach. Two-bone IK positions the knees. Weight shifts, head, ears, arms, and landing recovery react to movement.
+- **Touch:** Move the thumbstick a little to amble, farther to walk, and all the way to run. Drag the scene to orbit; use two fingers to pinch-zoom or tap +/−. **Hop** works while another thumb is holding the stick. **Footprints** shows the optional, lightly colored planted contacts.
+- **Keyboard/mouse:** WASD or arrows to run, Space to hop, R to reset, drag to orbit, scroll wheel or +/− buttons to zoom.
+- **What we're testing:** Analogue movement speed, a gait whose foot cadence changes with speed, shorter legs and smaller feet, forward/back arm swing driven by leg position, a head that follows the body without making full spins, and physical hops that preserve horizontal momentum. Planted feet retain world positions and contact orientation, with corrective steps before the body stretches out of reach. Two-bone knee IK and bouncy secondary reactions remain.
 - **Why the renderer changed:** The scene, ground, limbs, eyes, and body are now actual 3D triangle meshes rendered with WebGL depth testing. Occlusion is solved by the GPU instead of a fixed Canvas drawing order. The ground no longer relies on a projected polygon.
 - **What we're not testing:** Quests, creatures, collectibles, ecosystem systems, or the final visual identity.
 
@@ -22,6 +22,7 @@ The experiment runs from `index.html` using built-in browser **WebGL**. It uses 
 
 The earlier game is **not deleted**. You can still play:
 
+- [Body Study 02](./experiments/body-study-02.html) — first actual WebGL mesh/depth renderer
 - [Body Study 01](./experiments/body-study-01.html) — the original Canvas-projected movement study
 - [3D Living Brook](./experiments/living-brook-3d.html) — the previous integrated world, goals, and progress
 - [2D Living Brook](./experiments/living-brook-2d.html) — the earlier ecosystem prototype
