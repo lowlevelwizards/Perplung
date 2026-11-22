@@ -106,14 +106,14 @@ const physicalLean=clamp(speed*.072+p.runEnergy*.19+acc*.014,-.18,.45);
 [p.earLag,p.earVel]=spring(dt,p.earLag,p.earVel,clamp(-acc*.028+turnRate*.044+p.hopVel*.016,-.34,.34),28,5.9);
 [p.armLag,p.armVel]=spring(dt,p.armLag,p.armVel,clamp(-acc*.023-turnRate*.05,-.34,.34),30,6.1);
 [p.headNod,p.headNodVel]=spring(dt,p.headNod,p.headNodVel,clamp(-acc*.016+p.hopVel*.017,-.18,.18),35,7.1);
-const swingLift=Math.max(...feet.map(f=>f.swing?Math.sin(PI*f.phase):0)),bounceTarget=(.008+p.runEnergy*.032)*swingLift;
+const swingLift=Math.max(...feet.map(f=>f.swing?Math.sin(PI*f.phase):0)),bounceTarget=(.018+p.runEnergy*.060)*swingLift;
 [p.bob,p.bobVel]=spring(dt,p.bob,p.bobVel,active?bounceTarget:0,76,11.5);
 p.impactPulse=Math.max(0,p.impactPulse-dt*5.5);
 if(p.air){p.hopVel-=9.8*dt;p.hopY+=p.hopVel*dt;if(p.hopY<=0){p.hopY=p.hopVel=0;p.air=false;p.bobVel-=.26;p.impactPulse=1;feet.forEach(f=>{const h=home(f);f.foot=v(h.x,.09,h.z);f.from={...f.foot};f.to={...f.foot};f.swing=false;f.yaw=p.facing;f.impact=1;});}}
 if(!p.air){let swinging=feet.some(f=>f.swing);let options=feet.filter(f=>!f.swing).map(f=>{const at=home(f,active?clamp(.10+speed*.03,.10,.19):0);return{f,at,dist:Math.hypot(at.x-f.foot.x,at.z-f.foot.z),turn:Math.abs(angleDelta(p.facing,f.yaw))}}).sort((a,b)=>b.dist-a.dist);
-for(const q of options){const slowBlend=clamp((speed-.55)/.95,0,1),threshold=active?mix(.415,clamp(.23-speed*.04,.115,.24),slowBlend):.22;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
+for(const q of options){const slowBlend=smooth(clamp((p.inputStrength-.28)/.44,0,1)),threshold=active?mix(.415,clamp(.23-speed*.04,.115,.24),slowBlend):.22;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
 }
-for(const f of feet){f.impact=Math.max(0,f.impact-dt*3.6);if(!f.swing)continue;let s=clamp((p.time-f.start)/f.duration,0,1),t=smooth(s);f.phase=s;f.foot=lerp(f.from,f.to,t);f.foot.y=.09+Math.sin(PI*s)*(.18+speed*.025);f.yaw=f.fromYaw+angleDelta(f.toYaw,f.fromYaw)*t;if(s>=1){f.foot={...f.to};f.yaw=f.toYaw;f.swing=false;f.impact=1;p.stepCount++;f.steps++;p.bobVel-=.045+.09*p.runEnergy;p.impactPulse=Math.max(p.impactPulse,.45+.55*p.runEnergy);marks.push({x:f.foot.x,z:f.foot.z,yaw:f.yaw,side:f.side,age:0});if(marks.length>32)marks.shift();}}
+for(const f of feet){f.impact=Math.max(0,f.impact-dt*3.6);if(!f.swing)continue;let s=clamp((p.time-f.start)/f.duration,0,1),t=smooth(s);f.phase=s;f.foot=lerp(f.from,f.to,t);f.foot.y=.09+Math.sin(PI*s)*(.18+speed*.025);f.yaw=f.fromYaw+angleDelta(f.toYaw,f.fromYaw)*t;if(s>=1){f.foot={...f.to};f.yaw=f.toYaw;f.swing=false;f.impact=1;p.stepCount++;f.steps++;p.bobVel-=.045+.11*p.runEnergy;p.impactPulse=Math.max(p.impactPulse,.45+.55*p.runEnergy);marks.push({x:f.foot.x,z:f.foot.z,yaw:f.yaw,side:f.side,age:0});if(marks.length>32)marks.shift();}}
 for(let mark of marks)mark.age+=dt;
 for(let i=0;i<2;i++){const foot=feet[i],ahead=dot(sub(foot.foot,v(p.x,0,p.z)),basis(p.facing).f);const activity=clamp(speed/.85,0,1),intent=p.air?-.23:clamp(-ahead*(1.35+p.runEnergy*.85)*activity,-.63,.63);[p.armAngles[i],p.armAngleVels[i]]=spring(dt,p.armAngles[i],p.armAngleVels[i],intent,38,7.2);}
 p.headYaw=p.facing+clamp(angleDelta(p.headYaw,p.facing),-.30,.30);p.headYaw+=angleDelta(p.facing,p.headYaw)*ease(12,dt);
@@ -126,7 +126,7 @@ function character(){const b=basis(p.facing),root=v(p.x,p.hopY+p.bob,p.z),torso=
 for(const f of feet){const hip=add(root,add(v(0,.75,0),mul(b.r,f.side*.18)));const ankle=p.air?add(root,add(mul(b.r,f.side*.24),v(0,.14,-.08))):add(f.foot,v(0,p.hopY*.7,0)),knee=solveKnee(hip,ankle,p.facing,f.side);limb(hip,knee,.085,'#bd8c67');limb(knee,ankle,.080,'#ad7c5b');ellipsoid(add(ankle,v(0,.015,0)),v(.17,.10,.23),'#8b6957',f.yaw);}
 // tail behind body
 ellipsoid(transform(torso,v(0,-.21,-.41)),v(.22,.22,.20),'#ce9b73',p.facing);
-for(const side of [-1,1]){const swing=p.armAngles[side===-1?0:1],sho=transform(torso,v(side*.37,.25,-.015)),elbow=transform(torso,v(side*.46,-.055,swing*.60-.035+p.armLag*.14)),hand=transform(torso,v(side*.44,-.29,swing*1.05+.01+p.armLag*.25));limb(sho,elbow,.10,'#d8a67e');limb(elbow,hand,.095,'#c9936e');ellipsoid(hand,v(.09,.095,.10),'#e0b18a');}
+for(const side of [-1,1]){const swing=p.armAngles[side===-1?0:1],sho=transform(torso,v(side*.37,.25,-.015)),elbow=transform(torso,v(side*.46,-.055,swing*.60-.035+p.armLag*.14)),hand=transform(torso,v(side*.44,-.29,swing*1.12+.01+p.armLag*.25));limb(sho,elbow,.10,'#d8a67e');limb(elbow,hand,.095,'#c9936e');ellipsoid(hand,v(.09,.095,.10),'#e0b18a');}
 ellipsoid(transform(torso,v(0,0,0)),v(.48,.53,.42),'#dca97c',p.facing,p.lean,p.sway);
 // Underlying body truly hides portion of bib when viewed from behind.
 ellipsoid(transform(torso,v(0,-.08,.275)),v(.285,.333,.215),'#f7e0b1',p.facing,p.lean,p.sway);
