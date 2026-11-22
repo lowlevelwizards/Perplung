@@ -4,7 +4,7 @@
 
 **[Play the current experiment](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## Body Study 08 — keeping slow feet under the pelvis
+## Body Study 09 — shorter legs, relaxed standing
 
 We are going atomic: making one cause and its effect feel good before adding another.
 
@@ -12,8 +12,8 @@ This is a small playable **GPU-rendered 3D character movement experiment**, not 
 
 - **Touch:** Move the thumbstick a little to amble, farther to walk, and all the way to run. Drag the scene to orbit; use two fingers to pinch-zoom or tap +/−. The up-arrow button hops, even while your other thumb is moving. Footprints are always visible, with no toggle.
 - **Keyboard/mouse:** WASD or arrows to run, Space to hop, R to reset, drag to orbit, scroll wheel or +/− buttons to zoom.
-- **Body:** The oversized head, short neck and simplified human anatomy remain. The chest is now a low, rounded cylinder with a gentle shoulder/waist taper, rather than a second sphere. The pelvis, shoulders, lower arms and shoes are modestly rebalanced.
-- **Slow-walk support:** At low speeds, a foot that falls behind the pelvis triggers an earlier, compact recovery step instead of waiting until the leg is nearly fully stretched. The landing anticipates the moving pelvis, keeping the legs stacked under the body with a short, visible swing. The slow-gait rule fades out smoothly into running and does not brake root movement.
+- **Body:** The legs are about 12% shorter, with the hips and upper body sitting slightly lower while moving. When stopped, a small, damped standing extension straightens the knees naturally instead of leaving them permanently crouched. The same leg lengths govern the IK joints and planted-foot reach. The oversized head, short neck, rounded chest, and simple human silhouette stay.
+- **Slow-walk support:** Planted feet still replant before trailing too far, with compact forward landings. Step readiness, recovery swing time, and contact limits are adjusted for the shorter limbs, while preserving slow deliberate stepping. The body never stops to satisfy foot placement.
 - **Gait:** At running speed, contacts still target the predicted touchdown pelvis, with lateral lead and quick bounded catch steps on sharp turns. Slow and fast walking share the same world-space IK and contact constraints; only timing, foot-placement lead and rear-support tolerance change with speed. Both feet never swing simultaneously.
 - **Physical animation:** Grounded IK, spring-damped vertical center-of-mass travel, small side-to-side load rocking, and pelvis/chest counter-twist. They follow actual foot contact and turning instead of an unrelated time-based bob. Arm swing stays tied to the opposite leg.
 - **Hop:** A shorter, sharper arc, still available while moving.
@@ -29,6 +29,7 @@ The experiment runs from `index.html` using built-in browser **WebGL**. It uses 
 
 The earlier game is **not deleted**. You can still play:
 
+- [Body Study 08](./experiments/body-study-08.html) — slow-walk rear-foot recovery and support balance
 - [Body Study 07](./experiments/body-study-07.html) — chest proportions, torso weight and faster foot placement
 - [Body Study 06](./experiments/body-study-06.html) — first little-human rig and minimal HUD
 - [Body Study 05](./experiments/body-study-05.html) — smoother body momentum and contact handling

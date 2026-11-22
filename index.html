@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Body Study 08</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Body Study 09</title>
 <style>
 :root{font-family:ui-rounded,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#385444;color-scheme:light}*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#dae7c6;overscroll-behavior:none}button{font:inherit;cursor:pointer}#view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}.grain{position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");mix-blend-mode:multiply}.mast{position:fixed;left:max(18px,env(safe-area-inset-left));top:max(18px,env(safe-area-inset-top));background:#fff7dfd9;border:1.5px solid #fff9ec;border-radius:23px;padding:13px 17px;box-shadow:0 5px 20px #677c5520;pointer-events:none}.mast strong{display:block;font-size:clamp(19px,3.8vw,24px);letter-spacing:-.055em}.mast span{display:block;color:#75866e;font-size:11px;letter-spacing:.045em;margin-top:3px}.crumb{position:fixed;text-decoration:none;right:16px;top:max(20px,env(safe-area-inset-top));color:#58745d;background:#fff8e6c9;border-radius:100px;border:1px solid #fff8e9;padding:10px 14px;font-size:11px;box-shadow:0 5px 18px #677c5515}.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 22px);left:50%;transform:translateX(-50%);max-width:min(90vw,440px);text-align:center;background:#fff8e8d9;border:1px solid #fffefa;border-radius:99px;padding:10px 18px;font-size:12px;line-height:1.4;box-shadow:0 5px 17px #617f551c;pointer-events:none}.stick{position:fixed;left:max(22px,env(safe-area-inset-left));bottom:calc(env(safe-area-inset-bottom) + 94px);height:146px;width:146px;border:2px solid #fff9eab8;border-radius:50%;background:#f8f6dd4a;box-shadow:0 0 0 1px #617e4e21,inset 0 0 18px #fff6dd90;touch-action:none;user-select:none;-webkit-user-select:none}.stick:before{content:'MOVE';position:absolute;left:0;right:0;top:19px;text-align:center;font-weight:800;letter-spacing:.2em;font-size:10px;color:#557b61;opacity:.78}.knob{position:absolute;width:70px;height:70px;left:50%;top:50%;margin-left:-35px;margin-top:-35px;background:linear-gradient(145deg,#fff9e7,#e8e7c7);border:3px solid #fffdf2;border-radius:50%;box-shadow:0 4px 13px #607e5660, inset 0 2px 6px #ffffff80;display:grid;place-items:center;color:#668a6d;font-size:25px;transform:translate(0,0);pointer-events:none}.actions{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 106px);display:flex;flex-direction:column;align-items:center;gap:9px}.actions button{border:2px solid #fff8e9;background:#fff7e1e8;color:#526f5a;box-shadow:0 5px 18px #5a77442b;border-radius:99px;font-size:12px;font-weight:750;padding:11px 17px;min-width:89px}.actions button:active{transform:scale(.95)}.actions button.active{background:#507865;color:white}.sub{font-size:11px;opacity:.83;display:block;padding-top:2px}.focus{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 100px);color:#46684c;text-align:center;font-size:13px;font-weight:650;text-shadow:0 1px #fffff8;pointer-events:none;max-width:70vw}.focus .tiny{display:block;font-size:11px;font-weight:400;opacity:.75;margin-top:4px}.fine{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 5px);right:16px;font-size:10px;color:#52745398}.notice{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);background:#fff6dfd9;color:#49654e;border-radius:99px;padding:11px 19px;font-weight:750;font-size:13px;pointer-events:none;opacity:0;transition:opacity .2s}.notice.show{opacity:1}@media(max-width:430px){.stick{width:128px;height:128px;bottom:calc(env(safe-area-inset-bottom) + 84px)}.stick .knob{width:64px;height:64px;margin-left:-32px;margin-top:-32px}.actions{bottom:calc(env(safe-area-inset-bottom) + 92px)}.hint{bottom:calc(env(safe-area-inset-bottom) + 16px);font-size:11px;max-width:96vw}.mast{padding:10px 14px}.crumb{font-size:10px;padding:9px 12px}.focus{top:calc(env(safe-area-inset-top) + 98px)}}@media(max-height:650px){.focus{display:none}.stick{bottom:74px}.actions{bottom:85px}.hint{bottom:12px}}
 .zoom{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 252px);display:flex;gap:8px}.zoom button{width:43px;height:43px;border-radius:50%;border:2px solid #fff9e9;background:#fff8e7e8;color:#52715b;font-size:24px;line-height:1;box-shadow:0 4px 14px #617f5528;touch-action:manipulation}.zoom button:active{transform:scale(.94)}#hop{touch-action:manipulation}@media(max-width:430px){.zoom{bottom:calc(env(safe-area-inset-bottom) + 229px)}}@media(max-height:650px){.zoom{bottom:205px}}.version{position:fixed;left:max(16px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));padding:7px 11px;border-radius:99px;background:#fff9e8a9;border:1px solid #fff9ecae;color:#68826c;font-size:11px;font-weight:750;letter-spacing:.12em;pointer-events:none}
@@ -11,12 +11,12 @@
 #hint[hidden]{display:none}.hint:not([hidden]){bottom:calc(env(safe-area-inset-bottom) + 22px)}
 </style></head><body>
 <canvas id="view" aria-label="Perplung 3D human movement study"></canvas><div class="grain"></div>
-<div class="version" aria-label="Body Study version 08">08</div>
+<div class="version" aria-label="Body Study version 09">09</div>
 <div class="stick" id="stick" aria-label="Move character with thumbstick"><div class="knob" id="knob">✣</div></div>
 <div class="zoom" aria-label="Camera zoom"><button id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out" title="Zoom out">−</button></div><div class="actions"><button id="hop" aria-label="Hop" title="Hop">↑</button></div>
 <div class="hint" id="hint" role="alert" hidden></div>
 <script>
-/* Perplung — Body Study 08. Actual WebGL triangle meshes with hardware depth test.
+/* Perplung — Body Study 09. Actual WebGL triangle meshes with hardware depth test.
    Design: one authoritative motion state; persistent world-space contacts;
    analytic two-link presentation IK; GPU occlusion and actual ground geometry.
    Foot-contact contracts informed by Fieldwork3D and M3CH4, not copied wholesale. */
@@ -94,7 +94,10 @@ for(let j=0;j<48;j++){let a=rand()*TAU,r=1.7+rand()*22,x=Math.cos(a)*r,z=Math.si
 for(let j=0;j<16;j++){let a=rand()*TAU,r=2.4+rand()*19,x=Math.cos(a)*r,z=Math.sin(a)*r;append(smallSphere,compose(v(x,.07,z),v(.12+rand()*.09,.07+rand()*.03,.13+rand()*.09)),['#a9afa0','#c4c3ae','#9fa899'][j%3]);}
 return upload(out,out.colors)}
 const scenery=buildStatic();
-const p={x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,armAngles:[0,0],armAngleVels:[0,0],weightShift:0,weightVel:0,inputStrength:0,targetSpeed:0,speedMode:'idle',earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,torsoTwist:0,torsoTwistVel:0,gaitRoll:0,gaitRollVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,blink:0,blinkAt:2,time:0,prevSpeed:0,stepCount:0,lastFoot:1,frames:0};
+// Keep the visible leg geometry, planted-foot reach, and hip position consistent.
+const LEG={upper:.38,lower:.38,hipY:.70,pelvisY:.80,chestY:1.18,
+  runDrop:.11,reach:.74,idleRise:.045};
+const p={x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,armAngles:[0,0],armAngleVels:[0,0],weightShift:0,weightVel:0,inputStrength:0,targetSpeed:0,speedMode:'idle',earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,torsoTwist:0,torsoTwistVel:0,gaitRoll:0,gaitRollVel:0,bob:0,bobVel:0,standRise:LEG.idleRise,standVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,blink:0,blinkAt:2,time:0,prevSpeed:0,stepCount:0,lastFoot:1,frames:0};
 const feet=[-1,1].map(side=>({side,foot:v(side*.235,.09,.035),from:v(side*.235,.09,.035),to:v(side*.235,.09,.035),start:0,duration:.28,swing:false,phase:0,impact:0,steps:0,yaw:0,fromYaw:0,toYaw:0}));const marks=[];
 let joy={x:0,y:0},joyId=null,camYaw=.25,camElev=.49,camDist=5.3,targetCamDist=5.3,camTarget=v(0,1.13,0),orbitId=null,ox=0,oy=0,showFeet=true,last=performance.now(),dpr=1,w=0,h=0,drawCount=0;const keys=new Set();
 const stick=document.getElementById('stick'),knob=document.getElementById('knob');
@@ -117,7 +120,7 @@ addEventListener('keydown',e=>{if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowD
 function say(_msg){}
 function hop(){if(p.air)return;p.hopVel=3.55+Math.min(.22,Math.hypot(p.vx,p.vz)*.07);p.air=true;p.impactTarget=Math.max(p.impactTarget,.2);for(const f of feet){f.swing=false;f.phase=0;}say('Boing!')};const hopBtn=document.getElementById('hop');hopBtn.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){e.preventDefault();hop();}});hopBtn.addEventListener('click',hop);
 
-function reset(){Object.assign(p,{x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,torsoTwist:0,torsoTwistVel:0,gaitRoll:0,gaitRollVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,stepCount:0});p.armAngles=[0,0];p.armAngleVels=[0,0];p.weightShift=p.weightVel=0;p.inputStrength=0;p.targetSpeed=0;p.speedMode='idle';targetCamDist=camDist=5.3;feet.forEach(f=>Object.assign(f,{foot:v(f.side*.235,.09,.035),from:v(f.side*.235,.09,.035),to:v(f.side*.235,.09,.035),yaw:0,fromYaw:0,toYaw:0,swing:false,impact:0,steps:0}));marks.length=0;say('Back to the middle.');}
+function reset(){Object.assign(p,{x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,torsoTwist:0,torsoTwistVel:0,gaitRoll:0,gaitRollVel:0,bob:0,bobVel:0,standRise:LEG.idleRise,standVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,stepCount:0});p.armAngles=[0,0];p.armAngleVels=[0,0];p.weightShift=p.weightVel=0;p.inputStrength=0;p.targetSpeed=0;p.speedMode='idle';targetCamDist=camDist=5.3;feet.forEach(f=>Object.assign(f,{foot:v(f.side*.235,.09,.035),from:v(f.side*.235,.09,.035),to:v(f.side*.235,.09,.035),yaw:0,fromYaw:0,toYaw:0,swing:false,impact:0,steps:0}));marks.length=0;say('Back to the middle.');}
 function spring(dt,value,vel,target,k=30,damp=8){vel+=(target-value)*k*dt;vel*=Math.exp(-damp*dt);value+=vel*dt;return[value,vel]}
 function home(f,lead=0){
  const b=basis(p.facing),speed=Math.hypot(p.vx,p.vz);
@@ -135,17 +138,22 @@ function home(f,lead=0){
  const center=v(p.x,0,p.z);
  return add(center,add(mul(b.r,f.side*.235+sideways),mul(b.f,clamp(.028+fore+speed*.010+slowLead,-.10,.37))));
 }
-function startStep(f,target,fast=false,balanceRecovery=false){if(f.swing||p.air)return;const other=feet.find(g=>g!==f&&!g.swing);if(other){const side=basis(p.facing).r;const center=add(other.foot,mul(side,-other.side*.18)),want=add(target,mul(side,-f.side*.18)),delta=sub(want,center),dist=Math.hypot(delta.x,delta.z);if(dist>.73){target=add(add(center,mul(delta,.73/dist)),mul(side,f.side*.18));}}f.from={...f.foot};f.to=v(target.x,.09,target.z);f.fromYaw=f.yaw;f.toYaw=clamp(angleDelta(p.facing,f.yaw),-.68,.68)+f.yaw;f.start=p.time;f.duration=fast?.115:clamp(.43-Math.hypot(p.vx,p.vz)*.12,.098,.42);// Quick, controlled catch steps during a sharp turn prevent support-foot
+function startStep(f,target,fast=false,balanceRecovery=false){if(f.swing||p.air)return;const other=feet.find(g=>g!==f&&!g.swing);if(other){const side=basis(p.facing).r;const center=add(other.foot,mul(side,-other.side*.18)),want=add(target,mul(side,-f.side*.18)),delta=sub(want,center),dist=Math.hypot(delta.x,delta.z);if(dist>.73){target=add(add(center,mul(delta,.73/dist)),mul(side,f.side*.18));}}f.from={...f.foot};f.to=v(target.x,.09,target.z);f.fromYaw=f.yaw;f.toYaw=clamp(angleDelta(p.facing,f.yaw),-.68,.68)+f.yaw;f.start=p.time;f.duration=fast?.115:clamp(.38-Math.hypot(p.vx,p.vz)*.15,.098,.42);// Quick, controlled catch steps during a sharp turn prevent support-foot
 // sliding. The ordinary stride duration remains unchanged on straight paths.
 const turnError=Math.abs(angleDelta(Math.atan2(p.vx,p.vz),p.facing));
 const catchUrgency=clamp((turnError-.08)/.70,0,1)*clamp(Math.hypot(p.vx,p.vz)/1.6,0,1);
-f.duration=Math.max(.095,f.duration*(1-.25*catchUrgency));
+f.duration=Math.max(.095,f.duration*(1-.38*catchUrgency));
  // Keep the slower gait's replant visibly physical but brief enough for the
  // support leg to remain underneath the body.
  if(balanceRecovery)f.duration=clamp(.22-Math.hypot(p.vx,p.vz)*.055,.15,.22);
 f.swing=true;f.phase=0;p.lastFoot=f.side;}
 function tick(dt){p.time+=dt;let x=joy.x,y=joy.y;if(keys.has('KeyA')||keys.has('ArrowLeft'))x-=1;if(keys.has('KeyD')||keys.has('ArrowRight'))x+=1;if(keys.has('KeyW')||keys.has('ArrowUp'))y-=1;if(keys.has('KeyS')||keys.has('ArrowDown'))y+=1;let strength=Math.min(1,Math.hypot(x,y));if(strength>0.001){let inv=1/Math.hypot(x,y);x*=inv;y*=inv}else{x=y=0;}const analog=clamp((strength-.075)/.925,0,1),targetSpeed=analog>0?.16+1.08*analog+1.40*analog*analog:0;p.inputStrength=analog;p.targetSpeed=targetSpeed;
 const right=v(Math.cos(camYaw),0,-Math.sin(camYaw)),away=v(-Math.sin(camYaw),0,-Math.cos(camYaw)),want=add(mul(right,x),mul(away,-y)),initialSpeed=Math.hypot(p.vx,p.vz),gain=analog?7.2:13.5;p.vx=mix(p.vx,want.x*targetSpeed,ease(gain,dt));p.vz=mix(p.vz,want.z*targetSpeed,ease(gain,dt));if(!analog&&Math.hypot(p.vx,p.vz)<.015){p.vx=p.vz=0;}let speed=Math.hypot(p.vx,p.vz);p.x+=p.vx*dt;p.z+=p.vz*dt;
+// A small standing extension settles the knees into a relaxed posture.
+// It smoothly disappears when walking and never moves/teleports the feet.
+const restWeight=p.air?0:1-smooth(clamp((speed-.04)/.36,0,1));
+[p.standRise,p.standVel]=spring(dt,p.standRise,p.standVel,
+  LEG.idleRise*restWeight,35,11.5);
 // A planted contact is a physical constraint, not a picture that the hips may outrun.
 // Like M3CH4's contact budget, body translation yields when supporting-foot reach
 // is exhausted; unlike the old Canvas prototype, no stance foot is teleported.
@@ -169,7 +177,7 @@ if(!p.air){
    const rearLimit=mix(.44,.24,slowSupport);
    if(speed>.085&&slowSupport>.01&&rearmost.rear>rearLimit){
      startStep(rearmost.foot,home(rearmost.foot,.06),false,true);
-   }else if(support[0].d>mix(.475,.205,p.runEnergy)){
+   }else if(support[0].d>mix(.36,.16,p.runEnergy)){
      startStep(support[0].f,home(support[0].f,.11),true);
    }
  }
@@ -177,7 +185,7 @@ if(!p.air){
    if(foot.swing)continue;
    const b=basis(p.facing),hx=p.x+b.r.x*foot.side*.18,hz=p.z+b.r.z*foot.side*.18;
    const dx=hx-foot.foot.x,dz=hz-foot.foot.z,d=Math.hypot(dx,dz);
-   const hipRise=.64+p.bob-.065*p.runEnergy,contactLimit=Math.sqrt(Math.max(0,.84*.84-hipRise*hipRise));
+   const hipRise=LEG.hipY-.09+p.standRise+p.bob-LEG.runDrop*p.runEnergy,contactLimit=Math.sqrt(Math.max(0,LEG.reach*LEG.reach-hipRise*hipRise));
    if(d>contactLimit){
      const slip=d-contactLimit,shift=slip/d;
      foot.foot.x+=dx*shift;foot.foot.z+=dz*shift;
@@ -216,12 +224,12 @@ const supportCompression=p.impactPulse*.008;
 [p.bob,p.bobVel]=spring(dt,p.bob,p.bobVel,lift-stanceCompression-supportCompression,50,15);
 if(p.air){p.hopVel-=20*dt;p.hopY+=p.hopVel*dt;if(p.hopY<=0){p.hopY=p.hopVel=0;p.air=false;p.impactTarget=Math.max(p.impactTarget,.9);feet.forEach(f=>{const h=home(f);f.foot=v(h.x,.09,h.z);f.from={...f.foot};f.to={...f.foot};f.swing=false;f.yaw=p.facing;f.impact=1;});}}
 if(!p.air){let swinging=feet.some(f=>f.swing);let options=feet.filter(f=>!f.swing).map(f=>{const at=home(f,active?clamp(.10+speed*.03,.10,.19):0);return{f,at,dist:Math.hypot(at.x-f.foot.x,at.z-f.foot.z),turn:Math.abs(angleDelta(p.facing,f.yaw))}}).sort((a,b)=>b.dist-a.dist);
-for(const q of options){const slowBlend=smooth(clamp((p.inputStrength-.31)/.43,0,1)),threshold=active?mix(.49,clamp(.23-speed*.04,.115,.24),slowBlend):.24;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
+for(const q of options){const slowBlend=smooth(clamp((p.inputStrength-.31)/.43,0,1)),threshold=active?mix(.45,clamp(.23-speed*.04,.115,.24),slowBlend):.24;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
 }
 for(const f of feet){f.impact=Math.max(0,f.impact-dt*3.6);if(!f.swing)continue;let s=clamp((p.time-f.start)/f.duration,0,1),t=smooth(s);
 // A swinging foot adjusts its landing toward the pelvis as the body turns.
 // It remains free in the air; a planted foot stays anchored wherever possible.
-if(s<.72){const h=home(f,.07),follow=clamp((speed-.6)/1.1,0,1);f.to=lerp(f.to,h,ease(10,dt)*(1-s)*follow);}
+if(s<.72){const h=home(f,.07),follow=mix(.4,1,smooth(clamp((speed-.6)/1.1,0,1)));f.to=lerp(f.to,h,ease(10,dt)*(1-s)*follow);}
 f.phase=s;f.foot=lerp(f.from,f.to,t);f.foot.y=.09+Math.sin(PI*s)*(.18+speed*.025);f.yaw=f.fromYaw+angleDelta(f.toYaw,f.fromYaw)*t;if(s>=1){f.foot={...f.to};f.yaw=f.toYaw;f.swing=false;f.impact=1;p.stepCount++;f.steps++;p.impactTarget=Math.max(p.impactTarget,.35+.55*p.runEnergy);marks.push({x:f.foot.x,z:f.foot.z,yaw:f.yaw,side:f.side,age:0});if(marks.length>32)marks.shift();}}
 for(let mark of marks)mark.age+=dt;
 // Arms respond to the OPPOSITE foot's current stride, with a small secondary lag.
@@ -242,7 +250,7 @@ const supportShift=p.air?0:(supportFoot?supportFoot.side*.047*clamp(speed/.8,0,1
 // Touchdown is solved against the VISUAL pelvis after weight has transferred.
 // This final check avoids a single overextended frame when a swing foot lands.
 if(!p.air){
- const b=basis(p.facing),hh=.64+p.bob-.065*p.runEnergy,limit=Math.sqrt(Math.max(0,.84*.84-hh*hh));
+ const b=basis(p.facing),hh=LEG.hipY-.09+p.standRise+p.bob-LEG.runDrop*p.runEnergy,limit=Math.sqrt(Math.max(0,LEG.reach*LEG.reach-hh*hh));
  for(const f of feet){
    if(f.swing)continue;
    const hx=p.x+b.r.x*(f.side*.17+p.weightShift)-b.f.x*.09*p.runEnergy,
@@ -258,21 +266,21 @@ if(!p.air){
 p.headYaw=p.facing+clamp(angleDelta(p.headYaw,p.facing),-.30,.30);p.headYaw+=angleDelta(p.facing,p.headYaw)*ease(12,dt);
 const nextMode=speed<.08?'idle':speed<.75?'amble':speed<1.65?'walk':'run';if(nextMode!==p.speedMode)p.speedMode=nextMode;
 camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;p.blinkAt=p.time+2.1+Math.random()*3.7}p.blink=Math.max(0,p.blink-dt);camTarget=lerp(camTarget,v(p.x,1.22,p.z),ease(4.4,dt));p.prevSpeed=speed;}
-function solveKnee(hip,ankle,face,side){const dir=norm(sub(ankle,hip)),raw=len(sub(ankle,hip)),l1=.43,l2=.43,reach=clamp(raw,.12,l1+l2-.015),along=(l1*l1-l2*l2+reach*reach)/(2*reach),height=Math.sqrt(Math.max(0,l1*l1-along*along));const b=basis(face);let pole=add(mul(b.f,.92),mul(b.r,side*.15));pole=norm(sub(pole,mul(dir,dot(pole,dir))));return add(add(hip,mul(dir,along)),mul(pole,height));}
+function solveKnee(hip,ankle,face,side){const dir=norm(sub(ankle,hip)),raw=len(sub(ankle,hip)),l1=LEG.upper,l2=LEG.lower,reach=clamp(raw,.12,l1+l2-.015),along=(l1*l1-l2*l2+reach*reach)/(2*reach),height=Math.sqrt(Math.max(0,l1*l1-along*along));const b=basis(face);let pole=add(mul(b.f,.92),mul(b.r,side*.15));pole=norm(sub(pole,mul(dir,dot(pole,dir))));return add(add(hip,mul(dir,along)),mul(pole,height));}
 // Dynamic articulated 3D rig. Every part is real volumetric geometry; depth buffer resolves overlap.
 function character(){
  const b=basis(p.facing),pelvisYaw=p.facing-p.torsoTwist*.32,chestYaw=p.facing+p.torsoTwist;
- const root=v(p.x,p.hopY+p.bob-.065*p.runEnergy,p.z);
+ const root=v(p.x,p.hopY+p.bob+p.standRise-LEG.runDrop*p.runEnergy,p.z);
  const pelvisRoot=add(root,add(mul(b.r,p.weightShift),mul(b.f,-.09*p.runEnergy)));
- const pelvis=compose(add(pelvisRoot,v(0,.83-p.impactPulse*.010,0)),
+ const pelvis=compose(add(pelvisRoot,v(0,LEG.pelvisY-p.impactPulse*.010,0)),
    v(1+p.impactPulse*.012,1-p.impactPulse*.016,1+p.impactPulse*.012),
    pelvisYaw,p.lean*.22,p.sway*.28-p.gaitRoll*.34);
- const chest=compose(add(root,add(v(0,1.21-p.impactPulse*.014,0),mul(b.r,p.weightShift*.57))),
+ const chest=compose(add(root,add(v(0,LEG.chestY-p.impactPulse*.014,0),mul(b.r,p.weightShift*.57))),
    v(1+p.impactPulse*.015,1-p.impactPulse*.020,1+p.impactPulse*.015),
    chestYaw,p.lean*.82,p.sway*.78+p.gaitRoll);
  // Independent pelvis, hips, and planted feet: little legs carry the body.
  for(const f of feet){
-   const hip=add(pelvisRoot,add(v(0,.73,0),mul(b.r,f.side*.17)));
+   const hip=add(pelvisRoot,add(v(0,LEG.hipY,0),mul(b.r,f.side*.17)));
    const ankle=p.air?add(root,add(mul(b.r,f.side*.21),v(0,.19,-.09)))
      :add(f.foot,v(0,p.hopY*.7,0));
    const knee=solveKnee(hip,ankle,p.facing,f.side);
