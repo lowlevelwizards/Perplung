@@ -110,12 +110,12 @@ const nextMode=speed<.08?'idle':speed<.75?'amble':speed<1.65?'walk':'run';if(nex
 camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;p.blinkAt=p.time+2.1+Math.random()*3.7}p.blink=Math.max(0,p.blink-dt);camTarget=lerp(camTarget,v(p.x,1.1,p.z),ease(4.4,dt));p.prevSpeed=speed;}
 function solveKnee(hip,ankle,face,side){const dir=norm(sub(ankle,hip)),raw=len(sub(ankle,hip)),l1=.43,l2=.43,reach=clamp(raw,.12,l1+l2-.015),along=(l1*l1-l2*l2+reach*reach)/(2*reach),height=Math.sqrt(Math.max(0,l1*l1-along*along));const b=basis(face);let pole=add(mul(b.f,.92),mul(b.r,side*.15));pole=norm(sub(pole,mul(dir,dot(pole,dir))));return add(add(hip,mul(dir,along)),mul(pole,height));}
 // Dynamic articulated 3D rig. Every part is real volumetric geometry; depth buffer resolves overlap.
-function character(){const b=basis(p.facing),root=v(p.x,p.hopY+p.bob,p.z),torso=compose(add(root,v(0,1.13,0)),v(1,1,1),p.facing,p.lean,p.sway),headCenter=transform(torso,v(0,.70,.055));
+function character(){const b=basis(p.facing),root=v(p.x,p.hopY+p.bob,p.z),torso=compose(add(root,v(0,1.04,0)),v(1,1,1),p.facing,p.lean,p.sway),headCenter=transform(torso,v(0,.70,.055));
 // shadow rendered separately, on ground plane
-for(const f of feet){const hip=add(root,add(v(0,.85,0),mul(b.r,f.side*.18)));const ankle=add(f.foot,v(0,p.hopY*.7,0)),knee=solveKnee(hip,ankle,p.facing,f.side);limb(hip,knee,.085,'#bd8c67');limb(knee,ankle,.080,'#ad7c5b');ellipsoid(add(ankle,v(0,.015,0)),v(.205,.115,.285),'#8b6957',f.yaw);}
+for(const f of feet){const hip=add(root,add(v(0,.75,0),mul(b.r,f.side*.18)));const ankle=p.air?add(root,add(mul(b.r,f.side*.24),v(0,.14,-.08))):add(f.foot,v(0,p.hopY*.7,0)),knee=solveKnee(hip,ankle,p.facing,f.side);limb(hip,knee,.085,'#bd8c67');limb(knee,ankle,.080,'#ad7c5b');ellipsoid(add(ankle,v(0,.015,0)),v(.17,.10,.23),'#8b6957',f.yaw);}
 // tail behind body
 ellipsoid(transform(torso,v(0,-.21,-.41)),v(.22,.22,.20),'#ce9b73',p.facing);
-for(const side of [-1,1]){const opposite=feet.find(f=>f.side===-side),lift=opposite.swing?Math.sin(opposite.phase*PI):0,sho=transform(torso,v(side*.35,.22,-.015)),elbow=transform(torso,v(side*.48,-.065,-.05+side*(lift*.12+p.armLag*.20))),hand=transform(torso,v(side*.43,-.27,.02+side*(lift*.16+p.armLag*.29)));limb(sho,elbow,.106,'#d8a67e');limb(elbow,hand,.098,'#c9936e');ellipsoid(hand,v(.095,.1,.105),'#e0b18a');}
+for(const side of [-1,1]){const swing=p.armAngles[side===-1?0:1],sho=transform(torso,v(side*.37,.25,-.015)),elbow=transform(torso,v(side*.46,-.055,swing*.52-.035+p.armLag*.13)),hand=transform(torso,v(side*.44,-.29,swing*.92+.01+p.armLag*.21));limb(sho,elbow,.10,'#d8a67e');limb(elbow,hand,.095,'#c9936e');ellipsoid(hand,v(.09,.095,.10),'#e0b18a');}
 ellipsoid(transform(torso,v(0,0,0)),v(.48,.53,.42),'#dca97c',p.facing,p.lean,p.sway);
 // Underlying body truly hides portion of bib when viewed from behind.
 ellipsoid(transform(torso,v(0,-.08,.275)),v(.285,.333,.215),'#f7e0b1',p.facing,p.lean,p.sway);
@@ -127,11 +127,11 @@ const nose=add(head,add(v(0,-.14,0),mul(hs.f,.461)));ellipsoid(nose,v(.058,.035,
 const mouth=add(nose,v(0,-.072,0));ellipsoid(mouth,v(.065,.015,.018),'#ac7b69');
 }
 function shadow(){const radius=.54+Math.min(.26,p.hopY*.09);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);ellipsoid(v(p.x,.001,p.z),v(radius,.007,radius*.82),[.36,.49,.36,clamp(.20-p.hopY*.07,.06,.20)]);gl.depthMask(true);gl.disable(gl.BLEND);}
-function footMarks(){if(!showFeet)return;gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);for(let m of marks){if(m.age>8)continue;let alpha=clamp((8-m.age)/2,0,1)*.37;ellipsoid(v(m.x,.008,m.z),v(.135,.005,.205),[.30,.47,.32,alpha],m.yaw);}gl.depthMask(true);gl.disable(gl.BLEND);for(let f of feet){ellipsoid(v(f.foot.x,.025,f.foot.z),v(.06,.015,.06),f.swing?'#e1c66f':'#709c70');}}
+function footMarks(){if(!showFeet)return;gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);for(let m of marks){if(m.age>8)continue;let alpha=clamp((8-m.age)/2,0,1)*.15;ellipsoid(v(m.x,.008,m.z),v(.117,.005,.182),[.45,.60,.44,alpha],m.yaw);}gl.depthMask(true);gl.disable(gl.BLEND);for(let f of feet){ellipsoid(v(f.foot.x,.025,f.foot.z),v(.06,.015,.06),f.swing?'#e3d69b':'#a4c69b');}}
 function frame(){gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.clearColor(.851,.906,.757,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.time,p.time);const eye=add(camTarget,v(Math.sin(camYaw)*camDist,Math.sin(camElev)*camDist,Math.cos(camYaw)*camDist));let aspect=canvas.width/canvas.height;gl.uniformMatrix4fv(loc.p,false,perspective(.76,aspect,.08,110));gl.uniformMatrix4fv(loc.v,false,lookAt(eye,camTarget));draws=0;drawMesh(scenery,I,'#ffffff',0,1);shadow();footMarks();character();drawCount=draws;}
 function animate(now){const dt=Math.min(.032,Math.max(.001,(now-last)/1000));last=now;if(!document.hidden){tick(dt);frame();p.frames++;}requestAnimationFrame(animate);}requestAnimationFrame(animate);
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();hint.textContent='Graphics context lost. Reload this page.';});
-window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},drawCalls:drawCount,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,angleDelta};
+window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},cameraDistance:camDist,cameraTargetDistance:targetCamDist,drawCalls:drawCount,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,zoomTo,tick,angleDelta};
 })();
 
 </script>
