@@ -151,7 +151,11 @@ if(p.air){p.hopVel-=20*dt;p.hopY+=p.hopVel*dt;if(p.hopY<=0){p.hopY=p.hopVel=0;p.
 if(!p.air){let swinging=feet.some(f=>f.swing);let options=feet.filter(f=>!f.swing).map(f=>{const at=home(f,active?clamp(.10+speed*.03,.10,.19):0);return{f,at,dist:Math.hypot(at.x-f.foot.x,at.z-f.foot.z),turn:Math.abs(angleDelta(p.facing,f.yaw))}}).sort((a,b)=>b.dist-a.dist);
 for(const q of options){const slowBlend=smooth(clamp((p.inputStrength-.31)/.43,0,1)),threshold=active?mix(.49,clamp(.23-speed*.04,.115,.24),slowBlend):.24;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
 }
-for(const f of feet){f.impact=Math.max(0,f.impact-dt*3.6);if(!f.swing)continue;let s=clamp((p.time-f.start)/f.duration,0,1),t=smooth(s);f.phase=s;f.foot=lerp(f.from,f.to,t);f.foot.y=.09+Math.sin(PI*s)*(.18+speed*.025);f.yaw=f.fromYaw+angleDelta(f.toYaw,f.fromYaw)*t;if(s>=1){f.foot={...f.to};f.yaw=f.toYaw;f.swing=false;f.impact=1;p.stepCount++;f.steps++;p.impactTarget=Math.max(p.impactTarget,.35+.55*p.runEnergy);marks.push({x:f.foot.x,z:f.foot.z,yaw:f.yaw,side:f.side,age:0});if(marks.length>32)marks.shift();}}
+for(const f of feet){f.impact=Math.max(0,f.impact-dt*3.6);if(!f.swing)continue;let s=clamp((p.time-f.start)/f.duration,0,1),t=smooth(s);
+// A swinging foot adjusts its landing toward the pelvis as the body turns.
+// It remains free in the air; a planted foot stays anchored wherever possible.
+if(s<.72){const h=home(f,.07),follow=clamp((speed-.6)/1.1,0,1);f.to=lerp(f.to,h,ease(10,dt)*(1-s)*follow);}
+f.phase=s;f.foot=lerp(f.from,f.to,t);f.foot.y=.09+Math.sin(PI*s)*(.18+speed*.025);f.yaw=f.fromYaw+angleDelta(f.toYaw,f.fromYaw)*t;if(s>=1){f.foot={...f.to};f.yaw=f.toYaw;f.swing=false;f.impact=1;p.stepCount++;f.steps++;p.impactTarget=Math.max(p.impactTarget,.35+.55*p.runEnergy);marks.push({x:f.foot.x,z:f.foot.z,yaw:f.yaw,side:f.side,age:0});if(marks.length>32)marks.shift();}}
 for(let mark of marks)mark.age+=dt;
 // Arms respond to the OPPOSITE foot's current stride, with a small secondary lag.
 for(let i=0;i<2;i++){
@@ -168,6 +172,22 @@ for(let i=0;i<2;i++){
 const supportFoot=feet.find(f=>!f.swing);
 const supportShift=p.air?0:(supportFoot?supportFoot.side*.047*clamp(speed/.8,0,1):0);
 [p.weightShift,p.weightVel]=spring(dt,p.weightShift,p.weightVel,supportShift,38,12);
+// Touchdown is solved against the VISUAL pelvis after weight has transferred.
+// This final check avoids a single overextended frame when a swing foot lands.
+if(!p.air){
+ const b=basis(p.facing),hh=.64-.065*p.runEnergy,limit=Math.sqrt(Math.max(0,.84*.84-hh*hh));
+ for(const f of feet){
+   if(f.swing)continue;
+   const hx=p.x+b.r.x*(f.side*.17+p.weightShift)-b.f.x*.09*p.runEnergy,
+     hz=p.z+b.r.z*(f.side*.17+p.weightShift)-b.f.z*.09*p.runEnergy,
+     d=Math.hypot(hx-f.foot.x,hz-f.foot.z);
+   if(d>limit){
+     const slip=(d-limit)/d;
+     f.foot.x+=(hx-f.foot.x)*slip;f.foot.z+=(hz-f.foot.z)*slip;
+     p.contactSlips++;p.slipDistance+=d-limit;
+   }
+ }
+}
 p.headYaw=p.facing+clamp(angleDelta(p.headYaw,p.facing),-.30,.30);p.headYaw+=angleDelta(p.facing,p.headYaw)*ease(12,dt);
 const nextMode=speed<.08?'idle':speed<.75?'amble':speed<1.65?'walk':'run';if(nextMode!==p.speedMode)p.speedMode=nextMode;
 camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;p.blinkAt=p.time+2.1+Math.random()*3.7}p.blink=Math.max(0,p.blink-dt);camTarget=lerp(camTarget,v(p.x,1.1,p.z),ease(4.4,dt));p.prevSpeed=speed;}
