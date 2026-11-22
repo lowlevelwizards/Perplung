@@ -132,7 +132,12 @@ function home(f,lead=0){
  const center=v(p.x,0,p.z);
  return add(center,add(mul(b.r,f.side*.235+sideways),mul(b.f,clamp(.028+fore+speed*.010,-.10,.37))));
 }
-function startStep(f,target,fast=false){if(f.swing||p.air)return;const other=feet.find(g=>g!==f&&!g.swing);if(other){const side=basis(p.facing).r;const center=add(other.foot,mul(side,-other.side*.18)),want=add(target,mul(side,-f.side*.18)),delta=sub(want,center),dist=Math.hypot(delta.x,delta.z);if(dist>.73){target=add(add(center,mul(delta,.73/dist)),mul(side,f.side*.18));}}f.from={...f.foot};f.to=v(target.x,.09,target.z);f.fromYaw=f.yaw;f.toYaw=clamp(angleDelta(p.facing,f.yaw),-.68,.68)+f.yaw;f.start=p.time;f.duration=fast?.115:clamp(.43-Math.hypot(p.vx,p.vz)*.12,.098,.42);f.swing=true;f.phase=0;p.lastFoot=f.side;}
+function startStep(f,target,fast=false){if(f.swing||p.air)return;const other=feet.find(g=>g!==f&&!g.swing);if(other){const side=basis(p.facing).r;const center=add(other.foot,mul(side,-other.side*.18)),want=add(target,mul(side,-f.side*.18)),delta=sub(want,center),dist=Math.hypot(delta.x,delta.z);if(dist>.73){target=add(add(center,mul(delta,.73/dist)),mul(side,f.side*.18));}}f.from={...f.foot};f.to=v(target.x,.09,target.z);f.fromYaw=f.yaw;f.toYaw=clamp(angleDelta(p.facing,f.yaw),-.68,.68)+f.yaw;f.start=p.time;f.duration=fast?.115:clamp(.43-Math.hypot(p.vx,p.vz)*.12,.098,.42);// Quick, controlled catch steps during a sharp turn prevent support-foot
+// sliding. The ordinary stride duration remains unchanged on straight paths.
+const turnError=Math.abs(angleDelta(Math.atan2(p.vx,p.vz),p.facing));
+const catchUrgency=clamp((turnError-.08)/.70,0,1)*clamp(Math.hypot(p.vx,p.vz)/1.6,0,1);
+f.duration=Math.max(.095,f.duration*(1-.25*catchUrgency));
+f.swing=true;f.phase=0;p.lastFoot=f.side;}
 function tick(dt){p.time+=dt;let x=joy.x,y=joy.y;if(keys.has('KeyA')||keys.has('ArrowLeft'))x-=1;if(keys.has('KeyD')||keys.has('ArrowRight'))x+=1;if(keys.has('KeyW')||keys.has('ArrowUp'))y-=1;if(keys.has('KeyS')||keys.has('ArrowDown'))y+=1;let strength=Math.min(1,Math.hypot(x,y));if(strength>0.001){let inv=1/Math.hypot(x,y);x*=inv;y*=inv}else{x=y=0;}const analog=clamp((strength-.075)/.925,0,1),targetSpeed=analog>0?.16+1.08*analog+1.40*analog*analog:0;p.inputStrength=analog;p.targetSpeed=targetSpeed;
 const right=v(Math.cos(camYaw),0,-Math.sin(camYaw)),away=v(-Math.sin(camYaw),0,-Math.cos(camYaw)),want=add(mul(right,x),mul(away,-y)),initialSpeed=Math.hypot(p.vx,p.vz),gain=analog?7.2:13.5;p.vx=mix(p.vx,want.x*targetSpeed,ease(gain,dt));p.vz=mix(p.vz,want.z*targetSpeed,ease(gain,dt));if(!analog&&Math.hypot(p.vx,p.vz)<.015){p.vx=p.vz=0;}let speed=Math.hypot(p.vx,p.vz);p.x+=p.vx*dt;p.z+=p.vz*dt;
 // A planted contact is a physical constraint, not a picture that the hips may outrun.
