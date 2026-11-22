@@ -3,7 +3,8 @@
 A little game that will discover what it wants to become.
 
 **Current playable prototype:** [The Sleeping Tree](./index.html)  
-**Original experiment:** [First Meadow](./experiments/first-meadow.html)
+**Original experiment:** [First Meadow](./experiments/first-meadow.html)  
+**Living principles:** [Principles](./PRINCIPLES.md)
 
 ## Play
 
