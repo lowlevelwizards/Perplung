@@ -6,6 +6,7 @@
 - **Play, then decide.** Try things before committing to them.
 - **Stay playable from a phone.** Every version.
 - **Simple rules, surprising results.**
+- **Let things connect.** Hint early, reward discovery, and let things return with new meaning.
 - **A world to observe and change.**
 - **Wonder, whimsy, warmth, and tactility.**
 - **Give curiosity something to do.** Discoveries, interactions, and goals.
