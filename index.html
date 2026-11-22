@@ -70,8 +70,8 @@ for(let j=0;j<48;j++){let a=rand()*TAU,r=1.7+rand()*22,x=Math.cos(a)*r,z=Math.si
 for(let j=0;j<16;j++){let a=rand()*TAU,r=2.4+rand()*19,x=Math.cos(a)*r,z=Math.sin(a)*r;append(smallSphere,compose(v(x,.07,z),v(.12+rand()*.09,.07+rand()*.03,.13+rand()*.09)),['#a9afa0','#c4c3ae','#9fa899'][j%3]);}
 return upload(out,out.colors)}
 const scenery=buildStatic();
-const p={x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,armAngles:[0,0],armAngleVels:[0,0],inputStrength:0,targetSpeed:0,speedMode:'idle',earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,blink:0,blinkAt:2,time:0,prevSpeed:0,stepCount:0,lastFoot:1,frames:0};
-const feet=[-1,1].map(side=>({side,foot:v(side*.275,.09,.08),from:v(side*.275,.09,.08),to:v(side*.275,.09,.08),start:0,duration:.28,swing:false,phase:0,impact:0,steps:0,yaw:0,fromYaw:0,toYaw:0}));const marks=[];
+const p={x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,armAngles:[0,0],armAngleVels:[0,0],weightShift:0,weightVel:0,inputStrength:0,targetSpeed:0,speedMode:'idle',earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,blink:0,blinkAt:2,time:0,prevSpeed:0,stepCount:0,lastFoot:1,frames:0};
+const feet=[-1,1].map(side=>({side,foot:v(side*.235,.09,.035),from:v(side*.235,.09,.035),to:v(side*.235,.09,.035),start:0,duration:.28,swing:false,phase:0,impact:0,steps:0,yaw:0,fromYaw:0,toYaw:0}));const marks=[];
 let joy={x:0,y:0},joyId=null,camYaw=.25,camElev=.49,camDist=5.3,targetCamDist=5.3,camTarget=v(0,1.13,0),orbitId=null,ox=0,oy=0,showFeet=true,last=performance.now(),dpr=1,w=0,h=0,drawCount=0;const keys=new Set();
 const stick=document.getElementById('stick'),knob=document.getElementById('knob');
 function resize(){w=innerWidth;h=innerHeight;dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));canvas.style.width=w+'px';canvas.style.height=h+'px';gl.viewport(0,0,canvas.width,canvas.height)}addEventListener('resize',resize);resize();
@@ -91,12 +91,19 @@ document.getElementById('zoomIn').addEventListener('click',()=>zoomTo(targetCamD
 document.getElementById('zoomOut').addEventListener('click',()=>zoomTo(targetCamDist*1.22));
 addEventListener('keydown',e=>{if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','KeyR'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat)hop();if(e.code==='KeyR'&&!e.repeat)reset()});addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',()=>{keys.clear();joy={x:0,y:0};knob.style.transform='translate(0,0)'});
 function say(_msg){}
-function hop(){if(p.air)return;p.hopVel=3.10+Math.min(.30,Math.hypot(p.vx,p.vz)*.09);p.air=true;p.impactTarget=Math.max(p.impactTarget,.2);for(const f of feet){f.swing=false;f.phase=0;}say('Boing!')};const hopBtn=document.getElementById('hop');hopBtn.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){e.preventDefault();hop();}});hopBtn.addEventListener('click',hop);
+function hop(){if(p.air)return;p.hopVel=3.55+Math.min(.22,Math.hypot(p.vx,p.vz)*.07);p.air=true;p.impactTarget=Math.max(p.impactTarget,.2);for(const f of feet){f.swing=false;f.phase=0;}say('Boing!')};const hopBtn=document.getElementById('hop');hopBtn.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){e.preventDefault();hop();}});hopBtn.addEventListener('click',hop);
 
-function reset(){Object.assign(p,{x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,stepCount:0});p.armAngles=[0,0];p.armAngleVels=[0,0];p.inputStrength=0;p.targetSpeed=0;p.speedMode='idle';targetCamDist=camDist=5.3;feet.forEach(f=>Object.assign(f,{foot:v(f.side*.275,.09,.08),from:v(f.side*.275,.09,.08),to:v(f.side*.275,.09,.08),yaw:0,fromYaw:0,toYaw:0,swing:false,impact:0,steps:0}));marks.length=0;say('Back to the middle.');}
+function reset(){Object.assign(p,{x:0,z:0,vx:0,vz:0,facing:0,headYaw:0,earLag:0,earVel:0,armLag:0,armVel:0,headNod:0,headNodVel:0,lean:0,leanVel:0,sway:0,swayVel:0,bob:0,bobVel:0,impactPulse:0,impactVel:0,impactTarget:0,runEnergy:0,contactSlips:0,slipDistance:0,hopY:0,hopVel:0,air:false,stepCount:0});p.armAngles=[0,0];p.armAngleVels=[0,0];p.weightShift=p.weightVel=0;p.inputStrength=0;p.targetSpeed=0;p.speedMode='idle';targetCamDist=camDist=5.3;feet.forEach(f=>Object.assign(f,{foot:v(f.side*.235,.09,.035),from:v(f.side*.235,.09,.035),to:v(f.side*.235,.09,.035),yaw:0,fromYaw:0,toYaw:0,swing:false,impact:0,steps:0}));marks.length=0;say('Back to the middle.');}
 function spring(dt,value,vel,target,k=30,damp=8){vel+=(target-value)*k*dt;vel*=Math.exp(-damp*dt);value+=vel*dt;return[value,vel]}
-function home(f,lead=0){const b=basis(p.facing),origin=v(p.x+p.vx*lead,0,p.z+p.vz*lead);return add(add(origin,mul(b.r,f.side*.27)),mul(b.f,.06+.04*clamp(Math.hypot(p.vx,p.vz),0,2.8)));}
-function startStep(f,target,fast=false){if(f.swing||p.air)return;const other=feet.find(g=>g!==f&&!g.swing);if(other){const side=basis(p.facing).r;const center=add(other.foot,mul(side,-other.side*.18)),want=add(target,mul(side,-f.side*.18)),delta=sub(want,center),dist=Math.hypot(delta.x,delta.z);if(dist>.73){target=add(add(center,mul(delta,.73/dist)),mul(side,f.side*.18));}}f.from={...f.foot};f.to=v(target.x,.09,target.z);f.fromYaw=f.yaw;f.toYaw=clamp(angleDelta(p.facing,f.yaw),-.68,.68)+f.yaw;f.start=p.time;f.duration=fast?.12:clamp(.32-Math.hypot(p.vx,p.vz)*.09,.09,.33);f.swing=true;f.phase=0;p.lastFoot=f.side;}
+function home(f,lead=0){
+ const b=basis(p.facing),speed=Math.hypot(p.vx,p.vz);
+ const anticipation=mul(v(p.vx,0,p.vz),Math.min(.095,Math.max(0,lead)));
+ const fore=clamp(dot(anticipation,b.f),-.10,.165),sideMotion=clamp(dot(anticipation,b.r),-.055,.055);
+ const center=v(p.x,0,p.z);
+ // Targets remain under the pelvis: no far-ahead step predictions or wide stances.
+ return add(center,add(mul(b.r,f.side*.235+sideMotion),mul(b.f,clamp(.028+fore+speed*.010,-.10,.215))));
+}
+function startStep(f,target,fast=false){if(f.swing||p.air)return;const other=feet.find(g=>g!==f&&!g.swing);if(other){const side=basis(p.facing).r;const center=add(other.foot,mul(side,-other.side*.18)),want=add(target,mul(side,-f.side*.18)),delta=sub(want,center),dist=Math.hypot(delta.x,delta.z);if(dist>.73){target=add(add(center,mul(delta,.73/dist)),mul(side,f.side*.18));}}f.from={...f.foot};f.to=v(target.x,.09,target.z);f.fromYaw=f.yaw;f.toYaw=clamp(angleDelta(p.facing,f.yaw),-.68,.68)+f.yaw;f.start=p.time;f.duration=fast?.115:clamp(.43-Math.hypot(p.vx,p.vz)*.12,.098,.42);f.swing=true;f.phase=0;p.lastFoot=f.side;}
 function tick(dt){p.time+=dt;let x=joy.x,y=joy.y;if(keys.has('KeyA')||keys.has('ArrowLeft'))x-=1;if(keys.has('KeyD')||keys.has('ArrowRight'))x+=1;if(keys.has('KeyW')||keys.has('ArrowUp'))y-=1;if(keys.has('KeyS')||keys.has('ArrowDown'))y+=1;let strength=Math.min(1,Math.hypot(x,y));if(strength>0.001){let inv=1/Math.hypot(x,y);x*=inv;y*=inv}else{x=y=0;}const analog=clamp((strength-.075)/.925,0,1),targetSpeed=analog>0?.16+1.08*analog+1.40*analog*analog:0;p.inputStrength=analog;p.targetSpeed=targetSpeed;
 const right=v(Math.cos(camYaw),0,-Math.sin(camYaw)),away=v(-Math.sin(camYaw),0,-Math.cos(camYaw)),want=add(mul(right,x),mul(away,-y)),initialSpeed=Math.hypot(p.vx,p.vz),gain=analog?7.2:13.5;p.vx=mix(p.vx,want.x*targetSpeed,ease(gain,dt));p.vz=mix(p.vz,want.z*targetSpeed,ease(gain,dt));if(!analog&&Math.hypot(p.vx,p.vz)<.015){p.vx=p.vz=0;}let speed=Math.hypot(p.vx,p.vz);p.x+=p.vx*dt;p.z+=p.vz*dt;
 // A planted contact is a physical constraint, not a picture that the hips may outrun.
@@ -110,7 +117,7 @@ if(!p.air){
    const b=basis(p.facing),hip=v(p.x+b.r.x*f.side*.18,0,p.z+b.r.z*f.side*.18);
    return {f,d:Math.hypot(hip.x-f.foot.x,hip.z-f.foot.z)};
  }).sort((a,b)=>b.d-a.d);
- if(support.length===2&&support[0].d>mix(.39,.20,p.runEnergy))startStep(support[0].f,home(support[0].f,.11),true);
+ if(support.length===2&&support[0].d>mix(.475,.205,p.runEnergy))startStep(support[0].f,home(support[0].f,.11),true);
  for(const foot of feet){
    if(foot.swing)continue;
    const b=basis(p.facing),hx=p.x+b.r.x*foot.side*.18,hz=p.z+b.r.z*foot.side*.18;
@@ -140,13 +147,27 @@ p.impactTarget*=Math.exp(-6.8*dt);
 const lift=active&&!p.air?(.010+p.runEnergy*.030)*swingLift:0;
 const supportCompression=p.impactPulse*.014;
 [p.bob,p.bobVel]=spring(dt,p.bob,p.bobVel,lift-supportCompression,39,11.8);
-if(p.air){p.hopVel-=9.8*dt;p.hopY+=p.hopVel*dt;if(p.hopY<=0){p.hopY=p.hopVel=0;p.air=false;p.impactTarget=Math.max(p.impactTarget,.9);feet.forEach(f=>{const h=home(f);f.foot=v(h.x,.09,h.z);f.from={...f.foot};f.to={...f.foot};f.swing=false;f.yaw=p.facing;f.impact=1;});}}
+if(p.air){p.hopVel-=20*dt;p.hopY+=p.hopVel*dt;if(p.hopY<=0){p.hopY=p.hopVel=0;p.air=false;p.impactTarget=Math.max(p.impactTarget,.9);feet.forEach(f=>{const h=home(f);f.foot=v(h.x,.09,h.z);f.from={...f.foot};f.to={...f.foot};f.swing=false;f.yaw=p.facing;f.impact=1;});}}
 if(!p.air){let swinging=feet.some(f=>f.swing);let options=feet.filter(f=>!f.swing).map(f=>{const at=home(f,active?clamp(.10+speed*.03,.10,.19):0);return{f,at,dist:Math.hypot(at.x-f.foot.x,at.z-f.foot.z),turn:Math.abs(angleDelta(p.facing,f.yaw))}}).sort((a,b)=>b.dist-a.dist);
-for(const q of options){const slowBlend=smooth(clamp((p.inputStrength-.28)/.44,0,1)),threshold=active?mix(.415,clamp(.23-speed*.04,.115,.24),slowBlend):.22;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
+for(const q of options){const slowBlend=smooth(clamp((p.inputStrength-.31)/.43,0,1)),threshold=active?mix(.49,clamp(.23-speed*.04,.115,.24),slowBlend):.24;if(!swinging&&(q.dist>threshold||(!active&&q.turn>.54))){startStep(q.f,q.at,!active);swinging=true;break;}}
 }
 for(const f of feet){f.impact=Math.max(0,f.impact-dt*3.6);if(!f.swing)continue;let s=clamp((p.time-f.start)/f.duration,0,1),t=smooth(s);f.phase=s;f.foot=lerp(f.from,f.to,t);f.foot.y=.09+Math.sin(PI*s)*(.18+speed*.025);f.yaw=f.fromYaw+angleDelta(f.toYaw,f.fromYaw)*t;if(s>=1){f.foot={...f.to};f.yaw=f.toYaw;f.swing=false;f.impact=1;p.stepCount++;f.steps++;p.impactTarget=Math.max(p.impactTarget,.35+.55*p.runEnergy);marks.push({x:f.foot.x,z:f.foot.z,yaw:f.yaw,side:f.side,age:0});if(marks.length>32)marks.shift();}}
 for(let mark of marks)mark.age+=dt;
-for(let i=0;i<2;i++){const foot=feet[i],ahead=dot(sub(foot.foot,v(p.x,0,p.z)),basis(p.facing).f);const activity=clamp(speed/.85,0,1),intent=p.air?-.23:clamp(-ahead*(1.35+p.runEnergy*.85)*activity,-.63,.63);[p.armAngles[i],p.armAngleVels[i]]=spring(dt,p.armAngles[i],p.armAngleVels[i],intent,38,7.2);}
+// Arms respond to the OPPOSITE foot's current stride, with a small secondary lag.
+for(let i=0;i<2;i++){
+ const opposite=feet[1-i],b=basis(p.facing);
+ const ahead=dot(sub(opposite.foot,v(p.x,0,p.z)),b.f);
+ const spatial=clamp(ahead/.23,-1,1);
+ const swingPhase=opposite.swing?(-Math.cos(PI*opposite.phase)):spatial;
+ const phaseLocked=opposite.swing?mix(spatial,swingPhase,.68):spatial;
+ const activity=clamp(speed/2.15,0,1),amplitude=(.12+.49*activity)*clamp(speed/.48,0,1);
+ const target=p.air?-.14:phaseLocked*amplitude;
+ p.armAngles[i]=mix(p.armAngles[i],target,ease(25,dt));
+ p.armAngleVels[i]=target-p.armAngles[i];
+}
+const supportFoot=feet.find(f=>!f.swing);
+const supportShift=p.air?0:(supportFoot?supportFoot.side*.047*clamp(speed/.8,0,1):0);
+[p.weightShift,p.weightVel]=spring(dt,p.weightShift,p.weightVel,supportShift,38,12);
 p.headYaw=p.facing+clamp(angleDelta(p.headYaw,p.facing),-.30,.30);p.headYaw+=angleDelta(p.facing,p.headYaw)*ease(12,dt);
 const nextMode=speed<.08?'idle':speed<.75?'amble':speed<1.65?'walk':'run';if(nextMode!==p.speedMode)p.speedMode=nextMode;
 camDist=mix(camDist,targetCamDist,ease(12,dt));if(p.time>p.blinkAt){p.blink=.11;p.blinkAt=p.time+2.1+Math.random()*3.7}p.blink=Math.max(0,p.blink-dt);camTarget=lerp(camTarget,v(p.x,1.1,p.z),ease(4.4,dt));p.prevSpeed=speed;}
