@@ -227,6 +227,55 @@ function buildGrass(){
 }
 const grass=buildGrass();
 let grassDrawCalls=0;
+function drawGrass(view,projection){
+ gl.useProgram(grassProgram);
+ gl.uniformMatrix4fv(grassU.p,false,projection);
+ gl.uniformMatrix4fv(grassU.v,false,view);
+ gl.uniform1f(grassU.t,p.time);
+ gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,grassTexture);
+ gl.uniform1i(grassU.tex,0);
+ for(const key of Object.values(grassA))gl.enableVertexAttribArray(key);
+ grassDrawCalls=0;
+ // Four large patches bound both instanced and fallback draw calls.
+ // Culling operates on whole patches; no per-tuft JavaScript work per frame.
+ const visibility=camDist*1.9+13;
+ if(grassExtension){
+  gl.bindBuffer(gl.ARRAY_BUFFER,cardVbo);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,cardIbo);
+  gl.vertexAttribPointer(grassA.p,3,gl.FLOAT,false,20,0);
+  gl.vertexAttribPointer(grassA.uv,2,gl.FLOAT,false,20,12);
+  grassExtension.vertexAttribDivisorANGLE(grassA.p,0);
+  grassExtension.vertexAttribDivisorANGLE(grassA.uv,0);
+  for(const patch of grass.patches){
+   if(Math.hypot(patch.cx-camTarget.x,patch.cz-camTarget.z)>visibility+17)continue;
+   gl.bindBuffer(gl.ARRAY_BUFFER,patch.vbo);
+   gl.vertexAttribPointer(grassA.i,4,gl.FLOAT,false,32,0);
+   gl.vertexAttribPointer(grassA.j,4,gl.FLOAT,false,32,16);
+   grassExtension.vertexAttribDivisorANGLE(grassA.i,1);
+   grassExtension.vertexAttribDivisorANGLE(grassA.j,1);
+   grassExtension.drawElementsInstancedANGLE(gl.TRIANGLES,12,gl.UNSIGNED_SHORT,0,patch.count);
+   grassDrawCalls++;draws++;
+  }
+  // ANGLE divisors persist even across program changes.
+  grassExtension.vertexAttribDivisorANGLE(grassA.i,0);
+  grassExtension.vertexAttribDivisorANGLE(grassA.j,0);
+ }else{
+  for(const patch of grass.patches){
+   if(Math.hypot(patch.cx-camTarget.x,patch.cz-camTarget.z)>visibility+17)continue;
+   gl.bindBuffer(gl.ARRAY_BUFFER,patch.vbo);
+   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,patch.ibo);
+   gl.vertexAttribPointer(grassA.p,3,gl.FLOAT,false,52,0);
+   gl.vertexAttribPointer(grassA.uv,2,gl.FLOAT,false,52,12);
+   gl.vertexAttribPointer(grassA.i,4,gl.FLOAT,false,52,20);
+   gl.vertexAttribPointer(grassA.j,4,gl.FLOAT,false,52,36);
+   gl.drawElements(gl.TRIANGLES,patch.count,gl.UNSIGNED_SHORT,0);
+   grassDrawCalls++;draws++;
+  }
+ }
+ for(const key of Object.values(grassA))gl.disableVertexAttribArray(key);
+ gl.useProgram(program);
+}
+
 
 // Keep the visible leg geometry, planted-foot reach, and hip position consistent.
 const LEG={upper:.38,lower:.38,hipY:.70,pelvisY:.80,chestY:1.18,
@@ -464,10 +513,10 @@ function character(){
 }
 function shadow(){const radius=.54+Math.min(.26,p.hopY*.09);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);ellipsoid(v(p.x,.001,p.z),v(radius,.007,radius*.82),[.36,.49,.36,clamp(.20-p.hopY*.07,.06,.20)]);gl.depthMask(true);gl.disable(gl.BLEND);}
 function footMarks(){gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);for(let m of marks){if(m.age>8)continue;let alpha=clamp((8-m.age)/2,0,1)*.15;ellipsoid(v(m.x,.008,m.z),v(.117,.005,.182),[.45,.60,.44,alpha],m.yaw);}gl.depthMask(true);gl.disable(gl.BLEND);/* Contact dots removed; soft fading footprints are drawn above. */}
-function frame(){gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.clearColor(.851,.906,.757,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.time,p.time);const eye=add(camTarget,v(Math.sin(camYaw)*camDist,Math.sin(camElev)*camDist,Math.cos(camYaw)*camDist));let aspect=canvas.width/canvas.height;gl.uniformMatrix4fv(loc.p,false,perspective(.76,aspect,.08,110));gl.uniformMatrix4fv(loc.v,false,lookAt(eye,camTarget));draws=0;drawMesh(scenery,I,'#ffffff',0,1);shadow();footMarks();character();drawCount=draws;}
+function frame(){gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.clearColor(.851,.906,.757,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.time,p.time);const eye=add(camTarget,v(Math.sin(camYaw)*camDist,Math.sin(camElev)*camDist,Math.cos(camYaw)*camDist));let aspect=canvas.width/canvas.height;const projection=perspective(.76,aspect,.08,110),view=lookAt(eye,camTarget);gl.uniformMatrix4fv(loc.p,false,projection);gl.uniformMatrix4fv(loc.v,false,view);draws=0;drawMesh(scenery,I,'#ffffff',0,1);drawGrass(view,projection);shadow();footMarks();character();drawCount=draws;}
 function animate(now){const dt=Math.min(.09,Math.max(.001,(now-last)/1000));last=now;if(!document.hidden){const steps=Math.max(1,Math.ceil(dt/(1/60))),stepDt=dt/steps;for(let i=0;i<steps;i++)tick(stepDt);frame();p.frames++;}requestAnimationFrame(animate);}requestAnimationFrame(animate);
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();hint.hidden=false;hint.textContent='Graphics context lost. Reload this page.';});
-window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},contactSlips:p.contactSlips,slipDistance:p.slipDistance,cameraDistance:camDist,cameraTargetDistance:targetCamDist,drawCalls:drawCount,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,zoomTo,tick,angleDelta};
+window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},contactSlips:p.contactSlips,slipDistance:p.slipDistance,cameraDistance:camDist,cameraTargetDistance:targetCamDist,drawCalls:drawCount,grassDrawCalls,grassTufts:grass.tufts,grassCards:grass.cards,grassPatches:grass.patches.length,grassTextureCount:grass.textureCount,grassBatchMode:grass.batchMode,grassAtlasVariants:4,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,zoomTo,tick,angleDelta};
 })();
 
 </script>
