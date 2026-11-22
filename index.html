@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Body Study 06</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Body Study 07</title>
 <style>
 :root{font-family:ui-rounded,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#385444;color-scheme:light}*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#dae7c6;overscroll-behavior:none}button{font:inherit;cursor:pointer}#view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}.grain{position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");mix-blend-mode:multiply}.mast{position:fixed;left:max(18px,env(safe-area-inset-left));top:max(18px,env(safe-area-inset-top));background:#fff7dfd9;border:1.5px solid #fff9ec;border-radius:23px;padding:13px 17px;box-shadow:0 5px 20px #677c5520;pointer-events:none}.mast strong{display:block;font-size:clamp(19px,3.8vw,24px);letter-spacing:-.055em}.mast span{display:block;color:#75866e;font-size:11px;letter-spacing:.045em;margin-top:3px}.crumb{position:fixed;text-decoration:none;right:16px;top:max(20px,env(safe-area-inset-top));color:#58745d;background:#fff8e6c9;border-radius:100px;border:1px solid #fff8e9;padding:10px 14px;font-size:11px;box-shadow:0 5px 18px #677c5515}.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 22px);left:50%;transform:translateX(-50%);max-width:min(90vw,440px);text-align:center;background:#fff8e8d9;border:1px solid #fffefa;border-radius:99px;padding:10px 18px;font-size:12px;line-height:1.4;box-shadow:0 5px 17px #617f551c;pointer-events:none}.stick{position:fixed;left:max(22px,env(safe-area-inset-left));bottom:calc(env(safe-area-inset-bottom) + 94px);height:146px;width:146px;border:2px solid #fff9eab8;border-radius:50%;background:#f8f6dd4a;box-shadow:0 0 0 1px #617e4e21,inset 0 0 18px #fff6dd90;touch-action:none;user-select:none;-webkit-user-select:none}.stick:before{content:'MOVE';position:absolute;left:0;right:0;top:19px;text-align:center;font-weight:800;letter-spacing:.2em;font-size:10px;color:#557b61;opacity:.78}.knob{position:absolute;width:70px;height:70px;left:50%;top:50%;margin-left:-35px;margin-top:-35px;background:linear-gradient(145deg,#fff9e7,#e8e7c7);border:3px solid #fffdf2;border-radius:50%;box-shadow:0 4px 13px #607e5660, inset 0 2px 6px #ffffff80;display:grid;place-items:center;color:#668a6d;font-size:25px;transform:translate(0,0);pointer-events:none}.actions{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 106px);display:flex;flex-direction:column;align-items:center;gap:9px}.actions button{border:2px solid #fff8e9;background:#fff7e1e8;color:#526f5a;box-shadow:0 5px 18px #5a77442b;border-radius:99px;font-size:12px;font-weight:750;padding:11px 17px;min-width:89px}.actions button:active{transform:scale(.95)}.actions button.active{background:#507865;color:white}.sub{font-size:11px;opacity:.83;display:block;padding-top:2px}.focus{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 100px);color:#46684c;text-align:center;font-size:13px;font-weight:650;text-shadow:0 1px #fffff8;pointer-events:none;max-width:70vw}.focus .tiny{display:block;font-size:11px;font-weight:400;opacity:.75;margin-top:4px}.fine{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 5px);right:16px;font-size:10px;color:#52745398}.notice{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);background:#fff6dfd9;color:#49654e;border-radius:99px;padding:11px 19px;font-weight:750;font-size:13px;pointer-events:none;opacity:0;transition:opacity .2s}.notice.show{opacity:1}@media(max-width:430px){.stick{width:128px;height:128px;bottom:calc(env(safe-area-inset-bottom) + 84px)}.stick .knob{width:64px;height:64px;margin-left:-32px;margin-top:-32px}.actions{bottom:calc(env(safe-area-inset-bottom) + 92px)}.hint{bottom:calc(env(safe-area-inset-bottom) + 16px);font-size:11px;max-width:96vw}.mast{padding:10px 14px}.crumb{font-size:10px;padding:9px 12px}.focus{top:calc(env(safe-area-inset-top) + 98px)}}@media(max-height:650px){.focus{display:none}.stick{bottom:74px}.actions{bottom:85px}.hint{bottom:12px}}
 .zoom{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 252px);display:flex;gap:8px}.zoom button{width:43px;height:43px;border-radius:50%;border:2px solid #fff9e9;background:#fff8e7e8;color:#52715b;font-size:24px;line-height:1;box-shadow:0 4px 14px #617f5528;touch-action:manipulation}.zoom button:active{transform:scale(.94)}#hop{touch-action:manipulation}@media(max-width:430px){.zoom{bottom:calc(env(safe-area-inset-bottom) + 229px)}}@media(max-height:650px){.zoom{bottom:205px}}.version{position:fixed;left:max(16px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));padding:7px 11px;border-radius:99px;background:#fff9e8a9;border:1px solid #fff9ecae;color:#68826c;font-size:11px;font-weight:750;letter-spacing:.12em;pointer-events:none}
@@ -11,12 +11,12 @@
 #hint[hidden]{display:none}.hint:not([hidden]){bottom:calc(env(safe-area-inset-bottom) + 22px)}
 </style></head><body>
 <canvas id="view" aria-label="Perplung 3D human movement study"></canvas><div class="grain"></div>
-<div class="version" aria-label="Body Study version 06">06</div>
+<div class="version" aria-label="Body Study version 07">07</div>
 <div class="stick" id="stick" aria-label="Move character with thumbstick"><div class="knob" id="knob">✣</div></div>
 <div class="zoom" aria-label="Camera zoom"><button id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out" title="Zoom out">−</button></div><div class="actions"><button id="hop" aria-label="Hop" title="Hop">↑</button></div>
 <div class="hint" id="hint" role="alert" hidden></div>
 <script>
-/* Perplung — Body Study 06. Actual WebGL triangle meshes with hardware depth test.
+/* Perplung — Body Study 07. Actual WebGL triangle meshes with hardware depth test.
    Design: one authoritative motion state; persistent world-space contacts;
    analytic two-link presentation IK; GPU occlusion and actual ground geometry.
    Foot-contact contracts informed by Fieldwork3D and M3CH4, not copied wholesale. */
@@ -46,6 +46,30 @@ function segmentMatrix(a,b,r){const h=sub(b,a),length=len(h),up=norm(h),ref=Math
 // Simple reusable geometry: smooth ellipsoids and volume-bearing limb segments.
 function sphere(rows=12,cols=18){const pos=[],normals=[],indices=[];for(let i=0;i<=rows;i++){let lat=-PI/2+PI*i/rows,c=Math.cos(lat),si=Math.sin(lat);for(let j=0;j<=cols;j++){let a=TAU*j/cols,x=c*Math.cos(a),z=c*Math.sin(a);pos.push(x,si,z);normals.push(x,si,z);}}for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){let a=i*(cols+1)+j,b=a+cols+1;indices.push(a,b,a+1,b,b+1,a+1);}return{pos,normals,indices};}
 function cylinder(n=12){const pos=[],normals=[],indices=[];for(let h of [-1,1])for(let j=0;j<=n;j++){let a=TAU*j/n,x=Math.cos(a),z=Math.sin(a);pos.push(x,h,z);normals.push(x,0,z);}for(let j=0;j<n;j++){let b=j+n+1;indices.push(j,b,j+1,b,b+1,j+1);}return{pos,normals,indices};}
+function softBarrel(sides=14){
+ const profile=[[-1,.70],[-.88,.88],[-.62,.97],[-.12,1.0],[.44,1.01],[.79,.94],[.96,.80],[1,.64]];
+ const pos=[],normals=[],indices=[];
+ for(let i=0;i<profile.length;i++){
+   const [y,rad]=profile[i],a=profile[Math.max(0,i-1)],b=profile[Math.min(profile.length-1,i+1)];
+   const slope=(b[1]-a[1])/(b[0]-a[0]||1);
+   for(let j=0;j<=sides;j++){
+     const ang=TAU*j/sides,c=Math.cos(ang),sn=Math.sin(ang),n=norm(v(c,-slope,sn));
+     pos.push(rad*c,y,rad*sn);normals.push(n.x,n.y,n.z);
+   }
+ }
+ for(let i=0;i<profile.length-1;i++)for(let j=0;j<sides;j++){
+   const a=i*(sides+1)+j,b=a+sides+1;
+   indices.push(a,b,a+1,b,b+1,a+1);
+ }
+ const lower=pos.length/3;pos.push(0,-1,0);normals.push(0,-1,0);
+ const upper=pos.length/3;pos.push(0,1,0);normals.push(0,1,0);
+ for(let j=0;j<sides;j++){
+   indices.push(lower,j+1,j);
+   const k=(profile.length-1)*(sides+1)+j;
+   indices.push(upper,k,k+1);
+ }
+ return{pos,normals,indices};
+}
 function plane(){return{pos:[-1,0,-1,1,0,-1,-1,0,1,1,0,1],normals:[0,1,0,0,1,0,0,1,0,0,1,0],indices:[0,2,1,1,2,3]};}
 const vertex=`attribute vec3 aP; attribute vec3 aN; attribute vec4 aC; uniform mat4 uP,uV,uM; uniform mat3 uNM; uniform float uTime,uSway; varying vec3 vN; varying vec4 vColor; varying float vH; void main(){vec3 p=aP;p.x+=uSway*.027*sin(uTime*1.32+p.x*2.4+p.z*2.1)*clamp(p.y*6.0,0.0,1.0); vec4 world=uM*vec4(p,1.0); gl_Position=uP*uV*world; vN=normalize(uNM*aN);vColor=aC;vH=world.y;}`;
 const fragment=`precision mediump float; varying vec3 vN; varying vec4 vColor; varying float vH; uniform vec4 uTint; uniform float uUnlit; void main(){vec3 n=normalize(vN);float key=max(0.0,dot(n,normalize(vec3(-0.50,0.88,0.40))));float bounce=max(0.0,dot(n,normalize(vec3(0.7,0.2,-0.55))))*.10;float shade=mix(0.72+key*.28+bounce,1.0,uUnlit);vec3 c=vColor.rgb*uTint.rgb*shade;gl_FragColor=vec4(c,vColor.a*uTint.a);}`;
@@ -54,7 +78,7 @@ let program;
 try{program=gl.createProgram();gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));}catch(e){console.error(e);hint.hidden=false;hint.textContent='WebGL shader initialization failed.';return;}
 const attr={p:gl.getAttribLocation(program,'aP'),n:gl.getAttribLocation(program,'aN'),c:gl.getAttribLocation(program,'aC')};const loc={p:gl.getUniformLocation(program,'uP'),v:gl.getUniformLocation(program,'uV'),m:gl.getUniformLocation(program,'uM'),nm:gl.getUniformLocation(program,'uNM'),tint:gl.getUniformLocation(program,'uTint'),time:gl.getUniformLocation(program,'uTime'),sway:gl.getUniformLocation(program,'uSway'),unlit:gl.getUniformLocation(program,'uUnlit')};
 function upload(g,cols){let interleaved=[];for(let i=0;i<g.pos.length/3;i++){interleaved.push(g.pos[i*3],g.pos[i*3+1],g.pos[i*3+2],g.normals[i*3],g.normals[i*3+1],g.normals[i*3+2],...(cols?cols.slice(i*4,i*4+4):[1,1,1,1]));}const vbo=gl.createBuffer(),ibo=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vbo);gl.bufferData(gl.ARRAY_BUFFER,f32(interleaved),gl.STATIC_DRAW);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ibo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(g.indices),gl.STATIC_DRAW);return{vbo,ibo,count:g.indices.length};}
-const unitSphere=sphere(15,22),smallSphere=sphere(8,12),unitCylinder=cylinder(12),unitPlane=plane();const mesh={sphere:upload(unitSphere),small:upload(smallSphere),cylinder:upload(unitCylinder),plane:upload(unitPlane)};
+const unitSphere=sphere(15,22),smallSphere=sphere(8,12),unitCylinder=cylinder(12),unitPlane=plane();const mesh={sphere:upload(unitSphere),small:upload(smallSphere),cylinder:upload(unitCylinder),plane:upload(unitPlane),barrel:upload(softBarrel())};
 function normalMatrix(m){const a=v(m[0],m[1],m[2]),b=v(m[4],m[5],m[6]),c=v(m[8],m[9],m[10]);const x=cross(b,c),y=cross(c,a),z=cross(a,b),det=dot(a,x),div=Math.abs(det)>1e-8?1/det:1;return f32([x.x*div,x.y*div,x.z*div,y.x*div,y.y*div,y.z*div,z.x*div,z.y*div,z.z*div]);}
 const I=identity();let draws=0;
 function drawMesh(mesh,model,color='#ffffff',unlit=0,sway=0){let tint=Array.isArray(color)?color:rgb(color);gl.uniformMatrix4fv(loc.m,false,model);gl.uniformMatrix3fv(loc.nm,false,normalMatrix(model));gl.uniform4fv(loc.tint,tint);gl.uniform1f(loc.unlit,unlit);gl.uniform1f(loc.sway,sway);gl.bindBuffer(gl.ARRAY_BUFFER,mesh.vbo);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mesh.ibo);gl.enableVertexAttribArray(attr.p);gl.enableVertexAttribArray(attr.n);gl.enableVertexAttribArray(attr.c);gl.vertexAttribPointer(attr.p,3,gl.FLOAT,false,40,0);gl.vertexAttribPointer(attr.n,3,gl.FLOAT,false,40,12);gl.vertexAttribPointer(attr.c,4,gl.FLOAT,false,40,24);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);draws++;}
@@ -210,21 +234,21 @@ function character(){
      :add(f.foot,v(0,p.hopY*.7,0));
    const knee=solveKnee(hip,ankle,p.facing,f.side);
    limb(hip,knee,.084,'#b88764');limb(knee,ankle,.080,'#b0815e');
-   ellipsoid(add(ankle,v(0,.012,0)),v(.168,.098,.222),'#876958',f.yaw);
+   ellipsoid(add(ankle,v(0,.012,0)),v(.161,.099,.214),'#876958',f.yaw);
  }
  // Lower torso and upper chest are separate solids, with a modest waist overlap.
- ellipsoid(transform(pelvis,v(0,0,0)),v(.375,.30,.33),'#bd8e71',p.facing,p.lean*.22,p.sway*.28);
- ellipsoid(transform(chest,v(0,-.265,0)),v(.325,.19,.292),'#d6a37e',p.facing,p.lean*.82,p.sway*.78);
- ellipsoid(transform(chest,v(0,0,0)),v(.437,.416,.37),'#daa985',p.facing,p.lean*.82,p.sway*.78);
+ ellipsoid(transform(pelvis,v(0,0,0)),v(.355,.275,.318),'#bd8e71',p.facing,p.lean*.22,p.sway*.28);
+ ellipsoid(transform(chest,v(0,-.25,0)),v(.312,.16,.283),'#d6a37e',p.facing,p.lean*.82,p.sway*.78);
+ drawMesh(mesh.barrel,multiply(chest,scale(v(.426,.350,.353))),'#daa985');
  // A short, narrow neck, tucked between the chest and the oversized head.
  const neckA=transform(chest,v(0,.34,-.025)),neckB=transform(chest,v(0,.61,-.015));
  limb(neckA,neckB,.115,'#c99575');
  // Arms swing against the opposite FOOT'S actual phase, with mild follow-through.
  for(const side of [-1,1]){
    const swing=p.armAngles[side===-1?0:1];
-   const sho=transform(chest,v(side*.36,.205,-.018));
+   const sho=transform(chest,v(side*.354,.195,-.018));
    const elbow=transform(chest,v(side*.432,-.052,swing*.55-.025+p.armLag*.035));
-   const hand=transform(chest,v(side*.424,-.315,swing*.95+.018+p.armLag*.065));
+   const hand=transform(chest,v(side*.418,-.280,swing*.90+.018+p.armLag*.065));
    limb(sho,elbow,.103,'#d9a887');limb(elbow,hand,.096,'#cf9876');
    ellipsoid(hand,v(.096,.102,.096),'#e5b38e');
  }
@@ -254,7 +278,7 @@ function character(){
  ellipsoid(mouth,v(.061,.014,.018),'#9e7369');
 }
 function shadow(){const radius=.54+Math.min(.26,p.hopY*.09);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);ellipsoid(v(p.x,.001,p.z),v(radius,.007,radius*.82),[.36,.49,.36,clamp(.20-p.hopY*.07,.06,.20)]);gl.depthMask(true);gl.disable(gl.BLEND);}
-function footMarks(){gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);for(let m of marks){if(m.age>8)continue;let alpha=clamp((8-m.age)/2,0,1)*.15;ellipsoid(v(m.x,.008,m.z),v(.117,.005,.182),[.45,.60,.44,alpha],m.yaw);}gl.depthMask(true);gl.disable(gl.BLEND);for(let f of feet){ellipsoid(v(f.foot.x,.025,f.foot.z),v(.06,.015,.06),f.swing?'#e3d69b':'#a4c69b');}}
+function footMarks(){gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);for(let m of marks){if(m.age>8)continue;let alpha=clamp((8-m.age)/2,0,1)*.15;ellipsoid(v(m.x,.008,m.z),v(.117,.005,.182),[.45,.60,.44,alpha],m.yaw);}gl.depthMask(true);gl.disable(gl.BLEND);/* Contact dots removed; soft fading footprints are drawn above. */}
 function frame(){gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.clearColor(.851,.906,.757,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.time,p.time);const eye=add(camTarget,v(Math.sin(camYaw)*camDist,Math.sin(camElev)*camDist,Math.cos(camYaw)*camDist));let aspect=canvas.width/canvas.height;gl.uniformMatrix4fv(loc.p,false,perspective(.76,aspect,.08,110));gl.uniformMatrix4fv(loc.v,false,lookAt(eye,camTarget));draws=0;drawMesh(scenery,I,'#ffffff',0,1);shadow();footMarks();character();drawCount=draws;}
 function animate(now){const dt=Math.min(.09,Math.max(.001,(now-last)/1000));last=now;if(!document.hidden){const steps=Math.max(1,Math.ceil(dt/(1/60))),stepDt=dt/steps;for(let i=0;i<steps;i++)tick(stepDt);frame();p.frames++;}requestAnimationFrame(animate);}requestAnimationFrame(animate);
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();hint.hidden=false;hint.textContent='Graphics context lost. Reload this page.';});
