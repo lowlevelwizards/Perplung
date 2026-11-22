@@ -4,15 +4,18 @@
 
 **[Play the current experiment](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## Body Study 09 — shorter legs, relaxed standing
+## Grass Pass 01 — softly moving foliage cards
 
 We are going atomic: making one cause and its effect feel good before adding another.
 
-This is a small playable **GPU-rendered 3D character movement experiment**, not the full ecosystem. There is one small human character in a sunny clearing. Try walking, running, stopping, turning, and quick hops while moving.
+This is a small playable **GPU-rendered 3D environment and character experiment**, not the full ecosystem. The same little human can walk, run and hop around a clearing, now covered in softly swaying, stylized grass.
 
 - **Touch:** Move the thumbstick a little to amble, farther to walk, and all the way to run. Drag the scene to orbit; use two fingers to pinch-zoom or tap +/−. The up-arrow button hops, even while your other thumb is moving. Footprints are always visible, with no toggle.
 - **Keyboard/mouse:** WASD or arrows to run, Space to hop, R to reset, drag to orbit, scroll wheel or +/− buttons to zoom.
-- **Body:** The legs are about 12% shorter, with the hips and upper body sitting slightly lower while moving. When stopped, a small, damped standing extension straightens the knees naturally instead of leaving them permanently crouched. The same leg lengths govern the IK joints and planted-foot reach. The oversized head, short neck, rounded chest, and simple human silhouette stay.
+- **Grass:** Old geometric grass cylinders are replaced by a single procedural RGBA foliage atlas containing four hand-shaped tuft variants, each with **4–5 broad, rounded blades**. Every tuft consists of **two crossed, alpha-cutout texture cards**, so the silhouette reads from all sides without individual blade geometry. The tufts vary slightly in size, tint, orientation, and spacing. The atlas is created once on startup; there are no image downloads or external dependencies.
+- **Wind:** Quiet, independently phase-shifted vertex-shader sway, anchored at the root. No per-tuft or per-card CPU animation in the frame loop.
+- **Batching:** 936 seeded tufts, 1,872 cards, four large visibility-culled patches, one shared grass texture and shader. Use **ANGLE_instanced_arrays** where WebGL1 supports it; otherwise bake the identical cards into one static mesh per patch. Both paths use at most four grass draw calls in the initial clearing (and fewer when patches leave view).
+- **Body:** Body Study 09's little human, shorter legs, more natural standing, and all movement/IK remain unchanged.
 - **Slow-walk support:** Planted feet still replant before trailing too far, with compact forward landings. Step readiness, recovery swing time, and contact limits are adjusted for the shorter limbs, while preserving slow deliberate stepping. The body never stops to satisfy foot placement.
 - **Gait:** At running speed, contacts still target the predicted touchdown pelvis, with lateral lead and quick bounded catch steps on sharp turns. Slow and fast walking share the same world-space IK and contact constraints; only timing, foot-placement lead and rear-support tolerance change with speed. Both feet never swing simultaneously.
 - **Physical animation:** Grounded IK, spring-damped vertical center-of-mass travel, small side-to-side load rocking, and pelvis/chest counter-twist. They follow actual foot contact and turning instead of an unrelated time-based bob. Arm swing stays tied to the opposite leg.
@@ -29,6 +32,7 @@ The experiment runs from `index.html` using built-in browser **WebGL**. It uses 
 
 The earlier game is **not deleted**. You can still play:
 
+- [Body Study 09](./experiments/body-study-09.html) — shorter legs and straighter resting posture
 - [Body Study 08](./experiments/body-study-08.html) — slow-walk rear-foot recovery and support balance
 - [Body Study 07](./experiments/body-study-07.html) — chest proportions, torso weight and faster foot placement
 - [Body Study 06](./experiments/body-study-06.html) — first little-human rig and minimal HUD
