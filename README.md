@@ -4,12 +4,15 @@
 
 **[Play the current experiment](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## Grass Pass 02 — bigger, airier grass tufts
+## Bush Study 01 — one inspectable clumpy bush
 
 We are going atomic: making one cause and its effect feel good before adding another.
 
-This is a small playable **GPU-rendered 3D environment and character experiment**, not the full ecosystem. The same little human can walk, run and hop around a clearing, now covered in softly swaying, stylized grass.
+This is a small playable **GPU-rendered 3D environment and character experiment**, not the full ecosystem. A single deliberately authored bush now stands near the little human in the grassy clearing. Walk around it, orbit the camera, and see how its silhouette holds up from every side.
 
+- **Bush:** One compact shrub just behind and to the side of the spawn, placed to be visible in the default phone camera. **Five** staggered, crossed leaf cards create a rounded, layered silhouette. A **single 512×128 alpha-cutout atlas** contains **three broad clump variants**, each made from a few painted overlapping lobes. A subtle root oval is baked into the existing scenery draw.
+- **Bush motion:** One lightweight vertex shader gives each card a different slow phase, bending the top of each card while the bottom stays planted. The bush is **one static VBO/IBO and exactly one additional draw call** (20 vertices, 10 triangles), with a shared texture. No per-frame card animation on the CPU.
+- **Scope:** This is one authored visual study, not a procedural bush distribution or an interaction system. It has no collision or gameplay behavior yet.
 - **Touch:** Move the thumbstick a little to amble, farther to walk, and all the way to run. Drag the scene to orbit; use two fingers to pinch-zoom or tap +/−. The up-arrow button hops, even while your other thumb is moving. Footprints are always visible, with no toggle.
 - **Keyboard/mouse:** WASD or arrows to run, Space to hop, R to reset, drag to orbit, scroll wheel or +/− buttons to zoom.
 - **Grass:** Tufts are now **2.5× larger in both height and width**, with a more open fan of 4–5 rounded blades. The atlas widens the blade roots and fans the tips out farther, retaining four variants of the soft, chunky silhouette. Two crossed alpha-cutout texture cards provide volume without individual blade meshes. Atlas generation runs only once on startup, with no image downloads or build tools.
@@ -32,6 +35,7 @@ The experiment runs from `index.html` using built-in browser **WebGL**. It uses 
 
 The earlier game is **not deleted**. You can still play:
 
+- [Grass Pass 02](./experiments/grass-pass-02.html) — larger, airier rounded grass tufts
 - [Grass Pass 01](./experiments/grass-pass-01.html) — original smaller, tighter grass tufts
 - [Body Study 09](./experiments/body-study-09.html) — shorter legs and straighter resting posture
 - [Body Study 08](./experiments/body-study-08.html) — slow-walk rear-foot recovery and support balance
