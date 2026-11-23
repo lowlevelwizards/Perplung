@@ -4,20 +4,21 @@
 
 **[Play the current experiment](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## Bush Study 02 — layered horizontal leaf canopy
+## Bush Study 03 — tinted, varied bush family
 
 We are going atomic: making one cause and its effect feel good before adding another.
 
-This is a small playable **GPU-rendered 3D environment and character experiment**, not the full ecosystem. A single deliberately authored bush now stands near the little human in the grassy clearing. Walk around it, orbit the camera, and see how its silhouette holds up from every side.
+This is a small playable **GPU-rendered 3D environment and character experiment**, not the full ecosystem. A small group of seven related bushes now lives around the clearing. Walk among them, orbit the camera, and notice their shared layered shape and subtle differences.
 
-- **Bush:** The same single shrub now uses **five mostly horizontal leaf cards stacked at different heights**, rather than crossed upright billboards. Each card is a broad, rounded foliage clump with a slightly crowned middle and a gently **downward-bent outer rim**. The lower levels are wider and the top is smaller, like a compact layered canopy. The texture atlas has three top-down overlapping leaf-clump silhouettes. The distracting flat green base has been removed; a tiny short stem connects the tiers to the ground, baked into the existing scenery.
-- **Bush motion and performance:** Each card is a small **5×5 vertex grid** that has real curved geometry, rather than a straight quad pretending to be bent. Each tier has its own gentle phase; **only the outside leaves sway**, keeping the center steady. All five tiers are baked into **one static VBO/IBO and exactly one draw call** (125 vertices, 160 triangles). They share one 512×128 alpha-cutout atlas. No per-frame card animation on the CPU.
-- **Scope:** This is one authored visual study, not a procedural bush distribution or an interaction system. It has no collision or gameplay behavior yet.
+- **Bush shape and shading:** All seven bushes reuse B2's five nearly horizontal, curved-down leaf tiers, broad rounded foliage textures, and short hidden stems. The value hierarchy now runs **lightest at the bottom to darkest at the top**: per-tier shade multipliers bottom-to-top are `1.14, 1.065, 1.00, .92, .83`. They share the same three texture-atlas variants, giving one cohesive species rather than seven unrelated designs.
+- **Placement and variation:** Seven deliberately chosen positions, with modest overall scale (0.89–1.16×), yaw rotation, width/spread, height and wind-phase changes. One original is preserved near spawn; a few singles and loose neighbors fill out the clearing without a grid. Nearby grass leaves a little space around each bush.
+- **Bush motion and performance:** The existing restrained edge-only GPU sway remains, with a slight phase offset for each bush. All **35 leaf cards** (five per bush) are baked once into **one static VBO/IBO and one draw call** (875 vertices, 1,120 triangles). All seven share one 512×128 alpha-cutout atlas, material and shader. The stems live in the existing scenery batch. No CPU per-card animation or additional draw per bush.
+- **Scope:** This is a limited, authored environment composition study, not a procedurally populated forest. Bushes remain visual-only, without collision or interaction behavior.
 - **Touch:** Move the thumbstick a little to amble, farther to walk, and all the way to run. Drag the scene to orbit; use two fingers to pinch-zoom or tap +/−. The up-arrow button hops, even while your other thumb is moving. Footprints are always visible, with no toggle.
 - **Keyboard/mouse:** WASD or arrows to run, Space to hop, R to reset, drag to orbit, scroll wheel or +/− buttons to zoom.
 - **Grass:** Tufts are now **2.5× larger in both height and width**, with a more open fan of 4–5 rounded blades. The atlas widens the blade roots and fans the tips out farther, retaining four variants of the soft, chunky silhouette. Two crossed alpha-cutout texture cards provide volume without individual blade meshes. Atlas generation runs only once on startup, with no image downloads or build tools.
 - **Wind:** Quiet, independently phase-shifted vertex-shader sway, slightly amplified to suit the larger tufts but still anchored at the root. No per-tuft or per-card CPU animation in the frame loop.
-- **Batching:** Density is reduced to **619 deterministic tufts / 1,238 cards** so the 2.5× larger foliage stays readable rather than overcrowded. The clearing still uses four visibility-culled patches and one shared grass texture and shader. Use **ANGLE_instanced_arrays** where WebGL1 supports it; otherwise bake the cards into one static mesh per patch. Both paths use at most four grass draw calls near the start.
+- **Grass batching:** The large tufts retain their deterministic distribution, with some excluded near the bushes so foliage does not crowd their bases. Four visibility-culled grass patches share one grass atlas and shader, using **ANGLE_instanced_arrays** where WebGL1 supports it or static patch batches otherwise. Both paths use at most four grass draw calls near the start.
 - **Body:** Body Study 09's little human, shorter legs, more natural standing, and all movement/IK remain unchanged.
 - **Slow-walk support:** Planted feet still replant before trailing too far, with compact forward landings. Step readiness, recovery swing time, and contact limits are adjusted for the shorter limbs, while preserving slow deliberate stepping. The body never stops to satisfy foot placement.
 - **Gait:** At running speed, contacts still target the predicted touchdown pelvis, with lateral lead and quick bounded catch steps on sharp turns. Slow and fast walking share the same world-space IK and contact constraints; only timing, foot-placement lead and rear-support tolerance change with speed. Both feet never swing simultaneously.
@@ -35,6 +36,7 @@ The experiment runs from `index.html` using built-in browser **WebGL**. It uses 
 
 The earlier game is **not deleted**. You can still play:
 
+- [Bush Study 02](./experiments/bush-study-02.html) — first stacked horizontal foliage-card bush
 - [Bush Study 01](./experiments/bush-study-01.html) — original crossed upright leaf cards
 - [Grass Pass 02](./experiments/grass-pass-02.html) — larger, airier rounded grass tufts
 - [Grass Pass 01](./experiments/grass-pass-01.html) — original smaller, tighter grass tufts
