@@ -333,8 +333,10 @@ gl.generateMipmap(gl.TEXTURE_2D);
 // Each baked vertex stores (world XYZ, atlas UV, phase, rim weight, tint).
 // Nearly horizontal cards have a curved-down outer edge; wind affects the
 // rim but keeps the center of each level still.
+// Distant instances sit ~100 world units from origin: keep tiny wind offsets
+// and camera transforms precise in WebGL1 vertex shaders.
 const bushVS=[
- 'precision mediump float;',
+ 'precision highp float;',
  'attribute vec3 aBP;attribute vec2 aBUV;attribute vec3 aBExtra;',
  'uniform mat4 uBP,uBV;uniform float uBTime;',
  'varying vec2 vBUV;varying float vBTint,vBRim;',
