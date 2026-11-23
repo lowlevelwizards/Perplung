@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Bush Study 02</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Bush Study 03</title>
 <style>
 :root{font-family:ui-rounded,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#385444;color-scheme:light}*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#dae7c6;overscroll-behavior:none}button{font:inherit;cursor:pointer}#view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}.grain{position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");mix-blend-mode:multiply}.mast{position:fixed;left:max(18px,env(safe-area-inset-left));top:max(18px,env(safe-area-inset-top));background:#fff7dfd9;border:1.5px solid #fff9ec;border-radius:23px;padding:13px 17px;box-shadow:0 5px 20px #677c5520;pointer-events:none}.mast strong{display:block;font-size:clamp(19px,3.8vw,24px);letter-spacing:-.055em}.mast span{display:block;color:#75866e;font-size:11px;letter-spacing:.045em;margin-top:3px}.crumb{position:fixed;text-decoration:none;right:16px;top:max(20px,env(safe-area-inset-top));color:#58745d;background:#fff8e6c9;border-radius:100px;border:1px solid #fff8e9;padding:10px 14px;font-size:11px;box-shadow:0 5px 18px #677c5515}.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 22px);left:50%;transform:translateX(-50%);max-width:min(90vw,440px);text-align:center;background:#fff8e8d9;border:1px solid #fffefa;border-radius:99px;padding:10px 18px;font-size:12px;line-height:1.4;box-shadow:0 5px 17px #617f551c;pointer-events:none}.stick{position:fixed;left:max(22px,env(safe-area-inset-left));bottom:calc(env(safe-area-inset-bottom) + 94px);height:146px;width:146px;border:2px solid #fff9eab8;border-radius:50%;background:#f8f6dd4a;box-shadow:0 0 0 1px #617e4e21,inset 0 0 18px #fff6dd90;touch-action:none;user-select:none;-webkit-user-select:none}.stick:before{content:'MOVE';position:absolute;left:0;right:0;top:19px;text-align:center;font-weight:800;letter-spacing:.2em;font-size:10px;color:#557b61;opacity:.78}.knob{position:absolute;width:70px;height:70px;left:50%;top:50%;margin-left:-35px;margin-top:-35px;background:linear-gradient(145deg,#fff9e7,#e8e7c7);border:3px solid #fffdf2;border-radius:50%;box-shadow:0 4px 13px #607e5660, inset 0 2px 6px #ffffff80;display:grid;place-items:center;color:#668a6d;font-size:25px;transform:translate(0,0);pointer-events:none}.actions{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 106px);display:flex;flex-direction:column;align-items:center;gap:9px}.actions button{border:2px solid #fff8e9;background:#fff7e1e8;color:#526f5a;box-shadow:0 5px 18px #5a77442b;border-radius:99px;font-size:12px;font-weight:750;padding:11px 17px;min-width:89px}.actions button:active{transform:scale(.95)}.actions button.active{background:#507865;color:white}.sub{font-size:11px;opacity:.83;display:block;padding-top:2px}.focus{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 100px);color:#46684c;text-align:center;font-size:13px;font-weight:650;text-shadow:0 1px #fffff8;pointer-events:none;max-width:70vw}.focus .tiny{display:block;font-size:11px;font-weight:400;opacity:.75;margin-top:4px}.fine{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 5px);right:16px;font-size:10px;color:#52745398}.notice{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);background:#fff6dfd9;color:#49654e;border-radius:99px;padding:11px 19px;font-weight:750;font-size:13px;pointer-events:none;opacity:0;transition:opacity .2s}.notice.show{opacity:1}@media(max-width:430px){.stick{width:128px;height:128px;bottom:calc(env(safe-area-inset-bottom) + 84px)}.stick .knob{width:64px;height:64px;margin-left:-32px;margin-top:-32px}.actions{bottom:calc(env(safe-area-inset-bottom) + 92px)}.hint{bottom:calc(env(safe-area-inset-bottom) + 16px);font-size:11px;max-width:96vw}.mast{padding:10px 14px}.crumb{font-size:10px;padding:9px 12px}.focus{top:calc(env(safe-area-inset-top) + 98px)}}@media(max-height:650px){.focus{display:none}.stick{bottom:74px}.actions{bottom:85px}.hint{bottom:12px}}
 .zoom{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 252px);display:flex;gap:8px}.zoom button{width:43px;height:43px;border-radius:50%;border:2px solid #fff9e9;background:#fff8e7e8;color:#52715b;font-size:24px;line-height:1;box-shadow:0 4px 14px #617f5528;touch-action:manipulation}.zoom button:active{transform:scale(.94)}#hop{touch-action:manipulation}@media(max-width:430px){.zoom{bottom:calc(env(safe-area-inset-bottom) + 229px)}}@media(max-height:650px){.zoom{bottom:205px}}.version{position:fixed;left:max(16px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));padding:7px 11px;border-radius:99px;background:#fff9e8a9;border:1px solid #fff9ecae;color:#68826c;font-size:11px;font-weight:750;letter-spacing:.12em;pointer-events:none}
@@ -11,12 +11,12 @@
 #hint[hidden]{display:none}.hint:not([hidden]){bottom:calc(env(safe-area-inset-bottom) + 22px)}
 </style></head><body>
 <canvas id="view" aria-label="Perplung 3D human movement study"></canvas><div class="grain"></div>
-<div class="version" aria-label="Bush Study 02">B2</div>
+<div class="version" aria-label="Bush Study 03">B3</div>
 <div class="stick" id="stick" aria-label="Move character with thumbstick"><div class="knob" id="knob">✣</div></div>
 <div class="zoom" aria-label="Camera zoom"><button id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out" title="Zoom out">−</button></div><div class="actions"><button id="hop" aria-label="Hop" title="Hop">↑</button></div>
 <div class="hint" id="hint" role="alert" hidden></div>
 <script>
-/* Perplung — Bush Study 02. Actual WebGL triangle meshes with hardware depth test.
+/* Perplung — Bush Study 03. Actual WebGL triangle meshes with hardware depth test.
    Design: one authoritative motion state; persistent world-space contacts;
    analytic two-link presentation IK; GPU occlusion and actual ground geometry.
    Foot-contact contracts informed by Fieldwork3D and M3CH4, not copied wholesale. */
@@ -84,6 +84,18 @@ const I=identity();let draws=0;
 function drawMesh(mesh,model,color='#ffffff',unlit=0,sway=0){let tint=Array.isArray(color)?color:rgb(color);gl.uniformMatrix4fv(loc.m,false,model);gl.uniformMatrix3fv(loc.nm,false,normalMatrix(model));gl.uniform4fv(loc.tint,tint);gl.uniform1f(loc.unlit,unlit);gl.uniform1f(loc.sway,sway);gl.bindBuffer(gl.ARRAY_BUFFER,mesh.vbo);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mesh.ibo);gl.enableVertexAttribArray(attr.p);gl.enableVertexAttribArray(attr.n);gl.enableVertexAttribArray(attr.c);gl.vertexAttribPointer(attr.p,3,gl.FLOAT,false,40,0);gl.vertexAttribPointer(attr.n,3,gl.FLOAT,false,40,12);gl.vertexAttribPointer(attr.c,4,gl.FLOAT,false,40,24);gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);draws++;}
 function ellipsoid(p,s,color,yaw=0,pitch=0,roll=0,geom=mesh.sphere){drawMesh(geom,compose(p,s,yaw,pitch,roll),color)}
 function limb(a,b,r,color){drawMesh(mesh.cylinder,segmentMatrix(a,b,r),color);ellipsoid(a,v(r,r,r),color,0,0,0,mesh.small);ellipsoid(b,v(r,r,r),color,0,0,0,mesh.small);}
+// A few deliberately composed copies of the same bush, not random carpet.
+// Authored locations and transforms make a coherent family with quiet variety.
+// Keep this data above both scenery and foliage builders.
+const BUSH_INSTANCES=[
+ {x:-.10,z:-1.80,yaw:.18,scale:1.00,spread:1.00,height:1.00,phase:0.0,tint:1.00},
+ {x:2.10,z:-.90,yaw:1.24,scale:.93,spread:1.05,height:.97,phase:1.1,tint:.98},
+ {x:-2.40,z:-2.60,yaw:2.71,scale:1.14,spread:.97,height:1.03,phase:2.3,tint:1.01},
+ {x:3.10,z:1.20,yaw:.62,scale:.89,spread:1.08,height:.95,phase:3.4,tint:.99},
+ {x:-3.40,z:.80,yaw:4.10,scale:1.08,spread:.95,height:1.06,phase:4.5,tint:1.02},
+ {x:1.30,z:2.80,yaw:5.02,scale:.97,spread:1.02,height:.98,phase:5.7,tint:.97},
+ {x:-1.90,z:3.00,yaw:3.38,scale:1.16,spread:1.04,height:1.01,phase:6.6,tint:1.00}
+];
 function buildStatic(){const out={pos:[],normals:[],indices:[],colors:[]};function append(shape,m,col){const n=out.pos.length/3;if(n+shape.pos.length/3>62000)return;let clr=rgb(col),nm=normalMatrix(m);for(let i=0;i<shape.pos.length;i+=3){const p=transform(m,v(shape.pos[i],shape.pos[i+1],shape.pos[i+2]));out.pos.push(p.x,p.y,p.z);const q=norm(v(nm[0]*shape.normals[i]+nm[3]*shape.normals[i+1]+nm[6]*shape.normals[i+2],nm[1]*shape.normals[i]+nm[4]*shape.normals[i+1]+nm[7]*shape.normals[i+2],nm[2]*shape.normals[i]+nm[5]*shape.normals[i+1]+nm[8]*shape.normals[i+2]));out.normals.push(q.x,q.y,q.z);out.colors.push(...clr);}for(let i of shape.indices)out.indices.push(n+i);}
 let randomSeed=7135;function rand(){randomSeed=(randomSeed*1664525+1013904223)>>>0;return randomSeed/4294967296;}
 // Ground: actual continuous triangles, never a projection-dependent disc.
@@ -91,9 +103,11 @@ append(unitPlane,compose(v(0,-.035,0),v(220,1,220)), '#d7e3ae');
 for(let j=0;j<13;j++){let a=j*2.399,r=33+j*.32,x=Math.cos(a)*r,z=Math.sin(a)*r;append(smallSphere,compose(v(x,-1.45,z),v(3+rand()*1.8,1.7+rand()*.5,3+rand()*1.8)),['#aecaa3','#b9d3a8','#b2cfaa'][j%3]);}
 for(let j=0;j<48;j++){let a=rand()*TAU,r=1.7+rand()*22,x=Math.cos(a)*r,z=Math.sin(a)*r,h=.085+rand()*.15;append(unitCylinder,compose(v(x,h*.44,z),v(.013,h*.45,.013)), '#729971');let colors=['#fff0c8','#f3d7c7','#ead8eb','#faf1d8'];for(let k=0;k<5;k++){let u=TAU*k/5;append(smallSphere,compose(v(x+Math.cos(u)*.065,h+.017+Math.sin(u)*.035,z+Math.sin(u)*.060),v(.052,.038,.055)),colors[j%colors.length]);}append(smallSphere,compose(v(x,h+.018,z),v(.038,.036,.038)),'#e5b65a');}
 for(let j=0;j<16;j++){let a=rand()*TAU,r=2.4+rand()*19,x=Math.cos(a)*r,z=Math.sin(a)*r;append(smallSphere,compose(v(x,.07,z),v(.12+rand()*.09,.07+rand()*.03,.13+rand()*.09)),['#a9afa0','#c4c3ae','#9fa899'][j%3]);}
-// A tiny stem, baked into the existing scenery, joins the foliage to earth.
-// Remove the conspicuous flat oval that looked like a prop display platform.
-append(unitCylinder,compose(v(-.10,.21,-1.80),v(.044,.22,.044)),'#709770');
+// Small stems share the one static scenery batch: no extra draw per bush.
+for(const bush of BUSH_INSTANCES){
+ const h=bush.scale*bush.height;
+ append(unitCylinder,compose(v(bush.x,.21*h,bush.z),v(.044*bush.scale,.22*h,.044*bush.scale)),'#709770');
+}
 return upload(out,out.colors)}
 const scenery=buildStatic();
 
@@ -199,7 +213,7 @@ function buildGrass(){
  for(let n=0;n<620;n++){
   const a=random()*TAU,r=Math.sqrt(random())*24;
   const x=Math.cos(a)*r,z=Math.sin(a)*r;
-  if(r<1.3||Math.hypot(x+.10,z+1.80)<.83)continue;
+  if(r<1.3||BUSH_INSTANCES.some(b=>Math.hypot(x-b.x,z-b.z)<.80*b.scale*b.spread))continue;
   const ix=Math.floor(x/patchSize),iz=Math.floor(z/patchSize),key=ix+','+iz;
   if(!groups.has(key))groups.set(key,{cx:(ix+.5)*patchSize,cz:(iz+.5)*patchSize,items:[]});
   // 2.5× the previous height AND width, not merely a taller card.
@@ -237,9 +251,9 @@ function buildGrass(){
 }
 const grass=buildGrass();
 
-// One authored bush: five horizontally spread, gently drooping leaf cards,
-// stacked vertically. One atlas and one indexed draw, no collision.
-const BUSH_POSITION={x:-.10,z:-1.80};
+// Seven authored placements reuse five vertically stacked, slightly drooping
+// horizontal leaf cards. All 35 cards are prebaked into one mesh / one draw.
+const BUSH_POSITION={x:BUSH_INSTANCES[0].x,z:BUSH_INSTANCES[0].z};
 function makeBushAtlas(){
  const image=document.createElement('canvas');
  image.width=512;image.height=128; // power-of-two for WebGL1 mipmaps
@@ -329,55 +343,67 @@ const bushUniforms={projection:gl.getUniformLocation(bushProgram,'uBP'),
  view:gl.getUniformLocation(bushProgram,'uBV'),
  time:gl.getUniformLocation(bushProgram,'uBTime'),
  atlas:gl.getUniformLocation(bushProgram,'uBushAtlas')};
-function buildBushStudy02(){
- // Five near-horizontal leaf shelves, widest below center; smaller on top.
- // Each one droops down gently around its rim instead of standing upright.
+function buildBushStudy03(){
+ // Same five-tier silhouette as B2. The lightest tiers are now lowest,
+ // and the upper cap is visibly darker. Small per-bush tint is secondary.
  const cards=[
-  {x:-.03,y:.25,z:.04,w:1.29,d:1.00,yaw:.15,roll:.010,pitch:-.020,droop:.16,variant:2,phase:.2,tint:.89},
-  {x:.07,y:.40,z:-.07,w:1.44,d:1.15,yaw:-.44,roll:-.032,pitch:.018,droop:.17,variant:1,phase:1.4,tint:.93},
-  {x:-.07,y:.55,z:.04,w:1.31,d:1.07,yaw:.55,roll:.025,pitch:-.020,droop:.15,variant:0,phase:2.7,tint:.96},
-  {x:.05,y:.70,z:.02,w:1.12,d:.93,yaw:-.27,roll:-.020,pitch:.015,droop:.13,variant:2,phase:4.1,tint:1.00},
-  {x:0,y:.83,z:-.03,w:.85,d:.73,yaw:.18,roll:.012,pitch:-.025,droop:.105,variant:1,phase:5.5,tint:1.035}
+  {x:-.03,y:.25,z:.04,w:1.29,d:1.00,yaw:.15,roll:.010,pitch:-.020,droop:.16,variant:2,phase:.2,tint:1.14},
+  {x:.07,y:.40,z:-.07,w:1.44,d:1.15,yaw:-.44,roll:-.032,pitch:.018,droop:.17,variant:1,phase:1.4,tint:1.065},
+  {x:-.07,y:.55,z:.04,w:1.31,d:1.07,yaw:.55,roll:.025,pitch:-.020,droop:.15,variant:0,phase:2.7,tint:1.00},
+  {x:.05,y:.70,z:.02,w:1.12,d:.93,yaw:-.27,roll:-.020,pitch:.015,droop:.13,variant:2,phase:4.1,tint:.92},
+  {x:0,y:.83,z:-.03,w:.85,d:.73,yaw:.18,roll:.012,pitch:-.025,droop:.105,variant:1,phase:5.5,tint:.83}
  ];
- // Bake gentle real curvature into a tiny 5x5 vertex grid for each card.
- // One indexed draw for all five, without CPU sway work every frame.
  const steps=4,verts=[],indices=[],tierInfo=[];
- for(const card of cards){
-  const base=verts.length/8,co=Math.cos(card.yaw),si=Math.sin(card.yaw);
-  let lowest=Infinity,highest=-Infinity,centerHeight=0;
-  for(let z=0;z<=steps;z++)for(let x=0;x<=steps;x++){
-   const u=x/steps,q=z/steps,localX=(u-.5)*card.w,localZ=(q-.5)*card.d;
-   // 0 at the center; 1 at all edges. Tip bend eases in past .22 radius.
-   const rim=Math.max(Math.abs(u*2-1),Math.abs(q*2-1));
-   const t=clamp((rim-.22)/.78,0,1);
-   const bend=card.droop*Math.pow(smooth(t),1.2);
-   const worldX=BUSH_POSITION.x+card.x+co*localX+si*localZ;
-   const worldZ=BUSH_POSITION.z+card.z-si*localX+co*localZ;
-   const worldY=card.y+.024*(1-rim*rim)-bend+card.roll*localX+card.pitch*localZ;
-   const atlasU=(card.variant+.046+u*.908)*.25,atlasV=.035+q*.93;
-   verts.push(worldX,worldY,worldZ,atlasU,atlasV,card.phase,rim,card.tint);
-   lowest=Math.min(lowest,worldY);highest=Math.max(highest,worldY);
-   if(x===steps/2&&z===steps/2)centerHeight=worldY;
+ // Deterministic instance transforms are applied once at startup. One big
+ // static VBO is preferable to one draw per small bush and works in WebGL1.
+ for(let instanceIndex=0;instanceIndex<BUSH_INSTANCES.length;instanceIndex++){
+  const bush=BUSH_INSTANCES[instanceIndex];
+  const coBush=Math.cos(bush.yaw),siBush=Math.sin(bush.yaw);
+  for(const [tierIndex,card] of cards.entries()){
+   const base=verts.length/8,co=Math.cos(card.yaw),si=Math.sin(card.yaw);
+   let lowest=Infinity,highest=-Infinity,centerHeight=0;
+   for(let z=0;z<=steps;z++)for(let x=0;x<=steps;x++){
+    const u=x/steps,q=z/steps,localX=(u-.5)*card.w,localZ=(q-.5)*card.d;
+    const rim=Math.max(Math.abs(u*2-1),Math.abs(q*2-1));
+    const t=clamp((rim-.22)/.78,0,1);
+    const bend=card.droop*Math.pow(smooth(t),1.2);
+    // Preserve B2's curved tier geometry; only vary each whole bush's
+    // slight footprint, rotation, height, phase and color.
+    const localWorldX=(card.x+co*localX+si*localZ)*bush.scale*bush.spread;
+    const localWorldZ=(card.z-si*localX+co*localZ)*bush.scale*bush.spread;
+    const worldX=bush.x+coBush*localWorldX+siBush*localWorldZ;
+    const worldZ=bush.z-siBush*localWorldX+coBush*localWorldZ;
+    const worldY=(card.y+.024*(1-rim*rim)-bend+card.roll*localX+card.pitch*localZ)*bush.scale*bush.height;
+    const atlasU=(card.variant+.046+u*.908)*.25,atlasV=.035+q*.93;
+    verts.push(worldX,worldY,worldZ,atlasU,atlasV,card.phase+bush.phase,rim,card.tint*bush.tint);
+    lowest=Math.min(lowest,worldY);highest=Math.max(highest,worldY);
+    if(x===steps/2&&z===steps/2)centerHeight=worldY;
+   }
+   for(let z=0;z<steps;z++)for(let x=0;x<steps;x++){
+    const a=base+z*(steps+1)+x,b=a+1,c=a+steps+1,d=c+1;
+    indices.push(a,c,b,b,c,d);
+   }
+   if(instanceIndex===0)tierInfo.push({
+    centerHeight,lowest,highest,width:card.w,depth:card.d,
+    droop:card.droop,tint:card.tint,tier:tierIndex
+   });
   }
-  for(let z=0;z<steps;z++)for(let x=0;x<steps;x++){
-   const a=base+z*(steps+1)+x,b=a+1,c=a+steps+1,d=c+1;
-   indices.push(a,c,b,b,c,d);
-  }
-  tierInfo.push({centerHeight,lowest,highest,width:card.w,depth:card.d,droop:card.droop});
  }
  const vbo=gl.createBuffer(),ibo=gl.createBuffer();
  gl.bindBuffer(gl.ARRAY_BUFFER,vbo);gl.bufferData(gl.ARRAY_BUFFER,f32(verts),gl.STATIC_DRAW);
  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ibo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),gl.STATIC_DRAW);
- return{vbo,ibo,count:indices.length,cards:cards.length,variants:3,
+ return{vbo,ibo,count:indices.length,bushCount:BUSH_INSTANCES.length,
+  cards:cards.length*BUSH_INSTANCES.length,cardsPerBush:cards.length,variants:3,
   vertices:verts.length/8,triangles:indices.length/3,tiers:tierInfo,
+  tierTints:cards.map(c=>c.tint),instances:BUSH_INSTANCES.map(b=>({...b})),
   geometry:'stacked-horizontal-drooped-cards',textureCount:1,
   position:{...BUSH_POSITION},collision:false};
 }
-const bush=buildBushStudy02();
+const bush=buildBushStudy03();
 let bushDrawCalls=0;
 function drawBush(view,projection){
  bushDrawCalls=0;
- // One bush, one indexed draw. Leaves share one atlas and remain depth-tested.
+ // Seven bushes share one indexed draw and one atlas; remain depth-tested.
  gl.useProgram(bushProgram);
  gl.uniformMatrix4fv(bushUniforms.projection,false,projection);
  gl.uniformMatrix4fv(bushUniforms.view,false,view);
@@ -690,7 +716,7 @@ function footMarks(){gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_
 function frame(){gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.clearColor(.851,.906,.757,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.time,p.time);const eye=add(camTarget,v(Math.sin(camYaw)*camDist,Math.sin(camElev)*camDist,Math.cos(camYaw)*camDist));let aspect=canvas.width/canvas.height;const projection=perspective(.76,aspect,.08,110),view=lookAt(eye,camTarget);gl.uniformMatrix4fv(loc.p,false,projection);gl.uniformMatrix4fv(loc.v,false,view);draws=0;drawMesh(scenery,I,'#ffffff',0,1);drawGrass(view,projection);drawBush(view,projection);shadow();footMarks();character();drawCount=draws;}
 function animate(now){const dt=Math.min(.09,Math.max(.001,(now-last)/1000));last=now;if(!document.hidden){const steps=Math.max(1,Math.ceil(dt/(1/60))),stepDt=dt/steps;for(let i=0;i<steps;i++)tick(stepDt);frame();p.frames++;}requestAnimationFrame(animate);}requestAnimationFrame(animate);
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();hint.hidden=false;hint.textContent='Graphics context lost. Reload this page.';});
-window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},contactSlips:p.contactSlips,slipDistance:p.slipDistance,cameraDistance:camDist,cameraTargetDistance:targetCamDist,drawCalls:drawCount,grassDrawCalls,grassTufts:grass.tufts,grassCards:grass.cards,grassPatches:grass.patches.length,grassTextureCount:grass.textureCount,grassBatchMode:grass.batchMode,grassAtlasVariants:4,bushCards:bush.cards,bushDrawCalls,bushAtlasVariants:bush.variants,bushVertices:bush.vertices,bushTriangles:bush.triangles,bushGeometry:bush.geometry,bushTiers:bush.tiers.map(t=>({...t})),bushTextureCount:bush.textureCount,bushPosition:{...bush.position},bushCollision:bush.collision,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,zoomTo,tick,angleDelta};
+window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},contactSlips:p.contactSlips,slipDistance:p.slipDistance,cameraDistance:camDist,cameraTargetDistance:targetCamDist,drawCalls:drawCount,grassDrawCalls,grassTufts:grass.tufts,grassCards:grass.cards,grassPatches:grass.patches.length,grassTextureCount:grass.textureCount,grassBatchMode:grass.batchMode,grassAtlasVariants:4,bushCount:bush.bushCount,bushCards:bush.cards,bushCardsPerBush:bush.cardsPerBush,bushInstances:bush.instances.map(b=>({...b})),bushTierTints:[...bush.tierTints],bushDrawCalls,bushAtlasVariants:bush.variants,bushVertices:bush.vertices,bushTriangles:bush.triangles,bushGeometry:bush.geometry,bushTiers:bush.tiers.map(t=>({...t})),bushTextureCount:bush.textureCount,bushPosition:{...bush.position},bushCollision:bush.collision,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,zoomTo,tick,angleDelta};
 })();
 
 </script>
