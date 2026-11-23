@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Bush Study 01</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#dce5be"><title>Perplung · Bush Study 02</title>
 <style>
 :root{font-family:ui-rounded,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#385444;color-scheme:light}*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#dae7c6;overscroll-behavior:none}button{font:inherit;cursor:pointer}#view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}.grain{position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.48' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");mix-blend-mode:multiply}.mast{position:fixed;left:max(18px,env(safe-area-inset-left));top:max(18px,env(safe-area-inset-top));background:#fff7dfd9;border:1.5px solid #fff9ec;border-radius:23px;padding:13px 17px;box-shadow:0 5px 20px #677c5520;pointer-events:none}.mast strong{display:block;font-size:clamp(19px,3.8vw,24px);letter-spacing:-.055em}.mast span{display:block;color:#75866e;font-size:11px;letter-spacing:.045em;margin-top:3px}.crumb{position:fixed;text-decoration:none;right:16px;top:max(20px,env(safe-area-inset-top));color:#58745d;background:#fff8e6c9;border-radius:100px;border:1px solid #fff8e9;padding:10px 14px;font-size:11px;box-shadow:0 5px 18px #677c5515}.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 22px);left:50%;transform:translateX(-50%);max-width:min(90vw,440px);text-align:center;background:#fff8e8d9;border:1px solid #fffefa;border-radius:99px;padding:10px 18px;font-size:12px;line-height:1.4;box-shadow:0 5px 17px #617f551c;pointer-events:none}.stick{position:fixed;left:max(22px,env(safe-area-inset-left));bottom:calc(env(safe-area-inset-bottom) + 94px);height:146px;width:146px;border:2px solid #fff9eab8;border-radius:50%;background:#f8f6dd4a;box-shadow:0 0 0 1px #617e4e21,inset 0 0 18px #fff6dd90;touch-action:none;user-select:none;-webkit-user-select:none}.stick:before{content:'MOVE';position:absolute;left:0;right:0;top:19px;text-align:center;font-weight:800;letter-spacing:.2em;font-size:10px;color:#557b61;opacity:.78}.knob{position:absolute;width:70px;height:70px;left:50%;top:50%;margin-left:-35px;margin-top:-35px;background:linear-gradient(145deg,#fff9e7,#e8e7c7);border:3px solid #fffdf2;border-radius:50%;box-shadow:0 4px 13px #607e5660, inset 0 2px 6px #ffffff80;display:grid;place-items:center;color:#668a6d;font-size:25px;transform:translate(0,0);pointer-events:none}.actions{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 106px);display:flex;flex-direction:column;align-items:center;gap:9px}.actions button{border:2px solid #fff8e9;background:#fff7e1e8;color:#526f5a;box-shadow:0 5px 18px #5a77442b;border-radius:99px;font-size:12px;font-weight:750;padding:11px 17px;min-width:89px}.actions button:active{transform:scale(.95)}.actions button.active{background:#507865;color:white}.sub{font-size:11px;opacity:.83;display:block;padding-top:2px}.focus{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 100px);color:#46684c;text-align:center;font-size:13px;font-weight:650;text-shadow:0 1px #fffff8;pointer-events:none;max-width:70vw}.focus .tiny{display:block;font-size:11px;font-weight:400;opacity:.75;margin-top:4px}.fine{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 5px);right:16px;font-size:10px;color:#52745398}.notice{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);background:#fff6dfd9;color:#49654e;border-radius:99px;padding:11px 19px;font-weight:750;font-size:13px;pointer-events:none;opacity:0;transition:opacity .2s}.notice.show{opacity:1}@media(max-width:430px){.stick{width:128px;height:128px;bottom:calc(env(safe-area-inset-bottom) + 84px)}.stick .knob{width:64px;height:64px;margin-left:-32px;margin-top:-32px}.actions{bottom:calc(env(safe-area-inset-bottom) + 92px)}.hint{bottom:calc(env(safe-area-inset-bottom) + 16px);font-size:11px;max-width:96vw}.mast{padding:10px 14px}.crumb{font-size:10px;padding:9px 12px}.focus{top:calc(env(safe-area-inset-top) + 98px)}}@media(max-height:650px){.focus{display:none}.stick{bottom:74px}.actions{bottom:85px}.hint{bottom:12px}}
 .zoom{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom) + 252px);display:flex;gap:8px}.zoom button{width:43px;height:43px;border-radius:50%;border:2px solid #fff9e9;background:#fff8e7e8;color:#52715b;font-size:24px;line-height:1;box-shadow:0 4px 14px #617f5528;touch-action:manipulation}.zoom button:active{transform:scale(.94)}#hop{touch-action:manipulation}@media(max-width:430px){.zoom{bottom:calc(env(safe-area-inset-bottom) + 229px)}}@media(max-height:650px){.zoom{bottom:205px}}.version{position:fixed;left:max(16px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));padding:7px 11px;border-radius:99px;background:#fff9e8a9;border:1px solid #fff9ecae;color:#68826c;font-size:11px;font-weight:750;letter-spacing:.12em;pointer-events:none}
@@ -11,12 +11,12 @@
 #hint[hidden]{display:none}.hint:not([hidden]){bottom:calc(env(safe-area-inset-bottom) + 22px)}
 </style></head><body>
 <canvas id="view" aria-label="Perplung 3D human movement study"></canvas><div class="grain"></div>
-<div class="version" aria-label="Bush Study 01">B1</div>
+<div class="version" aria-label="Bush Study 02">B2</div>
 <div class="stick" id="stick" aria-label="Move character with thumbstick"><div class="knob" id="knob">✣</div></div>
 <div class="zoom" aria-label="Camera zoom"><button id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out" title="Zoom out">−</button></div><div class="actions"><button id="hop" aria-label="Hop" title="Hop">↑</button></div>
 <div class="hint" id="hint" role="alert" hidden></div>
 <script>
-/* Perplung — Bush Study 01. Actual WebGL triangle meshes with hardware depth test.
+/* Perplung — Bush Study 02. Actual WebGL triangle meshes with hardware depth test.
    Design: one authoritative motion state; persistent world-space contacts;
    analytic two-link presentation IK; GPU occlusion and actual ground geometry.
    Foot-contact contracts informed by Fieldwork3D and M3CH4, not copied wholesale. */
@@ -91,8 +91,9 @@ append(unitPlane,compose(v(0,-.035,0),v(220,1,220)), '#d7e3ae');
 for(let j=0;j<13;j++){let a=j*2.399,r=33+j*.32,x=Math.cos(a)*r,z=Math.sin(a)*r;append(smallSphere,compose(v(x,-1.45,z),v(3+rand()*1.8,1.7+rand()*.5,3+rand()*1.8)),['#aecaa3','#b9d3a8','#b2cfaa'][j%3]);}
 for(let j=0;j<48;j++){let a=rand()*TAU,r=1.7+rand()*22,x=Math.cos(a)*r,z=Math.sin(a)*r,h=.085+rand()*.15;append(unitCylinder,compose(v(x,h*.44,z),v(.013,h*.45,.013)), '#729971');let colors=['#fff0c8','#f3d7c7','#ead8eb','#faf1d8'];for(let k=0;k<5;k++){let u=TAU*k/5;append(smallSphere,compose(v(x+Math.cos(u)*.065,h+.017+Math.sin(u)*.035,z+Math.sin(u)*.060),v(.052,.038,.055)),colors[j%colors.length]);}append(smallSphere,compose(v(x,h+.018,z),v(.038,.036,.038)),'#e5b65a');}
 for(let j=0;j<16;j++){let a=rand()*TAU,r=2.4+rand()*19,x=Math.cos(a)*r,z=Math.sin(a)*r;append(smallSphere,compose(v(x,.07,z),v(.12+rand()*.09,.07+rand()*.03,.13+rand()*.09)),['#a9afa0','#c4c3ae','#9fa899'][j%3]);}
-// One shallow, grounded oval is baked into existing scenery (zero extra draw).
-append(smallSphere,compose(v(.15,-.031,-1.80),v(.72,.013,.58)),'#a7c295');
+// A tiny stem, baked into the existing scenery, joins the foliage to earth.
+// Remove the conspicuous flat oval that looked like a prop display platform.
+append(unitCylinder,compose(v(-.10,.21,-1.80),v(.044,.22,.044)),'#709770');
 return upload(out,out.colors)}
 const scenery=buildStatic();
 
@@ -198,7 +199,7 @@ function buildGrass(){
  for(let n=0;n<620;n++){
   const a=random()*TAU,r=Math.sqrt(random())*24;
   const x=Math.cos(a)*r,z=Math.sin(a)*r;
-  if(r<1.3||Math.hypot(x-.15,z+1.80)<.83)continue;
+  if(r<1.3||Math.hypot(x+.10,z+1.80)<.83)continue;
   const ix=Math.floor(x/patchSize),iz=Math.floor(z/patchSize),key=ix+','+iz;
   if(!groups.has(key))groups.set(key,{cx:(ix+.5)*patchSize,cz:(iz+.5)*patchSize,items:[]});
   // 2.5× the previous height AND width, not merely a taller card.
@@ -236,45 +237,39 @@ function buildGrass(){
 }
 const grass=buildGrass();
 
-// One authored bush. Five layered foliage cards, three chunky leaf variants,
-// one atlas / one static WebGL draw. The prop is not yet interactive.
-const BUSH_POSITION={x:.15,z:-1.80};
+// One authored bush: five horizontally spread, gently drooping leaf cards,
+// stacked vertically. One atlas and one indexed draw, no collision.
+const BUSH_POSITION={x:-.10,z:-1.80};
 function makeBushAtlas(){
  const image=document.createElement('canvas');
- image.width=512;image.height=128;
+ image.width=512;image.height=128; // power-of-two for WebGL1 mipmaps
  const c=image.getContext('2d');
  if(!c)throw Error('Bush foliage atlas needs Canvas2D');
  c.clearRect(0,0,512,128);
- // Five broad rounded leaf masses per card, not detailed individual leaves.
+ // Painted for a top-down clumpy shelf, rather than an upright fan.
+ // Rounded overlapping leaf masses form a cohesive alpha-cutout edge.
  const variants=[
-  [[31,70,23,26,-.34],[49,54,26,32,-.16],[77,51,27,32,.14],[98,71,22,27,.38],[65,85,32,26,0]],
-  [[34,72,21,28,-.39],[52,50,24,35,-.17],[75,44,24,36,.16],[94,73,21,28,.37],[66,89,29,25,0]],
-  [[30,69,25,27,-.25],[49,58,24,30,-.21],[89,56,26,30,.24],[103,81,20,25,.42],[66,89,30,26,.05]]
+  [[35,38,25,23,-.36],[67,29,30,25,.08],[93,43,24,26,.44],[104,78,24,24,.15],[71,97,30,24,-.15],[31,79,26,25,-.52]],
+  [[36,36,26,27,-.30],[76,28,29,26,.15],[100,58,25,26,.55],[88,92,27,26,-.35],[47,96,27,22,.24],[23,65,23,25,-.10]],
+  [[39,28,24,23,-.54],[69,34,31,26,.12],[98,48,26,25,.22],[98,84,27,26,.44],[63,98,29,24,-.12],[29,77,25,27,-.42]]
  ];
  const palette=[
   ['#b9d69b','#91bb82','#719d72'],
-  ['#bfd89b','#9bbf83','#76a175'],
-  ['#b3d4a7','#8bb99a','#699881']
+  ['#bfd89b','#99bc85','#78a178'],
+  ['#b2d3a4','#8cb798','#6e9d81']
  ];
  for(let variant=0;variant<variants.length;variant++){
   c.save();c.translate(variant*128,0);
-  const [light,mid,base]=palette[variant];
-  const body=c.createLinearGradient(0,43,0,120);
-  body.addColorStop(0,mid);body.addColorStop(1,base);
-  c.fillStyle=body;
-  // Broad low foliage mass joins the lobes into one rooted silhouette.
-  c.beginPath();c.ellipse(64,95,43,24,0,0,TAU);c.fill();
-  for(let i=0;i<variants[variant].length;i++){
-   const [x,y,rx,ry,rotation]=variants[variant][i];
-   const fill=c.createLinearGradient(0,y-ry,0,y+ry);
-   fill.addColorStop(0,i%2===0?light:mid);
-   fill.addColorStop(1,base);
-   c.fillStyle=fill;
-   c.beginPath();c.ellipse(x,y,rx,ry,rotation,0,TAU);c.fill();
+  const [light,mid,dark]=palette[variant],center=c.createLinearGradient(0,38,0,105);
+  center.addColorStop(0,mid);center.addColorStop(1,dark);
+  c.fillStyle=center;c.beginPath();c.ellipse(64,65,40,35,0,0,TAU);c.fill();
+  for(let j=0;j<variants[variant].length;j++){
+   const [x,y,rx,ry,rotation]=variants[variant][j],fill=c.createLinearGradient(0,y-ry,0,y+ry);
+   fill.addColorStop(0,j%2===0?light:mid);fill.addColorStop(1,dark);
+   c.fillStyle=fill;c.beginPath();c.ellipse(x,y,rx,ry,rotation,0,TAU);c.fill();
   }
-  // One subtle broad highlight per card; no thin veins or serrations.
-  c.fillStyle='rgba(245,255,217,.085)';
-  c.beginPath();c.ellipse(54,64,19,11,-.3,0,TAU);c.fill();
+  c.fillStyle='rgba(247,255,226,.075)';
+  c.beginPath();c.ellipse(54,55,27,17,-.3,0,TAU);c.fill();
   c.restore();
  }
  return image;
@@ -290,29 +285,30 @@ gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
 gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
 gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
 gl.generateMipmap(gl.TEXTURE_2D);
-// Each baked vertex stores (world XYZ, atlas UV, phase, per-card tint).
-// A slow sway bends only the upper edge; the root stays planted.
+// Each baked vertex stores (world XYZ, atlas UV, phase, rim weight, tint).
+// Nearly horizontal cards have a curved-down outer edge; wind affects the
+// rim but keeps the center of each level still.
 const bushVS=[
  'precision mediump float;',
- 'attribute vec3 aBP;attribute vec2 aBUV;attribute vec2 aBExtra;',
+ 'attribute vec3 aBP;attribute vec2 aBUV;attribute vec3 aBExtra;',
  'uniform mat4 uBP,uBV;uniform float uBTime;',
- 'varying vec2 vBUV;varying float vBTint,vBHeight;',
+ 'varying vec2 vBUV;varying float vBTint,vBRim;',
  'void main(){',
  'vec3 world=aBP;',
- 'float rooted=pow(clamp(aBExtra.y,0.0,1.0),2.0);',
- 'float wind=sin(uBTime*.52+aBExtra.x)*.014+sin(uBTime*.74+aBExtra.x*1.37)*.006;',
- 'world.x+=rooted*wind;world.z+=rooted*wind*.55;',
+ 'float rooted=pow(clamp(aBExtra.y,0.0,1.0),1.5);',
+ 'float wind=sin(uBTime*.52+aBExtra.x)*.012+sin(uBTime*.74+aBExtra.x*1.37)*.005;',
+ 'world.x+=rooted*wind;world.z+=rooted*wind*.55;world.y+=rooted*wind*.15;',
  'gl_Position=uBP*uBV*vec4(world,1.0);',
- 'vBUV=aBUV;vBTint=1.0;vBHeight=aBExtra.y;',
+ 'vBUV=aBUV;vBTint=aBExtra.z;vBRim=aBExtra.y;',
  '}'
 ].join('\n');
 const bushFS=[
  'precision mediump float;uniform sampler2D uBushAtlas;',
- 'varying vec2 vBUV;varying float vBTint,vBHeight;',
+ 'varying vec2 vBUV;varying float vBTint,vBRim;',
  'void main(){',
  'vec4 leaf=texture2D(uBushAtlas,vBUV);',
  'if(leaf.a<.48)discard;',
- 'gl_FragColor=vec4(leaf.rgb*vBTint*(.89+.11*vBHeight),1.0);',
+ 'gl_FragColor=vec4(leaf.rgb*vBTint*(1.0-.13*vBRim),1.0);',
  '}'
 ].join('\n');
 let bushProgram;
@@ -333,40 +329,51 @@ const bushUniforms={projection:gl.getUniformLocation(bushProgram,'uBP'),
  view:gl.getUniformLocation(bushProgram,'uBV'),
  time:gl.getUniformLocation(bushProgram,'uBTime'),
  atlas:gl.getUniformLocation(bushProgram,'uBushAtlas')};
-function buildBushStudy01(){
+function buildBushStudy02(){
+ // Five near-horizontal leaf shelves, widest below center; smaller on top.
+ // Each one droops down gently around its rim instead of standing upright.
  const cards=[
-  // Center; two side volumes; two staggered, taller rear masses.
-  {x:0,y:0,z:0,w:1.15,h:.96,yaw:.16,tilt:0,variant:0,phase:.3},
-  {x:-.29,y:.015,z:.17,w:1.01,h:.83,yaw:.91,tilt:-.055,variant:1,phase:1.4},
-  {x:.30,y:.022,z:.13,w:1.05,h:.88,yaw:-.82,tilt:.050,variant:0,phase:2.5},
-  {x:-.15,y:.15,z:-.17,w:.88,h:.74,yaw:1.72,tilt:.035,variant:2,phase:3.8},
-  {x:.16,y:.16,z:-.13,w:.86,h:.72,yaw:-1.47,tilt:-.040,variant:2,phase:5.1}
+  {x:-.03,y:.25,z:.04,w:1.29,d:1.00,yaw:.15,roll:.010,pitch:-.020,droop:.16,variant:2,phase:.2,tint:.89},
+  {x:.07,y:.40,z:-.07,w:1.44,d:1.15,yaw:-.44,roll:-.032,pitch:.018,droop:.17,variant:1,phase:1.4,tint:.93},
+  {x:-.07,y:.55,z:.04,w:1.31,d:1.07,yaw:.55,roll:.025,pitch:-.020,droop:.15,variant:0,phase:2.7,tint:.96},
+  {x:.05,y:.70,z:.02,w:1.12,d:.93,yaw:-.27,roll:-.020,pitch:.015,droop:.13,variant:2,phase:4.1,tint:1.00},
+  {x:0,y:.83,z:-.03,w:.85,d:.73,yaw:.18,roll:.012,pitch:-.025,droop:.105,variant:1,phase:5.5,tint:1.035}
  ];
- const verts=[],indices=[];
+ // Bake gentle real curvature into a tiny 5x5 vertex grid for each card.
+ // One indexed draw for all five, without CPU sway work every frame.
+ const steps=4,verts=[],indices=[],tierInfo=[];
  for(const card of cards){
-  const rootX=BUSH_POSITION.x+card.x,rootZ=BUSH_POSITION.z+card.z;
-  const c=Math.cos(card.yaw),si=Math.sin(card.yaw);
-  const start=verts.length/8;
-  // Winding/culling is irrelevant: this alpha-cutout foliage is double-sided.
-  for(const [ux,uy] of [[0,0],[1,0],[0,1],[1,1]]){
-   const localX=(ux-.5)*card.w+card.tilt*uy*card.h;
-   const worldX=rootX+c*localX,worldY=-.025+card.y+uy*card.h;
-   const worldZ=rootZ-si*localX;
-   const u=(card.variant+.055+ux*.89)*.25;
-   const vCoord=.035+uy*.93;
-   verts.push(worldX,worldY,worldZ,u,vCoord,card.phase,uy,0);
+  const base=verts.length/8,co=Math.cos(card.yaw),si=Math.sin(card.yaw);
+  let lowest=Infinity,highest=-Infinity,centerHeight=0;
+  for(let z=0;z<=steps;z++)for(let x=0;x<=steps;x++){
+   const u=x/steps,q=z/steps,localX=(u-.5)*card.w,localZ=(q-.5)*card.d;
+   // 0 at the center; 1 at all edges. Tip bend eases in past .22 radius.
+   const rim=Math.max(Math.abs(u*2-1),Math.abs(q*2-1));
+   const t=clamp((rim-.22)/.78,0,1);
+   const bend=card.droop*Math.pow(smooth(t),1.2);
+   const worldX=BUSH_POSITION.x+card.x+co*localX+si*localZ;
+   const worldZ=BUSH_POSITION.z+card.z-si*localX+co*localZ;
+   const worldY=card.y+.024*(1-rim*rim)-bend+card.roll*localX+card.pitch*localZ;
+   const atlasU=(card.variant+.046+u*.908)*.25,atlasV=.035+q*.93;
+   verts.push(worldX,worldY,worldZ,atlasU,atlasV,card.phase,rim,card.tint);
+   lowest=Math.min(lowest,worldY);highest=Math.max(highest,worldY);
+   if(x===steps/2&&z===steps/2)centerHeight=worldY;
   }
-  indices.push(start,start+1,start+2,start+2,start+1,start+3);
+  for(let z=0;z<steps;z++)for(let x=0;x<steps;x++){
+   const a=base+z*(steps+1)+x,b=a+1,c=a+steps+1,d=c+1;
+   indices.push(a,c,b,b,c,d);
+  }
+  tierInfo.push({centerHeight,lowest,highest,width:card.w,depth:card.d,droop:card.droop});
  }
  const vbo=gl.createBuffer(),ibo=gl.createBuffer();
- gl.bindBuffer(gl.ARRAY_BUFFER,vbo);
- gl.bufferData(gl.ARRAY_BUFFER,f32(verts),gl.STATIC_DRAW);
- gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ibo);
- gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),gl.STATIC_DRAW);
+ gl.bindBuffer(gl.ARRAY_BUFFER,vbo);gl.bufferData(gl.ARRAY_BUFFER,f32(verts),gl.STATIC_DRAW);
+ gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ibo);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),gl.STATIC_DRAW);
  return{vbo,ibo,count:indices.length,cards:cards.length,variants:3,
-  textureCount:1,position:{...BUSH_POSITION},collision:false};
+  vertices:verts.length/8,triangles:indices.length/3,tiers:tierInfo,
+  geometry:'stacked-horizontal-drooped-cards',textureCount:1,
+  position:{...BUSH_POSITION},collision:false};
 }
-const bush=buildBushStudy01();
+const bush=buildBushStudy02();
 let bushDrawCalls=0;
 function drawBush(view,projection){
  bushDrawCalls=0;
@@ -384,7 +391,7 @@ function drawBush(view,projection){
  gl.enableVertexAttribArray(bushAttr.extra);
  gl.vertexAttribPointer(bushAttr.pos,3,gl.FLOAT,false,32,0);
  gl.vertexAttribPointer(bushAttr.uv,2,gl.FLOAT,false,32,12);
- gl.vertexAttribPointer(bushAttr.extra,2,gl.FLOAT,false,32,20);
+ gl.vertexAttribPointer(bushAttr.extra,3,gl.FLOAT,false,32,20);
  gl.drawElements(gl.TRIANGLES,bush.count,gl.UNSIGNED_SHORT,0);
  bushDrawCalls=1;draws++;
  gl.disableVertexAttribArray(bushAttr.pos);
@@ -683,7 +690,7 @@ function footMarks(){gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_
 function frame(){gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.clearColor(.851,.906,.757,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.time,p.time);const eye=add(camTarget,v(Math.sin(camYaw)*camDist,Math.sin(camElev)*camDist,Math.cos(camYaw)*camDist));let aspect=canvas.width/canvas.height;const projection=perspective(.76,aspect,.08,110),view=lookAt(eye,camTarget);gl.uniformMatrix4fv(loc.p,false,projection);gl.uniformMatrix4fv(loc.v,false,view);draws=0;drawMesh(scenery,I,'#ffffff',0,1);drawGrass(view,projection);drawBush(view,projection);shadow();footMarks();character();drawCount=draws;}
 function animate(now){const dt=Math.min(.09,Math.max(.001,(now-last)/1000));last=now;if(!document.hidden){const steps=Math.max(1,Math.ceil(dt/(1/60))),stepDt=dt/steps;for(let i=0;i<steps;i++)tick(stepDt);frame();p.frames++;}requestAnimationFrame(animate);}requestAnimationFrame(animate);
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();hint.hidden=false;hint.textContent='Graphics context lost. Reload this page.';});
-window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},contactSlips:p.contactSlips,slipDistance:p.slipDistance,cameraDistance:camDist,cameraTargetDistance:targetCamDist,drawCalls:drawCount,grassDrawCalls,grassTufts:grass.tufts,grassCards:grass.cards,grassPatches:grass.patches.length,grassTextureCount:grass.textureCount,grassBatchMode:grass.batchMode,grassAtlasVariants:4,bushCards:bush.cards,bushDrawCalls,bushAtlasVariants:bush.variants,bushTextureCount:bush.textureCount,bushPosition:{...bush.position},bushCollision:bush.collision,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,zoomTo,tick,angleDelta};
+window.__perplungMotionDebug={get state(){return {...p,feet:feet.map(f=>({side:f.side,swing:f.swing,foot:{...f.foot},yaw:f.yaw,steps:f.steps,phase:f.phase})),marks:marks.map(m=>({...m})),joystick:{...joy},contactSlips:p.contactSlips,slipDistance:p.slipDistance,cameraDistance:camDist,cameraTargetDistance:targetCamDist,drawCalls:drawCount,grassDrawCalls,grassTufts:grass.tufts,grassCards:grass.cards,grassPatches:grass.patches.length,grassTextureCount:grass.textureCount,grassBatchMode:grass.batchMode,grassAtlasVariants:4,bushCards:bush.cards,bushDrawCalls,bushAtlasVariants:bush.variants,bushVertices:bush.vertices,bushTriangles:bush.triangles,bushGeometry:bush.geometry,bushTiers:bush.tiers.map(t=>({...t})),bushTextureCount:bush.textureCount,bushPosition:{...bush.position},bushCollision:bush.collision,renderer:'WebGL depth-tested meshes',depthBuffer:true}},hop,reset,zoomTo,tick,angleDelta};
 })();
 
 </script>
