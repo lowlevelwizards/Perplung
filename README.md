@@ -4,16 +4,16 @@
 
 **[Play the current experiment](https://lowlevelwizards.github.io/Perplung/)** · **[Living principles](./PRINCIPLES.md)**
 
-## Bush Study 03 — tinted, varied bush family
+## Bush Study 04 — sunlit layered bushes across the world
 
 We are going atomic: making one cause and its effect feel good before adding another.
 
-This is a small playable **GPU-rendered 3D environment and character experiment**, not the full ecosystem. A small group of seven related bushes now lives around the clearing. Walk among them, orbit the camera, and notice their shared layered shape and subtle differences.
+This is a small playable **GPU-rendered 3D environment and character experiment**, not the full ecosystem. The familiar rounded tiered bushes now continue well beyond the spawn clearing, inviting you to explore the wider ground without immediately leaving all vegetation behind.
 
-- **Bush shape and shading:** All seven bushes reuse B2's five nearly horizontal, curved-down leaf tiers, broad rounded foliage textures, and short hidden stems. The value hierarchy now runs **lightest at the bottom to darkest at the top**: per-tier shade multipliers bottom-to-top are `1.14, 1.065, 1.00, .92, .83`. They share the same three texture-atlas variants, giving one cohesive species rather than seven unrelated designs.
-- **Placement and variation:** Seven deliberately chosen positions, with modest overall scale (0.89–1.16×), yaw rotation, width/spread, height and wind-phase changes. One original is preserved near spawn; a few singles and loose neighbors fill out the clearing without a grid. Nearby grass leaves a little space around each bush.
-- **Bush motion and performance:** The existing restrained edge-only GPU sway remains, with a slight phase offset for each bush. All **35 leaf cards** (five per bush) are baked once into **one static VBO/IBO and one draw call** (875 vertices, 1,120 triangles). All seven share one 512×128 alpha-cutout atlas, material and shader. The stems live in the existing scenery batch. No CPU per-card animation or additional draw per bush.
-- **Scope:** This is a limited, authored environment composition study, not a procedurally populated forest. Bushes remain visual-only, without collision or interaction behavior.
+- **Bush shape and shading:** B2's five horizontal, softly drooping foliage shelves are preserved. Their **tops are now lighter**, and lower tiers darker, to read as sunlit above and shaded below. Per-tier shade multipliers from bottom to top are `.82, .92, 1.02, 1.12, 1.22`. All bushes still share the same three rounded texture-atlas variants.
+- **Placement and variation:** The original seven near-spawn bushes are preserved and joined by **343 deterministically placed relatives** across a roughly 192×192-unit region of the 220×220 ground. Every 24-unit patch generates a few bushes with jittered positions, gentle variations in scale, yaw, spread, height, tint, and phase. Rejection prevents overlaps and protects the immediate spawn. The world remains sparse rather than becoming a crowded forest.
+- **Bush motion and performance:** The existing subtle, independently phased edge-only sway stays. All **350 bushes / 1,750 foliage cards** share one 512×128 alpha-cutout atlas and shader, with two tiny crossed stem cards per bush. Instead of drawing 350 separate bushes or one enormous uncullable mesh, they are baked once into **64 static spatial patch buffers**. Only nearby patches render—typically 4 near spawn and 5–8 along the wider world in focused travel tests. No new vegetation buffers are allocated while traveling. The vertex shader uses high precision to retain fine sway far from the origin.
+- **Scope:** This pass extends this one established bush family rather than adding a new species or quests. Bushes remain visual-only without collision or interactions. The grass, small flowers, and existing rocks are still concentrated nearer the original clearing; those may be extended separately.
 - **Touch:** Move the thumbstick a little to amble, farther to walk, and all the way to run. Drag the scene to orbit; use two fingers to pinch-zoom or tap +/−. The up-arrow button hops, even while your other thumb is moving. Footprints are always visible, with no toggle.
 - **Keyboard/mouse:** WASD or arrows to run, Space to hop, R to reset, drag to orbit, scroll wheel or +/− buttons to zoom.
 - **Grass:** Tufts are now **2.5× larger in both height and width**, with a more open fan of 4–5 rounded blades. The atlas widens the blade roots and fans the tips out farther, retaining four variants of the soft, chunky silhouette. Two crossed alpha-cutout texture cards provide volume without individual blade meshes. Atlas generation runs only once on startup, with no image downloads or build tools.
@@ -36,6 +36,7 @@ The experiment runs from `index.html` using built-in browser **WebGL**. It uses 
 
 The earlier game is **not deleted**. You can still play:
 
+- [Bush Study 03](./experiments/bush-study-03.html) — seven clustered bushes with dark upper tiers
 - [Bush Study 02](./experiments/bush-study-02.html) — first stacked horizontal foliage-card bush
 - [Bush Study 01](./experiments/bush-study-01.html) — original crossed upright leaf cards
 - [Grass Pass 02](./experiments/grass-pass-02.html) — larger, airier rounded grass tufts
